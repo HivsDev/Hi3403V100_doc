@@ -1,0 +1,169 @@
+# Hi3403V100 站点配置
+INHERIT: mkdocs_base.yml
+use_directory_urls: false
+
+# 文档站点配置
+site_name: Hi3403V100 开发者中心
+site_url: https://hivsdev.github.io/Hi3403V100_doc/
+site_description: Hi3403V100 超高清智慧视觉 SoC 文档中心
+site_author: HiSpark
+repo_name: GitCode 编辑
+repo_url: https://gitcode.com/HiSpark/Hi3403V100
+edit_uri: -/edit/master/docs/
+copyright: "Documentation (c) 2026 Hi3403V100 contributors"
+
+
+# 语言配置
+plugins:
+  - i18n:
+      docs_structure: folder
+      languages:
+        - locale: zh-CN
+          name: 中文
+          default: true
+          link: /
+          site_name: Hi3403V100 开发者中心
+          theme:
+            language: zh
+  - search:
+      lang:
+        - zh
+
+extra:
+  # 指定md映射为首页，hooks/_homepage.py 生成首页
+  homepage_generator:
+    source: 00概述/Hi3403V100 超高清智能网络录像机 SoC 产品简介/Hi3403V100 超高清智能网络录像机 SoC 产品简介.md
+    target: index.md
+  # 反馈链接
+  feedback_url: https://gitcode.com/HiSpark/pegasus/issues
+  version_selector:
+    repo_path: Hi3403V100_doc
+    version: main
+    js_url: static/js/hispark_version.js
+    root_url: https://hivsdev.github.io/Hi3403V100_doc
+
+nav:
+  - 概览: index.md
+  - 快速入门:
+      - 环境搭建: 02快速入门/Hi3403V100环境搭建指南/Hi3403V100环境搭建指南.md
+      - OpenHarmony Small 版本使用指南: 02快速入门/OpenHarmony Small版本使用指南/OpenHarmony Small版本使用指南.md
+      - OpenHarmony Small 系统集成移植案例: 02快速入门/OpenHarmony Small系统集成Hi3403V100移植案例/OpenHarmony Small系统集成Hi3403V100移植案例.md
+  - 整体架构:
+      - 版本说明: 01整体架构/release-notes/Pegasus-v1.0-beta1.md
+      - SDK 安装以及升级使用说明: 01整体架构/Hi3403V100 SDK 安装以及升级使用说明/Hi3403V100╱Hi3403V100 SDK 安装以及升级使用说明.md
+      - Hi3403V100 SoC 用户指南:
+          - 前言: 01整体架构/Hi3403V100 超高清智能网络录像机 SoC 用户指南/00-3 前言.md
+          - 产品概述: 01整体架构/Hi3403V100 超高清智能网络录像机 SoC 用户指南/01-1 产品概述.md
+          - 硬件: 01整体架构/Hi3403V100 超高清智能网络录像机 SoC 用户指南/01-2 硬件.md
+          - 系统: 01整体架构/Hi3403V100 超高清智能网络录像机 SoC 用户指南/01-3 系统.md
+          - DDR 控制器: 01整体架构/Hi3403V100 超高清智能网络录像机 SoC 用户指南/01-4 DDR 控制器.md
+          - FMC 控制器: 01整体架构/Hi3403V100 超高清智能网络录像机 SoC 用户指南/01-5 FMC 控制器.md
+          - GMAC: 01整体架构/Hi3403V100 超高清智能网络录像机 SoC 用户指南/01-6 GMAC.md
+          - 视频编码: 01整体架构/Hi3403V100 超高清智能网络录像机 SoC 用户指南/01-7 视频编码.md
+          - 视频解码: 01整体架构/Hi3403V100 超高清智能网络录像机 SoC 用户指南/01-8 视频解码.md
+          - 视频及图形处理: 01整体架构/Hi3403V100 超高清智能网络录像机 SoC 用户指南/01-9 视频及图形处理.md
+          - 智能加速引擎: 01整体架构/Hi3403V100 超高清智能网络录像机 SoC 用户指南/01-10 智能加速引擎.md
+          - 视频接口: 01整体架构/Hi3403V100 超高清智能网络录像机 SoC 用户指南/01-11 视频接口.md
+          - ISP: 01整体架构/Hi3403V100 超高清智能网络录像机 SoC 用户指南/01-12 ISP.md
+          - 音频接口: 01整体架构/Hi3403V100 超高清智能网络录像机 SoC 用户指南/01-13 音频接口.md
+          - 外围设备: 01整体架构/Hi3403V100 超高清智能网络录像机 SoC 用户指南/01-14 外围设备.md
+          - 安全子系统: 01整体架构/Hi3403V100 超高清智能网络录像机 SoC 用户指南/01-15 安全子系统.md
+  - API 参考:
+      - 安全子系统:
+          - 安全子系统使用说明: 04API参考/安全子系统/安全子系统使用说明/安全子系统使用说明.md
+          - 安全启动使用指南: 04API参考/安全子系统/SS928V100╱SS927V100 安全启动使用指南/SS928V100╱SS927V100 安全启动使用指南.md
+      - BSP:
+          - 裸烧及非裸烧升级 使用手册: 04API参考/BSP/裸烧及非裸烧升级 使用手册/裸烧及非裸烧升级 使用手册.md
+          - 外围设备驱动 操作指南: 04API参考/BSP/外围设备驱动 操作指南/外围设备驱动 操作指南.md
+          - U-boot 移植应用开发指南: 04API参考/BSP/SS928V100╱SS927V100 U-boot 移植应用开发指南/SS928V100╱SS927V100 U-boot 移植应用开发指南.md
+      - ISP:
+          - ISP 开发参考（1--2）: 04API参考/ISP/ISP 开发参考/ISP 开发参考（1--2）.md
+          - ISP 开发参考（3--5）: 04API参考/ISP/ISP 开发参考/ISP 开发参考（3--5）.md
+          - ISP 开发参考（6）: 04API参考/ISP/ISP 开发参考/ISP 开发参考（6）.md
+          - ISP 开发参考（7--14）: 04API参考/ISP/ISP 开发参考/ISP 开发参考（7--14）.md
+      - MPP:
+          - MPP 开发参考:
+              - 前言: 04API参考/MPP/MPP 媒体处理软件V5.0开发参考/00 前言.md
+              - 概述: 04API参考/MPP/MPP 媒体处理软件V5.0开发参考/01 概述.md
+              - 系统控制: 04API参考/MPP/MPP 媒体处理软件V5.0开发参考/02 系统控制.md
+              - 视频输入: 04API参考/MPP/MPP 媒体处理软件V5.0开发参考/03 视频输入.md
+              - 视频输出（4.1--4.3）: 04API参考/MPP/MPP 媒体处理软件V5.0开发参考/04 视频输出（4.1--4.3）.md
+              - 视频输出（4.4--4.5）: 04API参考/MPP/MPP 媒体处理软件V5.0开发参考/04 视频输出（4.4--4.5）.md
+              - 视频处理子系统: 04API参考/MPP/MPP 媒体处理软件V5.0开发参考/05 视频处理子系统.md
+              - 视频编码（6.1--6.3）: 04API参考/MPP/MPP 媒体处理软件V5.0开发参考/06 视频编码（6.1--6.3）.md
+              - 视频编码（6.4--6.5）: 04API参考/MPP/MPP 媒体处理软件V5.0开发参考/06 视频编码（6.4--6.5）.md
+              - 视频解码: 04API参考/MPP/MPP 媒体处理软件V5.0开发参考/07 视频解码.md
+              - 区域管理: 04API参考/MPP/MPP 媒体处理软件V5.0开发参考/08 区域管理.md
+              - 音频（9.1--9.3）: 04API参考/MPP/MPP 媒体处理软件V5.0开发参考/09 音频（9.1--9.3）.md
+              - 音频（9.4--9.5）: 04API参考/MPP/MPP 媒体处理软件V5.0开发参考/09 音频（9.4--9.5）.md
+              - 视频图形子系统: 04API参考/MPP/MPP 媒体处理软件V5.0开发参考/10 视频图形子系统.md
+              - 几何畸变矫正子系统: 04API参考/MPP/MPP 媒体处理软件V5.0开发参考/11 几何畸变矫正子系统.md
+              - 拼接: 04API参考/MPP/MPP 媒体处理软件V5.0开发参考/12 拼接.md
+              - Proc调试信息（13.1--13.15）: 04API参考/MPP/MPP 媒体处理软件V5.0开发参考/13 Proc调试信息（13.1--13.15）.md
+              - Proc调试信息（13.16--13.29）: 04API参考/MPP/MPP 媒体处理软件V5.0开发参考/13 Proc调试信息（13.16--13.29）.md
+          - MPP FAQ: 04API参考/MPP/MPP 媒体处理软件 V5.0 FAQ/MPP 媒体处理软件 V5.0 FAQ.md
+          - 音频组件 API 参考: 04API参考/MPP/音频组件 API参考/音频组件 API参考.md
+          - CIPHER API 参考: 04API参考/MPP/CIPHER API 参考/CIPHER API 参考.md
+          - 黑白彩色双路融合 开发参考: 04API参考/MPP/黑白彩色双路融合 开发参考/黑白彩色双路融合 开发参考.md
+          - 图形开发用户指南: 04API参考/MPP/图形开发用户指南/图形开发用户指南.md
+          - 开机画面使用指南: 04API参考/MPP/开机画面使用指南/开机画面使用指南.md
+          - 抓拍 使用指南: 04API参考/MPP/抓拍 使用指南/抓拍 使用指南.md
+          - MIPI 使用指南: 04API参考/MPP/MIPI 使用指南/MIPI 使用指南.md
+          - SYS_CONFIG 配置指南: 04API参考/MPP/SYS_CONFIG 配置指南/SYS_CONFIG 配置指南.md
+          - HDMI 开发参考: 04API参考/MPP/HDMI 开发参考/HDMI 开发参考.md
+          - HNR 开发参考: 04API参考/MPP/HNR 开发参考/HNR 开发参考.md
+          - MotionFusion 开发参考: 04API参考/MPP/MotionFusion 开发参考/MotionFusion 开发参考.md
+          - PCIE级联 应用指南: 04API参考/MPP/PCIE级联 应用指南/PCIE级联 应用指南.md
+          - GFBG 开发指南: 04API参考/MPP/GFBG 开发指南/GFBG 开发指南.md
+          - GFBG API 参考: 04API参考/MPP/GFBG API 参考/GFBG API 参考.md
+          - KLAD API 参考: 04API参考/MPP/KLAD API 参考/KLAD API 参考.md
+          - OTP API 参考: 04API参考/MPP/OTP API 参考/OTP API 参考.md
+          - TDE API 参考: 04API参考/MPP/TDE API参考/TDE API参考.md
+      - SVP:
+          - SVP2.0 开发指南: 04API参考/SVP/SVP2.0 开发指南/SVP2.0 开发指南.md
+          - SVP2.0 API 参考: 04API参考/SVP/SVP2.0 API 参考/SVP2.0 API 参考.md
+          - IVE API 参考（1--2）: 04API参考/SVP/IVE API 参考/IVE API 参考（1--2）.md
+          - IVE API 参考（3--6）: 04API参考/SVP/IVE API 参考/IVE API 参考（3--6）.md
+          - IVS API 参考: 04API参考/SVP/IVS API参考/IVS API参考.md
+          - DPU2.0 工具使用指南: 04API参考/SVP/DPU2.0 工具使用指南/DPU2.0 工具使用指南.md
+  - 参考案例:
+      - 调试调优:
+          - BSP:
+              - 内存布局调整指南: 03参考案例/调试调优/BSP/内存布局调整指南/内存布局调整指南.md
+          - MPP:
+              - 黑白彩色双路融合调试指南: 03参考案例/调试调优/MPP/黑白彩色双路融合调试指南/黑白彩色双路融合调试指南.md
+              - DDR 小型化指南: 03参考案例/调试调优/MPP/DDR 小型化指南/DDR 小型化指南.md
+              - DIS 调试指南: 03参考案例/调试调优/MPP/DIS 调试指南/DIS 调试指南.md
+              - HNR 调优指南: 03参考案例/调试调优/MPP/HNR 调优指南/HNR 调优指南.md
+          - PQ:
+              - ISP 图像调优指南: 03参考案例/调试调优/PQ/ISP 图像调优指南/ISP 图像调优指南.md
+              - ISP 颜色调优说明: 03参考案例/调试调优/PQ/ISP 颜色调优说明/ISP 颜色调优说明.md
+              - Sensor 调试指南: 03参考案例/调试调优/PQ/Sensor 调试指南/Sensor 调试指南.md
+              - 3DNR 参数配置说明: 03参考案例/调试调优/PQ/SS928V100╱SS927V100 3DNR参数配置说明/SS928V100╱SS927V100 3DNR参数配置说明.md
+      - Sample User Guide: 03参考案例/Sample User Guide.md
+  - 硬件指南:
+      - 芯片:
+          - SS928V100 PINOUT: 05硬件指南/芯片/SS928V100_PINOUT_CN.xlsx
+  - 工具中心:
+      - ToolPlatform:
+          - ToolPlatform 工具平台 使用指南: 06工具中心/ToolPlatform/ToolPlatform工具平台 使用指南/ToolPlatform工具平台 使用指南.md
+          - BurnTool 工具使用指南: 06工具中心/ToolPlatform/BurnTool 工具使用指南/BurnTool 工具使用指南.md
+      - SVP_NNN:
+          - 快速上手指南: 06工具中心/SVP_NNN/快速上手指南/快速上手指南.md
+          - 驱动和开发环境安装指南: 06工具中心/SVP_NNN/驱动和开发环境安装指南/驱动和开发环境安装指南.md
+          - 应用开发指南: 06工具中心/SVP_NNN/应用开发指南/应用开发指南.md
+          - 精度比对工具使用指南: 06工具中心/SVP_NNN/精度比对工具使用指南/精度比对工具使用指南.md
+          - 图像分析引擎差异说明: 06工具中心/SVP_NNN/图像分析引擎2与图像分析引擎1使用差异说明/图像分析引擎2与图像分析引擎1使用差异说明.md
+          - AMCT 使用指南（Caffe）: 06工具中心/SVP_NNN/AMCT使用指南（Caffe）/AMCT使用指南（Caffe）.md
+          - AMCT 使用指南（PyTorch）: 06工具中心/SVP_NNN/AMCT使用指南（PyTorch）/AMCT使用指南（PyTorch）.md
+          - ATC 工具使用指南: 06工具中心/SVP_NNN/ATC工具使用指南/ATC工具使用指南.md
+          - ATC Graph 开发指南: 06工具中心/SVP_NNN/ATC Graph开发指南/ATC Graph开发指南.md
+          - ATC 自定义算子开发指南: 06工具中心/SVP_NNN/ATC自定义算子开发指南/ATC自定义算子开发指南.md
+          - MindCmd 使用指南: 06工具中心/SVP_NNN/MindCmd 使用指南/MindCmd 使用指南.md
+          - Profiling 工具使用指南: 06工具中心/SVP_NNN/Profiling工具使用指南/Profiling工具使用指南.md
+      - PQTools:
+          - 图像质量调试工具使用指南: 06工具中心/PQTools/图像质量调试工具使用指南/图像质量调试工具使用指南.md
+  - FAQ:
+      - BSP FAQ: 07FAQ/BSP/BSP FAQ/BSP FAQ.md
+      - ISP FAQ: 07FAQ/ISP/ISP FAQ/ISP FAQ.md
+      - 拼接 FAQ: 07FAQ/PQ/拼接 FAQ/拼接 FAQ.md

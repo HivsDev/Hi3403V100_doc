@@ -1,0 +1,176 @@
+/* ---------- 查找条容器 ---------- */
+.inpage-find {
+  position: fixed;
+  top: 54px;
+  left: 0;
+  z-index: 18;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  background-color: var(--hi-white, #fff);
+  border: 1px solid var(--hi-border, #e8e8e8);
+  border-radius: 6px;
+  box-shadow: var(--hi-card-shadow, 0 1px 6px rgba(0, 0, 0, 0.06));
+  font-family: inherit;
+  font-size: 14px;
+  color: var(--hi-black, #1a1a1a);
+  animation: inpage-find-fade-in 0.18s ease;
+  box-sizing: border-box;
+}
+
+@keyframes inpage-find-fade-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+/* 查找条图标 */
+.inpage-find__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  flex: 0 0 auto;
+  color: var(--hi-gray, #666);
+}
+
+.inpage-find__icon svg {
+  width: 100%;
+  height: 100%;
+  fill: currentColor;
+}
+
+
+.inpage-find__input {
+  flex: 1 1 auto;
+  min-width: 120px;
+  max-width: 480px;
+  height: 32px;
+  padding: 0 12px;
+  background-color: var(--hi-bg, #f5f5f5);
+  color: var(--hi-black, #1a1a1a);
+  font-size: 14px;
+  border: 2px solid transparent;
+  border-radius: 2px;
+  outline: none;
+  transition: all 0.2s;
+}
+
+.inpage-find__input::placeholder {
+  color: var(--hi-gray-light, #999);
+}
+
+.inpage-find__input:hover {
+  background-color: var(--hi-border, #eee);
+}
+
+.inpage-find__input:focus {
+  background-color: var(--hi-white, #fff);
+  border-color: var(--hi-red, #C7000B);
+}
+
+/* ---------- 计数文本 ---------- */
+.inpage-find__count {
+  flex: 0 0 auto;
+  min-width: 56px;
+  text-align: center;
+  font-size: 13px;
+  color: var(--hi-gray, #666);
+  white-space: nowrap;
+}
+
+/* ---------- 按钮（上/下/关闭）通用 ---------- */
+.inpage-find__btn {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  background: transparent;
+  border: none;
+  color: var(--hi-gray, #666);
+  cursor: pointer;
+  transition: color 0.15s;
+}
+
+.inpage-find__btn svg {
+  width: 20px;
+  height: 20px;
+  fill: currentColor;
+  display: block;
+}
+
+.inpage-find__btn:hover:not(:disabled) {
+  color: var(--hi-red, #C7000B);
+}
+
+.inpage-find__btn:active:not(:disabled) {
+  color: var(--hi-red-hover, #A00009);
+}
+
+.inpage-find__btn:disabled {
+  color: var(--hi-gray-light, #999);
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.inpage-find__btn--close {
+  margin-left: 4px;
+}
+
+/* 按钮分隔线 */
+.inpage-find__sep {
+  flex: 0 0 auto;
+  width: 1px;
+  height: 20px;
+  background-color: var(--hi-border, #e8e8e8);
+  margin: 0 2px;
+}
+
+/* ---------- 当前命中项的强调样式（基于 Material 的 mark）---------- */
+/* Material 给匹配词包了 <mark data-md-highlight>，默认是半透明黄底。
+   这里给"当前选中"的 mark 加红色描边，便于在多个命中中定位。
+   不改变底色（沿用现有高亮配色）。 */
+mark[data-md-highlight].inpage-find-current {
+  outline: 2px solid var(--hi-red, #C7000B);
+  outline-offset: 1px;
+  border-radius: 2px;
+}
+
+/* ---------- 唤起查找条时，为滚动定位留出空间（避免命中项被查找条遮挡）---------- */
+body.inpage-find-active {
+  /* 查找条位于 top:54px + 自身高度约 49px = 底边约 103px，再留少量间距 */
+  scroll-padding-top: 120px;
+}
+
+/* ---------- 暗色主题适配（变量已重定义，仅补少量硬编码 fallback）---------- */
+[data-md-color-scheme="slate"] .inpage-find {
+  background-color: var(--hi-white, #000);
+}
+
+/* ---------- 移动端：紧凑布局 ---------- */
+@media screen and (max-width: 600px) {
+  .inpage-find {
+    gap: 4px;
+    padding: 6px 8px;
+  }
+
+  .inpage-find__input {
+    max-width: none;
+  }
+
+  .inpage-find__count {
+    min-width: 44px;
+    font-size: 12px;
+  }
+
+  .inpage-find__icon {
+    display: none;
+  }
+}

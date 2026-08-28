@@ -1,0 +1,226 @@
+use_directory_urls: false
+
+theme:
+  name: material
+  custom_dir: overrides
+  favicon: static/images/favicon.ico
+  # language is set dynamically by the i18n plugin
+  # 启用主题切换
+  palette:
+    - scheme: default
+      primary: white
+      accent: custom
+      toggle:
+        icon: material/weather-night
+        name: 切换到暗色主题
+    - scheme: slate
+      primary: black
+      accent: custom
+      toggle:
+        icon: material/weather-sunny
+        name: 切换到亮色主题
+  # font:
+  #   text: Helvetica Neue, PingFang SC, Microsoft YaHei
+  #   code: Consolas, Roboto Mono
+  features:
+    - announce.dismiss
+    # - content.action.edit  # 上传开源仓后再开启
+    # - content.action.view
+    - content.code.annotate
+    - content.code.copy
+    # - content.code.select
+    - content.tabs.link
+    - content.tooltips
+    # - header.autohide
+    - navigation.instant          # SPA 无刷新导航（仅 zh-CN 时与 i18n 无冲突）
+    - navigation.instant.progress # 导航时显示进度条，掩盖内容交换的白屏闪烁
+    # - navigation.instant.preview  # 鼠标悬停预加载，点击瞬间完成交换
+    - navigation.tracking         # update URL on scroll
+    # - navigation.tabs          # 第一级目录横向展示
+    # - navigation.tabs.sticky   # 开启后导致右侧菜单选中效果异常
+    # - navigation.sections         # sections in side nav
+    # - navigation.expand           # expand sidebar sections (disabled; use JS expandNavToLevel2 instead)
+    - navigation.indexes          # section index pages
+    - navigation.top              # back-to-top button
+    - navigation.footer
+    - navigation.path             # breadcrumbs
+    # - navigation.prune            # smaller nav payload (disabled to allow full nav expansion)
+    - search.highlight
+    - search.share
+    # - search.suggest
+    - toc.follow
+  icon:
+    edit: fontawesome/solid/edit
+
+plugins:
+#   - i18n:
+#       docs_structure: folder
+#       languages:
+#         - locale: zh-CN
+#           name: 中文
+#           default: true
+#           link: /
+#           site_name: WS63 开发者中心
+#           theme:
+#             language: zh
+        # 取消注释开启英文文档
+        # - locale: en-US
+        #   name: English
+        #   site_name: ws63 Developer Center
+        #   theme:
+        #     language: en
+  - search:
+  #     lang:
+  #       - zh
+        # - en
+  #     # 将下划线、点、斜杠也作为分词分隔符，使 API 标识符（如 wifi_sta_connect）
+  #     # 被切分为 wifi / sta / connect 三个可检索 token，支持片段级匹配。
+      separator: '[\s\-_./]+'
+
+hooks:
+  - hooks/_fix_heading_levels.py  # 修复IDP文档标题层级问题
+  - hooks/_strip_md_links.py  # 移除IDP文档中的无效MD链接
+  # - hooks/_slugify.py  # 自定义 toc 锚点 slugify（仅空格转-，其余原样）
+  - hooks/_slugify_links.py  # 自动规整正文锚点链接 fragment（与标题 id 规则同步）
+  - hooks/_external_links.py  # 外部链接自动新标签页打开并补 rel=noopener noreferrer
+  - hooks/_homepage.py  # 将指定md文件转换为首页（默认首页为index.md）
+  - hooks/_add_search_aliases.py  # 为 API 标识符标题注入搜索别名，提升片段检索命中率
+  - hooks/_split_text_image.py  # 替代 nl2br：文本与图片相邻无空行时自动补空行，防止渲染到同一行
+  - hooks/_fix_list_after_paragraph.py  # 段落后紧跟列表（无空行）时补空行，防止列表被并入段落挤成一行
+  - hooks/_fix_fence_in_list.py  # 列表项内 1~3 空格缩进围栏重缩进为 4 空格（GitCode 源码兼容 + superfences 嵌套规则）
+  - hooks/_fix_image_in_list.py  # 列表项内 1~3 空格缩进图片行重缩进为 4 空格（同上，防止图片逸出截断列表）
+  - hooks/_fix_gfm_hard_break.py  # GFM 行尾 \ 硬换行转两空格（Python-Markdown 不识别行尾 \，会原样显示）
+  - hooks/_fix_nested_list_in_list.py  # 顶层列表项下 1~3 空格缩进子列表重缩进为 4 空格（防止子列表被父列表吞并压平）
+  - hooks/_fix_content_between_list_items.py  # 编号项 N 与 N+1 之间的顶格说明/图片归入前一项（防止列表中断后序号重置为 1）
+  # - hooks/_disable_setext.py  # 禁用 setext 标题（防止"内容\\n---"被误解析为 <h2>）
+  - hooks/_fix_html_relative_url.py  # use_directory_urls 下为原生 HTML <img>/<a> 相对 URL 补 ../ 前缀（未启用时自动跳过）
+  - hooks/_encode_image_url.py  # 修正图片/链接 URL 含特殊字符（+、中文、空格）未编码导致 OBS 静态托管 404
+  - hooks/_download.py  # 下载按钮链接拼接 + 构建产物打包 zip（文件名由环境变量/extra.download.filename 决定）
+
+
+markdown_extensions:
+  - abbr
+  - admonition
+  - tables
+  - attr_list
+  - def_list
+  - footnotes
+  - md_in_html
+  - toc:
+      # permalink: true  # 标题右侧锚点生成开关
+      toc_depth: 4
+      slugify: !!python/object/apply:pymdownx.slugs.slugify {}  # 支持中文标题生成锚点
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+      # auto_title: true  # 显示代码块语言标签
+  - pymdownx.inlinehilite
+  - pymdownx.keys
+  - pymdownx.mark
+  - pymdownx.smartsymbols:
+      fractions: false  # 关闭自动分数替换（1/2→½），避免误伤 QoS 0/1/2 等文本
+  - pymdownx.caret
+  - pymdownx.critic
+#   - pymdownx.betterem:
+#       smart_enable: all
+  - pymdownx.details
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.tabbed:
+      alternate_style: true
+      combine_header_slug: true
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.tilde
+  - pymdownx.magiclink
+
+extra:
+  favicon: assets/images/favicon.ico
+  # 意见反馈链接（从YAML动态读取，点击直接跳转GitCode Issues）
+  # feedback_url: https://gitcode.com/HiSpark/fbb_ws63/issues
+  footer_links:
+    - link: https://www.hisilicon.com/cn
+      name: 海思官网
+    - link: https://developers.hisilicon.com/home
+      name: 海思开发者网站
+    - link: https://gitcode.com/HiSpark
+      name: 海思开源社区
+    - link: https://developer.huawei.com/
+      name: 华为开发者官网
+    - link: https://www.hikunpeng.com/
+      name: 鲲鹏社区
+    - link: https://www.hiascend.com/
+      name: 昇腾社区
+    - link: https://developers.hisilicon.com/aboutus
+      name: 关于我们
+      # 这个网址要修改-目前没登陆获取不了
+    - link: https://developers.hisilicon.com/login
+      name: 投诉举报
+  footer_legal:
+    - link: https://developers.hisilicon.com/legalNotices/legalNotices
+      name: 法律声明
+    - link: https://developers.hisilicon.com/legalNotices/cookie-policy
+      name: 关于Cookie
+    - link: https://developers.hisilicon.com/legalNotices/privacyPolicy
+      name: 隐私政策
+    - link: https://developers.hisilicon.com/legalNotices/userPolicy
+      name: 用户协议
+    - link: https://developers.hisilicon.com/legalNotices/disclaimer
+      name: 免责声明
+  generator: false
+  # 暂时禁用cookie弹窗，后续根据需求开启或者删除
+  # consent:
+  #   title: Cookie 同意
+  #   description: 我们使用cookie来确保您的高速浏览体验。继续浏览本站，即表示您同意我们使用cookie。<a target="_blank" href="https://developers.hisilicon.com/legalNotices/cookie-policy">详情</a>
+  #   actions:
+  #     - accept
+  #     - reject
+  homepage: https://docs.hisilicon.com
+  version_selector:
+    js_url: https://docs.hisilicon.com/projects/version/hispark_version.js
+    root_url: https://docs.hisilicon.com/projects
+  # 顶部公告栏：修改文案只改这里，无需动模板。
+  # enabled: false 可整条关闭；改 message 内容后，被用户关闭过的公告会自动重新弹出。
+  # announcement:
+  #   enabled: true
+  #   icon: material/bullhorn          # Material 单色 SVG 图标，跟随文字颜色；也可填 emoji 如 "📢"
+  #   # title: "公告"
+  #   message: "您正在访问海思社区新文档网站，"
+  #   link: "https://docs.hisilicon.com/repos/fbb_ws63/zh-CN/master/"
+  #   link_text: "返回旧版技术文档"
+  #   external: true  # true 则新标签打开（target="_blank"）
+  
+  # 头部header的按钮跳转按钮，有需要的项目在mkdocs.yml中进行配置
+  # header_link:
+  #   name: "返回旧版"
+  #   link: "https://docs.hisilicon.com/repos/fbb_ws63/zh-CN/master/"
+  #   external: true  # true 则新标签打开（target="_blank"）
+  # 下载按钮 + 构建产物打包 zip，有需要的项目在 mkdocs.yml 中配置（详见 hooks/_download.py）
+  # download:
+  #   filename: hs-fbb-master.zip  # 必需，本地构建默认压缩包名（CI 中被 SOURCE_NAME/GIT_TAG/codeBranch 环境变量覆盖）
+  #   tooltip: 下载HTML           # 可选，按钮悬浮提示
+  #   # url: https://docs.hisilicon.com/projects/downloads  # 可选，设置则下载链接指向 url/filename；不设置则指向本站根目录下的 zip
+
+extra_css:
+  - static/css/extra.css
+  - static/css/version-selector.css
+  - static/css/substring-search.css  # 子串模糊检索结果样式 + 历史搜索区样式
+  - static/css/inpage-find.css       # 页内查找条（Ctrl+F 风格）样式
+  # - static/css/no-flash.css   # 消除 instant 导航白屏（淡入淡出），需在 extra.css 之后加载-已删除伪元素
+extra_javascript:
+  - static/js/custom.js
+  - static/js/substring-search.js  # 子串模糊检索（在 custom.js 之后，复用其搜索弹窗打开逻辑）
+  - static/js/inpage-find.js       # 页内查找条（Ctrl+F / 命中页 ?h= 自动唤起）
+  - static/js/version-selector.js
+  - static/js/code-highlight.js
+  - static/js/wavedrom-skin.js
+  - static/js/wavedrom.min.js
+  - static/js/wavedrom-init.js
+  - static/js/no-flash.js     # 必须最后加载：接管 instant 生命周期、提前渲染波形，覆盖前述脚本带来的视觉延迟
