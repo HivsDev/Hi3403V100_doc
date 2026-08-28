@@ -1,0 +1,6664 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Hi3403V100 超高清智慧视觉 SoC 文档中心">
+      
+      
+        <meta name="author" content="HiSpark">
+      
+      
+        <link rel="canonical" href="https://hivsdev.github.io/Hi3403V100_doc/04API%E5%8F%82%E8%80%83/MPP/GFBG%20%E5%BC%80%E5%8F%91%E6%8C%87%E5%8D%97/GFBG%20%E5%BC%80%E5%8F%91%E6%8C%87%E5%8D%97.html">
+      
+      
+        <link rel="prev" href="../PCIE%E7%BA%A7%E8%81%94%20%E5%BA%94%E7%94%A8%E6%8C%87%E5%8D%97/PCIE%E7%BA%A7%E8%81%94%20%E5%BA%94%E7%94%A8%E6%8C%87%E5%8D%97.html">
+      
+      
+        <link rel="next" href="../GFBG%20API%20%E5%8F%82%E8%80%83/GFBG%20API%20%E5%8F%82%E8%80%83.html">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../static/images/favicon.ico">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>GFBG 开发指南 - Hi3403V100 开发者中心</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+    
+    
+      <link rel="stylesheet" href="../../../static/css/extra.css">
+    
+      <link rel="stylesheet" href="../../../static/css/version-selector.css">
+    
+      <link rel="stylesheet" href="../../../static/css/substring-search.css">
+    
+      <link rel="stylesheet" href="../../../static/css/inpage-find.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+      
+      <meta name="gitcode-issues-url" content="https://gitcode.com/HiSpark/pegasus/issues">
+      
+      <link rel="dns-prefetch" href="https://docs.hisilicon.com">
+      <link rel="dns-prefetch" href="https://fonts.gstatic.com">
+      <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+      <link rel="preconnect" href="https://docs.hisilicon.com" crossorigin>
+      <link rel="preload" href="../../../assets/stylesheets/main.484c7ddc.min.css" as="style">
+      <link rel="preload" href="../../../assets/stylesheets/palette.ab4e12ef.min.css" as="style">
+      <link rel="preload" href="../../../static/css/extra.css" as="style">
+      <link rel="preload" href="../../../assets/javascripts/bundle.79ae519e.min.js" as="script">
+      <link rel="preload" href="../../../static/js/custom.js" as="script">
+
+      
+        <link rel="prefetch" href="../GFBG%20API%20%E5%8F%82%E8%80%83/GFBG%20API%20%E5%8F%82%E8%80%83.html" as="document">
+      
+      
+        
+        
+      
+      <style>:root{--md-text-font:"Helvetica Neue, PingFang SC, Microsoft YaHei";--md-code-font:"Consolas, Roboto Mono"}</style>
+      <script>
+        // 防止宽窄屏刷新闪烁 — 在 body 解析前就读取 localStorage 标记 <html>
+        // 配合 CSS: html.prefer-narrow .md-grid 在首帧即应用 76%
+        if (localStorage.getItem('wideScreen') === 'false') {
+          document.documentElement.classList.add('prefer-narrow');
+        }
+        // 防止左侧树刷新闪烁（先展开后收缩）— 首帧即目标态。
+        // 只设 --sidebar-drag-width；--sidebar-max-width 在 CSS 恒等于 default，避免拖拽卡死。
+        // 宽窄屏分别读各自的拖动值；无值则窄屏用 112，宽屏用 CSS 默认（不设）。
+        (function () {
+          var root = document.documentElement;
+          var isWide = localStorage.getItem('wideScreen');
+          isWide = isWide === null ? true : isWide === 'true';
+          var w = parseFloat(localStorage.getItem(isWide ? 'sidebarWidthWide' : 'sidebarWidthNarrow'));
+          var sidebarW = (isFinite(w) && w > 0) ? w : (isWide ? 0 : 112);
+          if (sidebarW > 0) {
+            root.style.setProperty('--sidebar-drag-width', sidebarW + 'px');
+          }
+          if (localStorage.getItem('sidebarCollapsed') === '1') {
+            root.classList.add('sidebar-collapsed-pending');
+          }
+          // 防止内容区 grid 宽度刷新闪烁：窄屏拖拽值（如 50%）同步预设到 CSS 变量。
+          // CSS 用 max-width: var(--grid-max-width)，首帧即目标值，无需等 JS 设 inline。
+          // 宽屏恒 100%，无需变量；localStorage 无值时用窄屏默认 60%。
+          var storedWide = localStorage.getItem('wideScreen');
+          var isWideStored = storedWide === null ? true : storedWide === 'true';
+          if (isWideStored) {
+            root.style.setProperty('--grid-max-width', '100%');
+          } else {
+            var pct = localStorage.getItem('narrowGridWidth') || '60%';
+            root.style.setProperty('--grid-max-width', pct);
+          }
+        })();
+      </script>
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="white" data-md-color-accent="custom">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#GFBG-开发指南" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="https://docs.hisilicon.com"  class="md-header__button md-logo" aria-label="Hi3403V100 开发者中心" data-md-component="logo" target="_blank" rel="noopener noreferrer">
+      <img 
+  src="../../../static/images/light-icon.png" 
+  class="md-logo__img md-logo__img--light"
+  alt="Hi3403V100 开发者中心" 
+/>
+<img 
+  src="../../../static/images/dark-icon.png" 
+  class="md-logo__img md-logo__img--dark"
+  alt="Hi3403V100 开发者中心" 
+/>
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+      </div>
+    </div>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon md-header__button--search" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+      
+    
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="white" data-md-color-accent="custom"  aria-label="切换到暗色主题"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="切换到暗色主题" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="custom"  aria-label="切换到亮色主题"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="切换到亮色主题" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <div class="md-header__source">
+        <div class="source-container">
+  
+  <a href="https://gitcode.com/HiSpark/Hi3403V100" target="_blank" title="前往仓库" class="md-source" data-md-component="source" rel="noopener noreferrer">
+    <div class="md-source__icon md-icon">
+      <svg viewBox="0 0 1024 1024" width="20" height="20">
+        <path d="M472.746667 896.853333c-72.533333-8.106667-151.466667-39.253333-200.106667-78.08-27.306667-21.76-72.533333-71.253333-89.6-97.706666-51.626667-80.213333-72.533333-179.626667-57.173333-269.653334 15.36-86.613333 50.773333-154.453333 113.92-216.32 109.653333-107.52 285.44-141.653333 425.813333-82.346666 46.08 19.626667 90.453333 46.933333 108.8 66.986666 35.84 39.68 22.613333 104.106667-25.173333 128-20.48 9.813333-58.453333 10.24-72.96 0.853334-14.933333-9.386667-28.16-35.84-32-62.293334-1.706667-12.8-3.84-23.04-4.266667-23.04-0.853333 0-11.946667 5.973333-23.893333 13.226667-40.106667 23.466667-51.626667 26.88-113.066667 30.72-32.426667 1.706667-67.84 4.693333-78.933333 6.4-20.053333 2.56-44.373333-0.853333-83.2-13.226667l-20.48-6.4 0.853333 42.24c0.426667 40.96 0 43.093333-17.493333 79.36-22.613333 46.933333-30.72 75.52-34.56 117.333334-8.106667 100.693333 46.506667 175.36 150.613333 205.226666 67.413333 19.2 179.2 15.36 239.36-8.533333 58.026667-23.04 108.8-76.8 108.8-114.773333 0-15.786667-20.053333-35.84-41.813333-40.96-8.96-2.56-43.946667-5.546667-77.226667-6.826667-69.973333-2.986667-119.04-9.386667-132.266667-18.346667-13.653333-8.533333-20.48-33.28-14.506666-51.2 5.973333-19.2 15.786667-27.306667 43.946666-37.973333 19.2-7.253333 33.28-8.533333 88.746667-8.533333 118.613333 0 174.08 14.933333 217.6 58.453333 49.92 50.346667 55.466667 127.146667 13.226667 194.986667-62.293333 99.84-135.68 156.586667-235.52 182.613333-33.706667 8.96-122.453333 14.933333-158.72 10.666667z" fill="#D62240"></path>
+      </svg>
+    </div>
+  </a>
+
+  <button class="wide-screen-toggle" id="wide-screen-toggle" >
+    <img src="../../../static/images/open.png" class="wide-screen-icon wide-screen-open" alt="切换宽屏" title="切换宽屏" />
+    <img src="../../../static/images/close.png" class="wide-screen-icon wide-screen-close" alt="切换窄屏" title="切换窄屏" />
+  </button>
+</div>
+      </div>
+    
+  </nav>
+  
+  
+    
+    
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        <!-- 
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="分享" aria-label="分享" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+         -->
+        <button type="reset" class="md-search__icon md-icon" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        
+        <div class="substring-search-result" data-md-component="substring-search-result" hidden></div>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+  
+</header>
+
+
+<script>
+  var USER_DEFINED_OPTIONS = {
+    REPO_PATH: "Hi3403V100_doc",
+    ROOT_URL: "https://hivsdev.github.io/Hi3403V100_doc"
+  };
+  var DOCUMENTATION_OPTIONS = {
+    VERSION: "main",
+    // 构建时声明主题的语言
+    LANGUAGE: "zh"
+  };
+</script>
+<script src="static/js/hispark_version.js"></script>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="sidebar-selectors">
+                  <div class="repo-select custom-select">
+                    <span class="select-label">项目</span>
+                    <div class="repo-selector" title="">
+                      <span class="repo-readOnly"></span>
+                      <select id="repo-select" hidden>
+                        <option value=""></option>
+                      </select>
+                    </div>
+                    <ul class="select-options" id="repo-options" style="display:none"></ul>
+                  </div>
+                  <div class="version-select custom-select">
+                    <span class="select-label">版本</span>
+                    <div class="version-selector" title="">
+                      <span class="version-readOnly"></span>
+                      <select id="version-select" hidden>
+                        <option value=""></option>
+                      </select>
+                    </div>
+                    <ul class="select-options" id="version-options" style="display:none"></ul>
+                  </div>
+                  
+                    
+                    
+                      <div class="sidebar-search">
+                        <div class="sidebar-search__button" role="button" tabindex="0">
+                          
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+                          <span>全文检索</span>
+                        </div>
+                      </div>
+                    
+                  
+                </div>
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="导航栏" data-md-level="0">
+  
+    <div class="md-nav__source">
+      <div class="source-container">
+  
+  <a href="https://gitcode.com/HiSpark/Hi3403V100" target="_blank" title="前往仓库" class="md-source" data-md-component="source" rel="noopener noreferrer">
+    <div class="md-source__icon md-icon">
+      <svg viewBox="0 0 1024 1024" width="20" height="20">
+        <path d="M472.746667 896.853333c-72.533333-8.106667-151.466667-39.253333-200.106667-78.08-27.306667-21.76-72.533333-71.253333-89.6-97.706666-51.626667-80.213333-72.533333-179.626667-57.173333-269.653334 15.36-86.613333 50.773333-154.453333 113.92-216.32 109.653333-107.52 285.44-141.653333 425.813333-82.346666 46.08 19.626667 90.453333 46.933333 108.8 66.986666 35.84 39.68 22.613333 104.106667-25.173333 128-20.48 9.813333-58.453333 10.24-72.96 0.853334-14.933333-9.386667-28.16-35.84-32-62.293334-1.706667-12.8-3.84-23.04-4.266667-23.04-0.853333 0-11.946667 5.973333-23.893333 13.226667-40.106667 23.466667-51.626667 26.88-113.066667 30.72-32.426667 1.706667-67.84 4.693333-78.933333 6.4-20.053333 2.56-44.373333-0.853333-83.2-13.226667l-20.48-6.4 0.853333 42.24c0.426667 40.96 0 43.093333-17.493333 79.36-22.613333 46.933333-30.72 75.52-34.56 117.333334-8.106667 100.693333 46.506667 175.36 150.613333 205.226666 67.413333 19.2 179.2 15.36 239.36-8.533333 58.026667-23.04 108.8-76.8 108.8-114.773333 0-15.786667-20.053333-35.84-41.813333-40.96-8.96-2.56-43.946667-5.546667-77.226667-6.826667-69.973333-2.986667-119.04-9.386667-132.266667-18.346667-13.653333-8.533333-20.48-33.28-14.506666-51.2 5.973333-19.2 15.786667-27.306667 43.946666-37.973333 19.2-7.253333 33.28-8.533333 88.746667-8.533333 118.613333 0 174.08 14.933333 217.6 58.453333 49.92 50.346667 55.466667 127.146667 13.226667 194.986667-62.293333 99.84-135.68 156.586667-235.52 182.613333-33.706667 8.96-122.453333 14.933333-158.72 10.666667z" fill="#D62240"></path>
+      </svg>
+    </div>
+  </a>
+
+  <button class="wide-screen-toggle" id="wide-screen-toggle" >
+    <img src="../../../static/images/open.png" class="wide-screen-icon wide-screen-open" alt="切换宽屏" title="切换宽屏" />
+    <img src="../../../static/images/close.png" class="wide-screen-icon wide-screen-close" alt="切换窄屏" title="切换窄屏" />
+  </button>
+</div>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    概览
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    快速入门
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    快速入门
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../02%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8/Hi3403V100%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA%E6%8C%87%E5%8D%97/Hi3403V100%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA%E6%8C%87%E5%8D%97.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    环境搭建
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../02%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8/OpenHarmony%20Small%E7%89%88%E6%9C%AC%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/OpenHarmony%20Small%E7%89%88%E6%9C%AC%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    OpenHarmony Small 版本使用指南
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../02%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8/OpenHarmony%20Small%E7%B3%BB%E7%BB%9F%E9%9B%86%E6%88%90Hi3403V100%E7%A7%BB%E6%A4%8D%E6%A1%88%E4%BE%8B/OpenHarmony%20Small%E7%B3%BB%E7%BB%9F%E9%9B%86%E6%88%90Hi3403V100%E7%A7%BB%E6%A4%8D%E6%A1%88%E4%BE%8B.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    OpenHarmony Small 系统集成移植案例
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    整体架构
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    整体架构
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../01%E6%95%B4%E4%BD%93%E6%9E%B6%E6%9E%84/release-notes/Pegasus-v1.0-beta1.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    版本说明
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../01%E6%95%B4%E4%BD%93%E6%9E%B6%E6%9E%84/Hi3403V100%20SDK%20%E5%AE%89%E8%A3%85%E4%BB%A5%E5%8F%8A%E5%8D%87%E7%BA%A7%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E/Hi3403V100%E2%95%B1Hi3403V100%20SDK%20%E5%AE%89%E8%A3%85%E4%BB%A5%E5%8F%8A%E5%8D%87%E7%BA%A7%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SDK 安装以及升级使用说明
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_3" id="__nav_3_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hi3403V100 SoC 用户指南
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Hi3403V100 SoC 用户指南
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../01%E6%95%B4%E4%BD%93%E6%9E%B6%E6%9E%84/Hi3403V100%20%E8%B6%85%E9%AB%98%E6%B8%85%E6%99%BA%E8%83%BD%E7%BD%91%E7%BB%9C%E5%BD%95%E5%83%8F%E6%9C%BA%20SoC%20%E7%94%A8%E6%88%B7%E6%8C%87%E5%8D%97/00-3%20%E5%89%8D%E8%A8%80.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    前言
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../01%E6%95%B4%E4%BD%93%E6%9E%B6%E6%9E%84/Hi3403V100%20%E8%B6%85%E9%AB%98%E6%B8%85%E6%99%BA%E8%83%BD%E7%BD%91%E7%BB%9C%E5%BD%95%E5%83%8F%E6%9C%BA%20SoC%20%E7%94%A8%E6%88%B7%E6%8C%87%E5%8D%97/01-1%20%E4%BA%A7%E5%93%81%E6%A6%82%E8%BF%B0.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    产品概述
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../01%E6%95%B4%E4%BD%93%E6%9E%B6%E6%9E%84/Hi3403V100%20%E8%B6%85%E9%AB%98%E6%B8%85%E6%99%BA%E8%83%BD%E7%BD%91%E7%BB%9C%E5%BD%95%E5%83%8F%E6%9C%BA%20SoC%20%E7%94%A8%E6%88%B7%E6%8C%87%E5%8D%97/01-2%20%E7%A1%AC%E4%BB%B6.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    硬件
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../01%E6%95%B4%E4%BD%93%E6%9E%B6%E6%9E%84/Hi3403V100%20%E8%B6%85%E9%AB%98%E6%B8%85%E6%99%BA%E8%83%BD%E7%BD%91%E7%BB%9C%E5%BD%95%E5%83%8F%E6%9C%BA%20SoC%20%E7%94%A8%E6%88%B7%E6%8C%87%E5%8D%97/01-3%20%E7%B3%BB%E7%BB%9F.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    系统
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../01%E6%95%B4%E4%BD%93%E6%9E%B6%E6%9E%84/Hi3403V100%20%E8%B6%85%E9%AB%98%E6%B8%85%E6%99%BA%E8%83%BD%E7%BD%91%E7%BB%9C%E5%BD%95%E5%83%8F%E6%9C%BA%20SoC%20%E7%94%A8%E6%88%B7%E6%8C%87%E5%8D%97/01-4%20DDR%20%E6%8E%A7%E5%88%B6%E5%99%A8.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    DDR 控制器
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../01%E6%95%B4%E4%BD%93%E6%9E%B6%E6%9E%84/Hi3403V100%20%E8%B6%85%E9%AB%98%E6%B8%85%E6%99%BA%E8%83%BD%E7%BD%91%E7%BB%9C%E5%BD%95%E5%83%8F%E6%9C%BA%20SoC%20%E7%94%A8%E6%88%B7%E6%8C%87%E5%8D%97/01-5%20FMC%20%E6%8E%A7%E5%88%B6%E5%99%A8.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    FMC 控制器
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../01%E6%95%B4%E4%BD%93%E6%9E%B6%E6%9E%84/Hi3403V100%20%E8%B6%85%E9%AB%98%E6%B8%85%E6%99%BA%E8%83%BD%E7%BD%91%E7%BB%9C%E5%BD%95%E5%83%8F%E6%9C%BA%20SoC%20%E7%94%A8%E6%88%B7%E6%8C%87%E5%8D%97/01-6%20GMAC.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    GMAC
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../01%E6%95%B4%E4%BD%93%E6%9E%B6%E6%9E%84/Hi3403V100%20%E8%B6%85%E9%AB%98%E6%B8%85%E6%99%BA%E8%83%BD%E7%BD%91%E7%BB%9C%E5%BD%95%E5%83%8F%E6%9C%BA%20SoC%20%E7%94%A8%E6%88%B7%E6%8C%87%E5%8D%97/01-7%20%E8%A7%86%E9%A2%91%E7%BC%96%E7%A0%81.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    视频编码
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../01%E6%95%B4%E4%BD%93%E6%9E%B6%E6%9E%84/Hi3403V100%20%E8%B6%85%E9%AB%98%E6%B8%85%E6%99%BA%E8%83%BD%E7%BD%91%E7%BB%9C%E5%BD%95%E5%83%8F%E6%9C%BA%20SoC%20%E7%94%A8%E6%88%B7%E6%8C%87%E5%8D%97/01-8%20%E8%A7%86%E9%A2%91%E8%A7%A3%E7%A0%81.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    视频解码
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../01%E6%95%B4%E4%BD%93%E6%9E%B6%E6%9E%84/Hi3403V100%20%E8%B6%85%E9%AB%98%E6%B8%85%E6%99%BA%E8%83%BD%E7%BD%91%E7%BB%9C%E5%BD%95%E5%83%8F%E6%9C%BA%20SoC%20%E7%94%A8%E6%88%B7%E6%8C%87%E5%8D%97/01-9%20%E8%A7%86%E9%A2%91%E5%8F%8A%E5%9B%BE%E5%BD%A2%E5%A4%84%E7%90%86.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    视频及图形处理
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../01%E6%95%B4%E4%BD%93%E6%9E%B6%E6%9E%84/Hi3403V100%20%E8%B6%85%E9%AB%98%E6%B8%85%E6%99%BA%E8%83%BD%E7%BD%91%E7%BB%9C%E5%BD%95%E5%83%8F%E6%9C%BA%20SoC%20%E7%94%A8%E6%88%B7%E6%8C%87%E5%8D%97/01-10%20%E6%99%BA%E8%83%BD%E5%8A%A0%E9%80%9F%E5%BC%95%E6%93%8E.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    智能加速引擎
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../01%E6%95%B4%E4%BD%93%E6%9E%B6%E6%9E%84/Hi3403V100%20%E8%B6%85%E9%AB%98%E6%B8%85%E6%99%BA%E8%83%BD%E7%BD%91%E7%BB%9C%E5%BD%95%E5%83%8F%E6%9C%BA%20SoC%20%E7%94%A8%E6%88%B7%E6%8C%87%E5%8D%97/01-11%20%E8%A7%86%E9%A2%91%E6%8E%A5%E5%8F%A3.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    视频接口
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../01%E6%95%B4%E4%BD%93%E6%9E%B6%E6%9E%84/Hi3403V100%20%E8%B6%85%E9%AB%98%E6%B8%85%E6%99%BA%E8%83%BD%E7%BD%91%E7%BB%9C%E5%BD%95%E5%83%8F%E6%9C%BA%20SoC%20%E7%94%A8%E6%88%B7%E6%8C%87%E5%8D%97/01-12%20ISP.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ISP
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../01%E6%95%B4%E4%BD%93%E6%9E%B6%E6%9E%84/Hi3403V100%20%E8%B6%85%E9%AB%98%E6%B8%85%E6%99%BA%E8%83%BD%E7%BD%91%E7%BB%9C%E5%BD%95%E5%83%8F%E6%9C%BA%20SoC%20%E7%94%A8%E6%88%B7%E6%8C%87%E5%8D%97/01-13%20%E9%9F%B3%E9%A2%91%E6%8E%A5%E5%8F%A3.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    音频接口
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../01%E6%95%B4%E4%BD%93%E6%9E%B6%E6%9E%84/Hi3403V100%20%E8%B6%85%E9%AB%98%E6%B8%85%E6%99%BA%E8%83%BD%E7%BD%91%E7%BB%9C%E5%BD%95%E5%83%8F%E6%9C%BA%20SoC%20%E7%94%A8%E6%88%B7%E6%8C%87%E5%8D%97/01-14%20%E5%A4%96%E5%9B%B4%E8%AE%BE%E5%A4%87.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    外围设备
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../01%E6%95%B4%E4%BD%93%E6%9E%B6%E6%9E%84/Hi3403V100%20%E8%B6%85%E9%AB%98%E6%B8%85%E6%99%BA%E8%83%BD%E7%BD%91%E7%BB%9C%E5%BD%95%E5%83%8F%E6%9C%BA%20SoC%20%E7%94%A8%E6%88%B7%E6%8C%87%E5%8D%97/01-15%20%E5%AE%89%E5%85%A8%E5%AD%90%E7%B3%BB%E7%BB%9F.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    安全子系统
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API 参考
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    API 参考
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_1" id="__nav_4_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    安全子系统
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    安全子系统
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E5%AE%89%E5%85%A8%E5%AD%90%E7%B3%BB%E7%BB%9F/%E5%AE%89%E5%85%A8%E5%AD%90%E7%B3%BB%E7%BB%9F%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E/%E5%AE%89%E5%85%A8%E5%AD%90%E7%B3%BB%E7%BB%9F%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    安全子系统使用说明
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E5%AE%89%E5%85%A8%E5%AD%90%E7%B3%BB%E7%BB%9F/SS928V100%E2%95%B1SS927V100%20%E5%AE%89%E5%85%A8%E5%90%AF%E5%8A%A8%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/SS928V100%E2%95%B1SS927V100%20%E5%AE%89%E5%85%A8%E5%90%AF%E5%8A%A8%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    安全启动使用指南
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_2" id="__nav_4_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    BSP
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    BSP
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../BSP/%E8%A3%B8%E7%83%A7%E5%8F%8A%E9%9D%9E%E8%A3%B8%E7%83%A7%E5%8D%87%E7%BA%A7%20%E4%BD%BF%E7%94%A8%E6%89%8B%E5%86%8C/%E8%A3%B8%E7%83%A7%E5%8F%8A%E9%9D%9E%E8%A3%B8%E7%83%A7%E5%8D%87%E7%BA%A7%20%E4%BD%BF%E7%94%A8%E6%89%8B%E5%86%8C.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    裸烧及非裸烧升级 使用手册
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../BSP/%E5%A4%96%E5%9B%B4%E8%AE%BE%E5%A4%87%E9%A9%B1%E5%8A%A8%20%E6%93%8D%E4%BD%9C%E6%8C%87%E5%8D%97/%E5%A4%96%E5%9B%B4%E8%AE%BE%E5%A4%87%E9%A9%B1%E5%8A%A8%20%E6%93%8D%E4%BD%9C%E6%8C%87%E5%8D%97.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    外围设备驱动 操作指南
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../BSP/SS928V100%E2%95%B1SS927V100%20U-boot%20%E7%A7%BB%E6%A4%8D%E5%BA%94%E7%94%A8%E5%BC%80%E5%8F%91%E6%8C%87%E5%8D%97/SS928V100%E2%95%B1SS927V100%20U-boot%20%E7%A7%BB%E6%A4%8D%E5%BA%94%E7%94%A8%E5%BC%80%E5%8F%91%E6%8C%87%E5%8D%97.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    U-boot 移植应用开发指南
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_3" id="__nav_4_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ISP
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    ISP
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ISP/ISP%20%E5%BC%80%E5%8F%91%E5%8F%82%E8%80%83/ISP%20%E5%BC%80%E5%8F%91%E5%8F%82%E8%80%83%EF%BC%881--2%EF%BC%89.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ISP 开发参考（1--2）
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ISP/ISP%20%E5%BC%80%E5%8F%91%E5%8F%82%E8%80%83/ISP%20%E5%BC%80%E5%8F%91%E5%8F%82%E8%80%83%EF%BC%883--5%EF%BC%89.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ISP 开发参考（3--5）
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ISP/ISP%20%E5%BC%80%E5%8F%91%E5%8F%82%E8%80%83/ISP%20%E5%BC%80%E5%8F%91%E5%8F%82%E8%80%83%EF%BC%886%EF%BC%89.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ISP 开发参考（6）
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ISP/ISP%20%E5%BC%80%E5%8F%91%E5%8F%82%E8%80%83/ISP%20%E5%BC%80%E5%8F%91%E5%8F%82%E8%80%83%EF%BC%887--14%EF%BC%89.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ISP 开发参考（7--14）
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_4" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_4_4" id="__nav_4_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MPP
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    MPP
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_4_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_4_1" id="__nav_4_4_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MPP 开发参考
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_4_4_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_4_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    MPP 开发参考
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../MPP%20%E5%AA%92%E4%BD%93%E5%A4%84%E7%90%86%E8%BD%AF%E4%BB%B6V5.0%E5%BC%80%E5%8F%91%E5%8F%82%E8%80%83/00%20%E5%89%8D%E8%A8%80.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    前言
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../MPP%20%E5%AA%92%E4%BD%93%E5%A4%84%E7%90%86%E8%BD%AF%E4%BB%B6V5.0%E5%BC%80%E5%8F%91%E5%8F%82%E8%80%83/01%20%E6%A6%82%E8%BF%B0.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    概述
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../MPP%20%E5%AA%92%E4%BD%93%E5%A4%84%E7%90%86%E8%BD%AF%E4%BB%B6V5.0%E5%BC%80%E5%8F%91%E5%8F%82%E8%80%83/02%20%E7%B3%BB%E7%BB%9F%E6%8E%A7%E5%88%B6.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    系统控制
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../MPP%20%E5%AA%92%E4%BD%93%E5%A4%84%E7%90%86%E8%BD%AF%E4%BB%B6V5.0%E5%BC%80%E5%8F%91%E5%8F%82%E8%80%83/03%20%E8%A7%86%E9%A2%91%E8%BE%93%E5%85%A5.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    视频输入
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../MPP%20%E5%AA%92%E4%BD%93%E5%A4%84%E7%90%86%E8%BD%AF%E4%BB%B6V5.0%E5%BC%80%E5%8F%91%E5%8F%82%E8%80%83/04%20%E8%A7%86%E9%A2%91%E8%BE%93%E5%87%BA%EF%BC%884.1--4.3%EF%BC%89.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    视频输出（4.1--4.3）
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../MPP%20%E5%AA%92%E4%BD%93%E5%A4%84%E7%90%86%E8%BD%AF%E4%BB%B6V5.0%E5%BC%80%E5%8F%91%E5%8F%82%E8%80%83/04%20%E8%A7%86%E9%A2%91%E8%BE%93%E5%87%BA%EF%BC%884.4--4.5%EF%BC%89.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    视频输出（4.4--4.5）
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../MPP%20%E5%AA%92%E4%BD%93%E5%A4%84%E7%90%86%E8%BD%AF%E4%BB%B6V5.0%E5%BC%80%E5%8F%91%E5%8F%82%E8%80%83/05%20%E8%A7%86%E9%A2%91%E5%A4%84%E7%90%86%E5%AD%90%E7%B3%BB%E7%BB%9F.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    视频处理子系统
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../MPP%20%E5%AA%92%E4%BD%93%E5%A4%84%E7%90%86%E8%BD%AF%E4%BB%B6V5.0%E5%BC%80%E5%8F%91%E5%8F%82%E8%80%83/06%20%E8%A7%86%E9%A2%91%E7%BC%96%E7%A0%81%EF%BC%886.1--6.3%EF%BC%89.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    视频编码（6.1--6.3）
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../MPP%20%E5%AA%92%E4%BD%93%E5%A4%84%E7%90%86%E8%BD%AF%E4%BB%B6V5.0%E5%BC%80%E5%8F%91%E5%8F%82%E8%80%83/06%20%E8%A7%86%E9%A2%91%E7%BC%96%E7%A0%81%EF%BC%886.4--6.5%EF%BC%89.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    视频编码（6.4--6.5）
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../MPP%20%E5%AA%92%E4%BD%93%E5%A4%84%E7%90%86%E8%BD%AF%E4%BB%B6V5.0%E5%BC%80%E5%8F%91%E5%8F%82%E8%80%83/07%20%E8%A7%86%E9%A2%91%E8%A7%A3%E7%A0%81.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    视频解码
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../MPP%20%E5%AA%92%E4%BD%93%E5%A4%84%E7%90%86%E8%BD%AF%E4%BB%B6V5.0%E5%BC%80%E5%8F%91%E5%8F%82%E8%80%83/08%20%E5%8C%BA%E5%9F%9F%E7%AE%A1%E7%90%86.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    区域管理
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../MPP%20%E5%AA%92%E4%BD%93%E5%A4%84%E7%90%86%E8%BD%AF%E4%BB%B6V5.0%E5%BC%80%E5%8F%91%E5%8F%82%E8%80%83/09%20%E9%9F%B3%E9%A2%91%EF%BC%889.1--9.3%EF%BC%89.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    音频（9.1--9.3）
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../MPP%20%E5%AA%92%E4%BD%93%E5%A4%84%E7%90%86%E8%BD%AF%E4%BB%B6V5.0%E5%BC%80%E5%8F%91%E5%8F%82%E8%80%83/09%20%E9%9F%B3%E9%A2%91%EF%BC%889.4--9.5%EF%BC%89.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    音频（9.4--9.5）
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../MPP%20%E5%AA%92%E4%BD%93%E5%A4%84%E7%90%86%E8%BD%AF%E4%BB%B6V5.0%E5%BC%80%E5%8F%91%E5%8F%82%E8%80%83/10%20%E8%A7%86%E9%A2%91%E5%9B%BE%E5%BD%A2%E5%AD%90%E7%B3%BB%E7%BB%9F.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    视频图形子系统
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../MPP%20%E5%AA%92%E4%BD%93%E5%A4%84%E7%90%86%E8%BD%AF%E4%BB%B6V5.0%E5%BC%80%E5%8F%91%E5%8F%82%E8%80%83/11%20%E5%87%A0%E4%BD%95%E7%95%B8%E5%8F%98%E7%9F%AB%E6%AD%A3%E5%AD%90%E7%B3%BB%E7%BB%9F.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    几何畸变矫正子系统
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../MPP%20%E5%AA%92%E4%BD%93%E5%A4%84%E7%90%86%E8%BD%AF%E4%BB%B6V5.0%E5%BC%80%E5%8F%91%E5%8F%82%E8%80%83/12%20%E6%8B%BC%E6%8E%A5.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    拼接
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../MPP%20%E5%AA%92%E4%BD%93%E5%A4%84%E7%90%86%E8%BD%AF%E4%BB%B6V5.0%E5%BC%80%E5%8F%91%E5%8F%82%E8%80%83/13%20Proc%E8%B0%83%E8%AF%95%E4%BF%A1%E6%81%AF%EF%BC%8813.1--13.15%EF%BC%89.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Proc调试信息（13.1--13.15）
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../MPP%20%E5%AA%92%E4%BD%93%E5%A4%84%E7%90%86%E8%BD%AF%E4%BB%B6V5.0%E5%BC%80%E5%8F%91%E5%8F%82%E8%80%83/13%20Proc%E8%B0%83%E8%AF%95%E4%BF%A1%E6%81%AF%EF%BC%8813.16--13.29%EF%BC%89.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Proc调试信息（13.16--13.29）
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../MPP%20%E5%AA%92%E4%BD%93%E5%A4%84%E7%90%86%E8%BD%AF%E4%BB%B6%20V5.0%20FAQ/MPP%20%E5%AA%92%E4%BD%93%E5%A4%84%E7%90%86%E8%BD%AF%E4%BB%B6%20V5.0%20FAQ.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MPP FAQ
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../%E9%9F%B3%E9%A2%91%E7%BB%84%E4%BB%B6%20API%E5%8F%82%E8%80%83/%E9%9F%B3%E9%A2%91%E7%BB%84%E4%BB%B6%20API%E5%8F%82%E8%80%83.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    音频组件 API 参考
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../CIPHER%20API%20%E5%8F%82%E8%80%83/CIPHER%20API%20%E5%8F%82%E8%80%83.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CIPHER API 参考
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../%E9%BB%91%E7%99%BD%E5%BD%A9%E8%89%B2%E5%8F%8C%E8%B7%AF%E8%9E%8D%E5%90%88%20%E5%BC%80%E5%8F%91%E5%8F%82%E8%80%83/%E9%BB%91%E7%99%BD%E5%BD%A9%E8%89%B2%E5%8F%8C%E8%B7%AF%E8%9E%8D%E5%90%88%20%E5%BC%80%E5%8F%91%E5%8F%82%E8%80%83.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    黑白彩色双路融合 开发参考
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../%E5%9B%BE%E5%BD%A2%E5%BC%80%E5%8F%91%E7%94%A8%E6%88%B7%E6%8C%87%E5%8D%97/%E5%9B%BE%E5%BD%A2%E5%BC%80%E5%8F%91%E7%94%A8%E6%88%B7%E6%8C%87%E5%8D%97.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    图形开发用户指南
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../%E5%BC%80%E6%9C%BA%E7%94%BB%E9%9D%A2%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/%E5%BC%80%E6%9C%BA%E7%94%BB%E9%9D%A2%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    开机画面使用指南
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../%E6%8A%93%E6%8B%8D%20%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/%E6%8A%93%E6%8B%8D%20%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    抓拍 使用指南
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../MIPI%20%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/MIPI%20%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MIPI 使用指南
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../SYS_CONFIG%20%E9%85%8D%E7%BD%AE%E6%8C%87%E5%8D%97/SYS_CONFIG%20%E9%85%8D%E7%BD%AE%E6%8C%87%E5%8D%97.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SYS_CONFIG 配置指南
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../HDMI%20%E5%BC%80%E5%8F%91%E5%8F%82%E8%80%83/HDMI%20%E5%BC%80%E5%8F%91%E5%8F%82%E8%80%83.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    HDMI 开发参考
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../HNR%20%E5%BC%80%E5%8F%91%E5%8F%82%E8%80%83/HNR%20%E5%BC%80%E5%8F%91%E5%8F%82%E8%80%83.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    HNR 开发参考
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../MotionFusion%20%E5%BC%80%E5%8F%91%E5%8F%82%E8%80%83/MotionFusion%20%E5%BC%80%E5%8F%91%E5%8F%82%E8%80%83.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MotionFusion 开发参考
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../PCIE%E7%BA%A7%E8%81%94%20%E5%BA%94%E7%94%A8%E6%8C%87%E5%8D%97/PCIE%E7%BA%A7%E8%81%94%20%E5%BA%94%E7%94%A8%E6%8C%87%E5%8D%97.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PCIE级联 应用指南
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    GFBG 开发指南
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="GFBG%20%E5%BC%80%E5%8F%91%E6%8C%87%E5%8D%97.html" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    GFBG 开发指南
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#前言" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        前言
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#概述" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        概述
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="概述">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#GFBG简介" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GFBG简介
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="GFBG简介">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#体系结构" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        体系结构
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#应用场景" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        应用场景
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#GFBG与Linux-Framebuffer对比" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GFBG与Linux Framebuffer对比
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="GFBG与Linux Framebuffer对比">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#叠加图形层管理" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        叠加图形层管理
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#解决方案差异" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        解决方案差异
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#时序控制" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        时序控制
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#标准功能与扩展功能" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        标准功能与扩展功能
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#图形层刷新类型FB扩展模式" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        图形层刷新类型——FB扩展模式
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#图形层压缩" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        图形层压缩
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#相关文档" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        相关文档
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#模块加载" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        模块加载
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="模块加载">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#原理介绍" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        原理介绍
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#参数设置" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        参数设置
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="参数设置">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#参数video" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        参数video
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#参数softcursor" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        参数softcursor
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#参数g_layer_mmz_names" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        参数g_layer_mmz_names
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#参数默认值" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        参数默认值
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#配置举例" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        配置举例
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#异常情况" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        异常情况
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#第一次开发应用" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        第一次开发应用
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="第一次开发应用">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#开发流程" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        开发流程
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#实例介绍" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        实例介绍
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../GFBG%20API%20%E5%8F%82%E8%80%83/GFBG%20API%20%E5%8F%82%E8%80%83.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    GFBG API 参考
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../KLAD%20API%20%E5%8F%82%E8%80%83/KLAD%20API%20%E5%8F%82%E8%80%83.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KLAD API 参考
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../OTP%20API%20%E5%8F%82%E8%80%83/OTP%20API%20%E5%8F%82%E8%80%83.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    OTP API 参考
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../TDE%20API%E5%8F%82%E8%80%83/TDE%20API%E5%8F%82%E8%80%83.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    TDE API 参考
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_5" id="__nav_4_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SVP
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    SVP
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../SVP/SVP2.0%20%E5%BC%80%E5%8F%91%E6%8C%87%E5%8D%97/SVP2.0%20%E5%BC%80%E5%8F%91%E6%8C%87%E5%8D%97.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SVP2.0 开发指南
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../SVP/SVP2.0%20API%20%E5%8F%82%E8%80%83/SVP2.0%20API%20%E5%8F%82%E8%80%83.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SVP2.0 API 参考
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../SVP/IVE%20API%20%E5%8F%82%E8%80%83/IVE%20API%20%E5%8F%82%E8%80%83%EF%BC%881--2%EF%BC%89.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    IVE API 参考（1--2）
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../SVP/IVE%20API%20%E5%8F%82%E8%80%83/IVE%20API%20%E5%8F%82%E8%80%83%EF%BC%883--6%EF%BC%89.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    IVE API 参考（3--6）
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../SVP/IVS%20API%E5%8F%82%E8%80%83/IVS%20API%E5%8F%82%E8%80%83.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    IVS API 参考
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../SVP/DPU2.0%20%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/DPU2.0%20%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    DPU2.0 工具使用指南
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    参考案例
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    参考案例
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_1" id="__nav_5_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    调试调优
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    调试调优
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_1_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_1_1" id="__nav_5_1_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    BSP
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_5_1_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_1_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    BSP
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../03%E5%8F%82%E8%80%83%E6%A1%88%E4%BE%8B/%E8%B0%83%E8%AF%95%E8%B0%83%E4%BC%98/BSP/%E5%86%85%E5%AD%98%E5%B8%83%E5%B1%80%E8%B0%83%E6%95%B4%E6%8C%87%E5%8D%97/%E5%86%85%E5%AD%98%E5%B8%83%E5%B1%80%E8%B0%83%E6%95%B4%E6%8C%87%E5%8D%97.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    内存布局调整指南
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_1_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_1_2" id="__nav_5_1_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MPP
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_5_1_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_1_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    MPP
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../03%E5%8F%82%E8%80%83%E6%A1%88%E4%BE%8B/%E8%B0%83%E8%AF%95%E8%B0%83%E4%BC%98/MPP/%E9%BB%91%E7%99%BD%E5%BD%A9%E8%89%B2%E5%8F%8C%E8%B7%AF%E8%9E%8D%E5%90%88%E8%B0%83%E8%AF%95%E6%8C%87%E5%8D%97/%E9%BB%91%E7%99%BD%E5%BD%A9%E8%89%B2%E5%8F%8C%E8%B7%AF%E8%9E%8D%E5%90%88%E8%B0%83%E8%AF%95%E6%8C%87%E5%8D%97.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    黑白彩色双路融合调试指南
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../03%E5%8F%82%E8%80%83%E6%A1%88%E4%BE%8B/%E8%B0%83%E8%AF%95%E8%B0%83%E4%BC%98/MPP/DDR%20%E5%B0%8F%E5%9E%8B%E5%8C%96%E6%8C%87%E5%8D%97/DDR%20%E5%B0%8F%E5%9E%8B%E5%8C%96%E6%8C%87%E5%8D%97.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    DDR 小型化指南
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../03%E5%8F%82%E8%80%83%E6%A1%88%E4%BE%8B/%E8%B0%83%E8%AF%95%E8%B0%83%E4%BC%98/MPP/DIS%20%E8%B0%83%E8%AF%95%E6%8C%87%E5%8D%97/DIS%20%E8%B0%83%E8%AF%95%E6%8C%87%E5%8D%97.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    DIS 调试指南
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../03%E5%8F%82%E8%80%83%E6%A1%88%E4%BE%8B/%E8%B0%83%E8%AF%95%E8%B0%83%E4%BC%98/MPP/HNR%20%E8%B0%83%E4%BC%98%E6%8C%87%E5%8D%97/HNR%20%E8%B0%83%E4%BC%98%E6%8C%87%E5%8D%97.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    HNR 调优指南
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_1_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_1_3" id="__nav_5_1_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PQ
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_5_1_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_1_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    PQ
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../03%E5%8F%82%E8%80%83%E6%A1%88%E4%BE%8B/%E8%B0%83%E8%AF%95%E8%B0%83%E4%BC%98/PQ/ISP%20%E5%9B%BE%E5%83%8F%E8%B0%83%E4%BC%98%E6%8C%87%E5%8D%97/ISP%20%E5%9B%BE%E5%83%8F%E8%B0%83%E4%BC%98%E6%8C%87%E5%8D%97.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ISP 图像调优指南
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../03%E5%8F%82%E8%80%83%E6%A1%88%E4%BE%8B/%E8%B0%83%E8%AF%95%E8%B0%83%E4%BC%98/PQ/ISP%20%E9%A2%9C%E8%89%B2%E8%B0%83%E4%BC%98%E8%AF%B4%E6%98%8E/ISP%20%E9%A2%9C%E8%89%B2%E8%B0%83%E4%BC%98%E8%AF%B4%E6%98%8E.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ISP 颜色调优说明
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../03%E5%8F%82%E8%80%83%E6%A1%88%E4%BE%8B/%E8%B0%83%E8%AF%95%E8%B0%83%E4%BC%98/PQ/Sensor%20%E8%B0%83%E8%AF%95%E6%8C%87%E5%8D%97/Sensor%20%E8%B0%83%E8%AF%95%E6%8C%87%E5%8D%97.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sensor 调试指南
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../03%E5%8F%82%E8%80%83%E6%A1%88%E4%BE%8B/%E8%B0%83%E8%AF%95%E8%B0%83%E4%BC%98/PQ/SS928V100%E2%95%B1SS927V100%203DNR%E5%8F%82%E6%95%B0%E9%85%8D%E7%BD%AE%E8%AF%B4%E6%98%8E/SS928V100%E2%95%B1SS927V100%203DNR%E5%8F%82%E6%95%B0%E9%85%8D%E7%BD%AE%E8%AF%B4%E6%98%8E.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3DNR 参数配置说明
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../03%E5%8F%82%E8%80%83%E6%A1%88%E4%BE%8B/Sample%20User%20Guide.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sample User Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    硬件指南
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    硬件指南
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_1" id="__nav_6_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    芯片
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    芯片
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../05%E7%A1%AC%E4%BB%B6%E6%8C%87%E5%8D%97/%E8%8A%AF%E7%89%87/SS928V100_PINOUT_CN.xlsx" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SS928V100 PINOUT
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    工具中心
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    工具中心
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_7_1" id="__nav_7_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ToolPlatform
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    ToolPlatform
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../06%E5%B7%A5%E5%85%B7%E4%B8%AD%E5%BF%83/ToolPlatform/ToolPlatform%E5%B7%A5%E5%85%B7%E5%B9%B3%E5%8F%B0%20%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/ToolPlatform%E5%B7%A5%E5%85%B7%E5%B9%B3%E5%8F%B0%20%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ToolPlatform 工具平台 使用指南
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../06%E5%B7%A5%E5%85%B7%E4%B8%AD%E5%BF%83/ToolPlatform/BurnTool%20%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/BurnTool%20%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    BurnTool 工具使用指南
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_7_2" id="__nav_7_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SVP_NNN
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    SVP_NNN
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../06%E5%B7%A5%E5%85%B7%E4%B8%AD%E5%BF%83/SVP_NNN/%E5%BF%AB%E9%80%9F%E4%B8%8A%E6%89%8B%E6%8C%87%E5%8D%97/%E5%BF%AB%E9%80%9F%E4%B8%8A%E6%89%8B%E6%8C%87%E5%8D%97.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    快速上手指南
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../06%E5%B7%A5%E5%85%B7%E4%B8%AD%E5%BF%83/SVP_NNN/%E9%A9%B1%E5%8A%A8%E5%92%8C%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E5%AE%89%E8%A3%85%E6%8C%87%E5%8D%97/%E9%A9%B1%E5%8A%A8%E5%92%8C%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E5%AE%89%E8%A3%85%E6%8C%87%E5%8D%97.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    驱动和开发环境安装指南
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../06%E5%B7%A5%E5%85%B7%E4%B8%AD%E5%BF%83/SVP_NNN/%E5%BA%94%E7%94%A8%E5%BC%80%E5%8F%91%E6%8C%87%E5%8D%97/%E5%BA%94%E7%94%A8%E5%BC%80%E5%8F%91%E6%8C%87%E5%8D%97.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    应用开发指南
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../06%E5%B7%A5%E5%85%B7%E4%B8%AD%E5%BF%83/SVP_NNN/%E7%B2%BE%E5%BA%A6%E6%AF%94%E5%AF%B9%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/%E7%B2%BE%E5%BA%A6%E6%AF%94%E5%AF%B9%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    精度比对工具使用指南
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../06%E5%B7%A5%E5%85%B7%E4%B8%AD%E5%BF%83/SVP_NNN/%E5%9B%BE%E5%83%8F%E5%88%86%E6%9E%90%E5%BC%95%E6%93%8E2%E4%B8%8E%E5%9B%BE%E5%83%8F%E5%88%86%E6%9E%90%E5%BC%95%E6%93%8E1%E4%BD%BF%E7%94%A8%E5%B7%AE%E5%BC%82%E8%AF%B4%E6%98%8E/%E5%9B%BE%E5%83%8F%E5%88%86%E6%9E%90%E5%BC%95%E6%93%8E2%E4%B8%8E%E5%9B%BE%E5%83%8F%E5%88%86%E6%9E%90%E5%BC%95%E6%93%8E1%E4%BD%BF%E7%94%A8%E5%B7%AE%E5%BC%82%E8%AF%B4%E6%98%8E.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    图像分析引擎差异说明
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../06%E5%B7%A5%E5%85%B7%E4%B8%AD%E5%BF%83/SVP_NNN/AMCT%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97%EF%BC%88Caffe%EF%BC%89/AMCT%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97%EF%BC%88Caffe%EF%BC%89.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AMCT 使用指南（Caffe）
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../06%E5%B7%A5%E5%85%B7%E4%B8%AD%E5%BF%83/SVP_NNN/AMCT%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97%EF%BC%88PyTorch%EF%BC%89/AMCT%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97%EF%BC%88PyTorch%EF%BC%89.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AMCT 使用指南（PyTorch）
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../06%E5%B7%A5%E5%85%B7%E4%B8%AD%E5%BF%83/SVP_NNN/ATC%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/ATC%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ATC 工具使用指南
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../06%E5%B7%A5%E5%85%B7%E4%B8%AD%E5%BF%83/SVP_NNN/ATC%20Graph%E5%BC%80%E5%8F%91%E6%8C%87%E5%8D%97/ATC%20Graph%E5%BC%80%E5%8F%91%E6%8C%87%E5%8D%97.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ATC Graph 开发指南
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../06%E5%B7%A5%E5%85%B7%E4%B8%AD%E5%BF%83/SVP_NNN/ATC%E8%87%AA%E5%AE%9A%E4%B9%89%E7%AE%97%E5%AD%90%E5%BC%80%E5%8F%91%E6%8C%87%E5%8D%97/ATC%E8%87%AA%E5%AE%9A%E4%B9%89%E7%AE%97%E5%AD%90%E5%BC%80%E5%8F%91%E6%8C%87%E5%8D%97.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ATC 自定义算子开发指南
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../06%E5%B7%A5%E5%85%B7%E4%B8%AD%E5%BF%83/SVP_NNN/MindCmd%20%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/MindCmd%20%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MindCmd 使用指南
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../06%E5%B7%A5%E5%85%B7%E4%B8%AD%E5%BF%83/SVP_NNN/Profiling%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/Profiling%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Profiling 工具使用指南
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_7_3" id="__nav_7_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PQTools
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    PQTools
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../06%E5%B7%A5%E5%85%B7%E4%B8%AD%E5%BF%83/PQTools/%E5%9B%BE%E5%83%8F%E8%B4%A8%E9%87%8F%E8%B0%83%E8%AF%95%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/%E5%9B%BE%E5%83%8F%E8%B4%A8%E9%87%8F%E8%B0%83%E8%AF%95%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    图像质量调试工具使用指南
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    FAQ
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    FAQ
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../07FAQ/BSP/BSP%20FAQ/BSP%20FAQ.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    BSP FAQ
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../07FAQ/ISP/ISP%20FAQ/ISP%20FAQ.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ISP FAQ
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../07FAQ/PQ/%E6%8B%BC%E6%8E%A5%20FAQ/%E6%8B%BC%E6%8E%A5%20FAQ.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    拼接 FAQ
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#前言" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        前言
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#概述" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        概述
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="概述">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#GFBG简介" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GFBG简介
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="GFBG简介">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#体系结构" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        体系结构
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#应用场景" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        应用场景
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#GFBG与Linux-Framebuffer对比" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GFBG与Linux Framebuffer对比
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="GFBG与Linux Framebuffer对比">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#叠加图形层管理" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        叠加图形层管理
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#解决方案差异" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        解决方案差异
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#时序控制" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        时序控制
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#标准功能与扩展功能" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        标准功能与扩展功能
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#图形层刷新类型FB扩展模式" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        图形层刷新类型——FB扩展模式
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#图形层压缩" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        图形层压缩
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#相关文档" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        相关文档
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#模块加载" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        模块加载
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="模块加载">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#原理介绍" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        原理介绍
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#参数设置" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        参数设置
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="参数设置">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#参数video" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        参数video
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#参数softcursor" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        参数softcursor
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#参数g_layer_mmz_names" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        参数g_layer_mmz_names
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#参数默认值" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        参数默认值
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#配置举例" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        配置举例
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#异常情况" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        异常情况
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#第一次开发应用" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        第一次开发应用
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="第一次开发应用">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#开发流程" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        开发流程
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#实例介绍" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        实例介绍
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+                
+
+
+
+  
+
+
+  <nav class="md-path" aria-label="导航栏" >
+    <ol class="md-path__list">
+      
+        
+  
+  
+    
+    
+      
+  
+  
+    
+    
+      <li class="md-path__item">
+        <a href="../../%E5%AE%89%E5%85%A8%E5%AD%90%E7%B3%BB%E7%BB%9F/%E5%AE%89%E5%85%A8%E5%AD%90%E7%B3%BB%E7%BB%9F%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E/%E5%AE%89%E5%85%A8%E5%AD%90%E7%B3%BB%E7%BB%9F%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E.html" class="md-path__link">
+          
+  <span class="md-ellipsis">
+    API 参考
+  </span>
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+        
+  
+  
+    
+    
+      
+  
+  
+    
+    
+      <li class="md-path__item">
+        <a href="../MPP%20%E5%AA%92%E4%BD%93%E5%A4%84%E7%90%86%E8%BD%AF%E4%BB%B6V5.0%E5%BC%80%E5%8F%91%E5%8F%82%E8%80%83/00%20%E5%89%8D%E8%A8%80.html" class="md-path__link">
+          
+  <span class="md-ellipsis">
+    MPP
+  </span>
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+    </ol>
+  </nav>
+
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="GFBG-开发指南">GFBG 开发指南</h1>
+<h2 id="前言">前言<a name="ZH-CN_TOPIC_0000002441694833"></a></h2>
+<p><strong>概述<a name="section151mcpsimp"></a></strong></p>
+<p>Graphic Framebuffer Group（以下简称GFBG）是数字媒体处理平台提供的管理图像叠加层的模块，它基于Linux Framebuffer实现，在提供Linux Framebuffer基本功能的基础上，还扩展了一些图形层控制功能，如层间Alpha、设置原点等。本文档主要介绍GFBG模块加载和第一次如何开发应用。</p>
+<blockquote>
+<p><img alt="" src="public_sys-resources/icon-note.gif" /> <strong>说明：</strong> </p>
+<ul>
+<li>未有特殊说明，SS528V100、SS625V100、SS524V100、SS522V101、与SS626V100完全一致。</li>
+<li>未有特殊说明，SS927V100与SS928V100，SS522V100与SS524V100内容完全一致。</li>
+</ul>
+</blockquote>
+<p><strong>产品版本<a name="section155mcpsimp"></a></strong></p>
+<p>与本文档相对应的产品版本如下。</p>
+<p><a name="table158mcpsimp"></a></p>
+<table><thead align="left"><tr id="row163mcpsimp"><th class="cellrowborder" valign="top" width="32%" id="mcps1.1.3.1.1"><p id="p165mcpsimp"><a name="p165mcpsimp"></a><a name="p165mcpsimp"></a>产品名称</p>
+</th>
+<th class="cellrowborder" valign="top" width="68%" id="mcps1.1.3.1.2"><p id="p167mcpsimp"><a name="p167mcpsimp"></a><a name="p167mcpsimp"></a>产品版本</p>
+</th>
+</tr>
+</thead>
+<tbody><tr id="row169mcpsimp"><td class="cellrowborder" valign="top" width="32%" headers="mcps1.1.3.1.1 "><p id="p171mcpsimp"><a name="p171mcpsimp"></a><a name="p171mcpsimp"></a>SS928</p>
+</td>
+<td class="cellrowborder" valign="top" width="68%" headers="mcps1.1.3.1.2 "><p id="p173mcpsimp"><a name="p173mcpsimp"></a><a name="p173mcpsimp"></a>V100</p>
+</td>
+</tr>
+<tr id="row174mcpsimp"><td class="cellrowborder" valign="top" width="32%" headers="mcps1.1.3.1.1 "><p id="p176mcpsimp"><a name="p176mcpsimp"></a><a name="p176mcpsimp"></a>SS626</p>
+</td>
+<td class="cellrowborder" valign="top" width="68%" headers="mcps1.1.3.1.2 "><p id="p178mcpsimp"><a name="p178mcpsimp"></a><a name="p178mcpsimp"></a>V100</p>
+</td>
+</tr>
+<tr id="row195631257111317"><td class="cellrowborder" valign="top" width="32%" headers="mcps1.1.3.1.1 "><p id="p881081984715"><a name="p881081984715"></a><a name="p881081984715"></a>SS524</p>
+</td>
+<td class="cellrowborder" valign="top" width="68%" headers="mcps1.1.3.1.2 "><p id="p34921898474"><a name="p34921898474"></a><a name="p34921898474"></a>V100</p>
+</td>
+</tr>
+<tr id="row1441161332614"><td class="cellrowborder" valign="top" width="32%" headers="mcps1.1.3.1.1 "><p id="p0583151714263"><a name="p0583151714263"></a><a name="p0583151714263"></a>SS522</p>
+</td>
+<td class="cellrowborder" valign="top" width="68%" headers="mcps1.1.3.1.2 "><p id="p165835179263"><a name="p165835179263"></a><a name="p165835179263"></a>V100</p>
+</td>
+</tr>
+<tr id="row9572102672617"><td class="cellrowborder" valign="top" width="32%" headers="mcps1.1.3.1.1 "><p id="p11123113018268"><a name="p11123113018268"></a><a name="p11123113018268"></a>SS522</p>
+</td>
+<td class="cellrowborder" valign="top" width="68%" headers="mcps1.1.3.1.2 "><p id="p1212383017264"><a name="p1212383017264"></a><a name="p1212383017264"></a>V101</p>
+</td>
+</tr>
+<tr id="row19621654135811"><td class="cellrowborder" valign="top" width="32%" headers="mcps1.1.3.1.1 "><p id="p19820619133012"><a name="p19820619133012"></a><a name="p19820619133012"></a>SS528</p>
+</td>
+<td class="cellrowborder" valign="top" width="68%" headers="mcps1.1.3.1.2 "><p id="p982018196301"><a name="p982018196301"></a><a name="p982018196301"></a>V100</p>
+</td>
+</tr>
+<tr id="row48792312106"><td class="cellrowborder" valign="top" width="32%" headers="mcps1.1.3.1.1 "><p id="p187350151849"><a name="p187350151849"></a><a name="p187350151849"></a>SS625</p>
+</td>
+<td class="cellrowborder" valign="top" width="68%" headers="mcps1.1.3.1.2 "><p id="p9879931201010"><a name="p9879931201010"></a><a name="p9879931201010"></a>V100</p>
+</td>
+</tr>
+<tr id="row621517317519"><td class="cellrowborder" valign="top" width="32%" headers="mcps1.1.3.1.1 "><p id="p8622349102117"><a name="p8622349102117"></a><a name="p8622349102117"></a>SS927</p>
+</td>
+<td class="cellrowborder" valign="top" width="68%" headers="mcps1.1.3.1.2 "><p id="p9185184311112"><a name="p9185184311112"></a><a name="p9185184311112"></a>V100</p>
+</td>
+</tr>
+</tbody>
+</table>
+
+<p><strong>读者对象<a name="section179mcpsimp"></a></strong></p>
+<p>本文档（本指南）主要适用于以下工程师：</p>
+<ul>
+<li>技术支持工程师</li>
+<li>软件开发工程师</li>
+</ul>
+<p><strong>修订记录<a name="section226mcpsimp"></a></strong></p>
+<p>修订记录累积了每次文档更新的说明。最新版本的文档包含以前所有文档版本的更新内容。</p>
+<p><a name="table2161mcpsimp"></a></p>
+<table><thead align="left"><tr id="row2167mcpsimp"><th class="cellrowborder" valign="top" width="21%" id="mcps1.1.4.1.1"><p id="p2169mcpsimp"><a name="p2169mcpsimp"></a><a name="p2169mcpsimp"></a>文档版本</p>
+</th>
+<th class="cellrowborder" valign="top" width="26%" id="mcps1.1.4.1.2"><p id="p2171mcpsimp"><a name="p2171mcpsimp"></a><a name="p2171mcpsimp"></a>发布日期</p>
+</th>
+<th class="cellrowborder" valign="top" width="53%" id="mcps1.1.4.1.3"><p id="p2173mcpsimp"><a name="p2173mcpsimp"></a><a name="p2173mcpsimp"></a>修改说明</p>
+</th>
+</tr>
+</thead>
+<tbody><tr id="row2175mcpsimp"><td class="cellrowborder" valign="top" width="21%" headers="mcps1.1.4.1.1 "><p id="p2177mcpsimp"><a name="p2177mcpsimp"></a><a name="p2177mcpsimp"></a>00B01</p>
+</td>
+<td class="cellrowborder" valign="top" width="26%" headers="mcps1.1.4.1.2 "><p id="p2179mcpsimp"><a name="p2179mcpsimp"></a><a name="p2179mcpsimp"></a>2025-09-15</p>
+</td>
+<td class="cellrowborder" valign="top" width="53%" headers="mcps1.1.4.1.3 "><p id="p2181mcpsimp"><a name="p2181mcpsimp"></a><a name="p2181mcpsimp"></a>第1次临时版本发布。</p>
+</td>
+</tr>
+</tbody>
+</table>
+
+<h2 id="概述">概述<a name="ZH-CN_TOPIC_0000002441655005"></a></h2>
+<ul>
+<li>
+<p><strong><a href="#ZH-CN_TOPIC_0000002408095650">GFBG简介</a></strong>  </p>
+</li>
+<li>
+<p><strong><a href="#ZH-CN_TOPIC_0000002441694837">GFBG与Linux Framebuffer对比</a></strong>  </p>
+</li>
+<li>
+<p><strong><a href="#ZH-CN_TOPIC_0000002408255610">相关文档</a></strong>  </p>
+</li>
+</ul>
+<h3 id="GFBG简介">GFBG简介<a name="ZH-CN_TOPIC_0000002408095650"></a></h3>
+<p>Framebuffer（以下简称GFBG）是数字媒体处理平台提供的用于管理叠加图形层的模块，它不仅提供Linux Framebuffer的基本功能，还在Linux Framebuffer的基础上增加层间colorkey、层间colorkey mask、层间Alpha、原点偏移等扩展功能。</p>
+<ul>
+<li>
+<p><strong><a href="#ZH-CN_TOPIC_0000002408255614">体系结构</a></strong>  </p>
+</li>
+<li>
+<p><strong><a href="#ZH-CN_TOPIC_0000002441655009">应用场景</a></strong>  </p>
+</li>
+</ul>
+<h4 id="体系结构">体系结构<a name="ZH-CN_TOPIC_0000002408255614"></a></h4>
+<p>应用程序基于Linux文件系统使用GFBG。GFBG的体系结构如<a href="#fig103731568718">图1</a>所示。</p>
+<p><strong>图 1</strong>  GFBG体系结构<a name="fig103731568718"></a>  </p>
+<p><img alt="" src="figures/GFBG%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84.png" title="GFBG体系结构" /></p>
+<h4 id="应用场景">应用场景<a name="ZH-CN_TOPIC_0000002441655009"></a></h4>
+<p>GFBG可应用于以下场景：</p>
+<ul>
+<li>
+<p>MiniGUI窗口系统</p>
+<p>MiniGUI支持Linux Framebuffer。对MiniGUI做少量改动即可移植到芯片上，实现快速移植。</p>
+</li>
+<li>
+<p>其他的基于Linux Framebuffer的应用程序</p>
+<p>对基于Linux Framebuffer的应用程序不做或做少量改动即可移植到芯片上，实现快速移植。</p>
+</li>
+</ul>
+<h3 id="GFBG与Linux-Framebuffer对比">GFBG与Linux Framebuffer对比<a name="ZH-CN_TOPIC_0000002441694837"></a></h3>
+<ul>
+<li>
+<p><strong><a href="#ZH-CN_TOPIC_0000002441655017">叠加图形层管理</a></strong>  </p>
+</li>
+<li>
+<p><strong><a href="#ZH-CN_TOPIC_0000002408255606">解决方案差异</a></strong>  </p>
+</li>
+<li>
+<p><strong><a href="#ZH-CN_TOPIC_0000002408095654">时序控制</a></strong>  </p>
+</li>
+<li>
+<p><strong><a href="#ZH-CN_TOPIC_0000002408255602">标准功能与扩展功能</a></strong>  </p>
+</li>
+<li>
+<p><strong><a href="#ZH-CN_TOPIC_0000002441694841">图形层刷新类型——FB扩展模式</a></strong>  </p>
+</li>
+<li>
+<p><strong><a href="#ZH-CN_TOPIC_0000002441694853">图形层压缩</a></strong>  </p>
+</li>
+</ul>
+<h4 id="叠加图形层管理">叠加图形层管理<a name="ZH-CN_TOPIC_0000002441655017"></a></h4>
+<p>Linux Framebuffer是一个子设备号对应一个显卡，GFBG则是一个子设备号对应一个叠加图形层，GFBG可以管理多个叠加图形层，具体个数和芯片相关。</p>
+<blockquote>
+<p><img alt="" src="public_sys-resources/icon-note.gif" /> <strong>说明：</strong> </p>
+<ul>
+<li>对于SS528V100/SS625V100/SS524V100，GFBG最多可以管理4个叠加图形层：图形层0～图形层3（G0~G3），对应的设备文件依次为/dev/fb0 ~ /dev/fb3。
+   SS528V100/SS625V100/SS524V100支持3个输出设备上可以叠加图形层：高清输出设备0（简称HD0）、高清输出设备1（简称HD1）、标清输出设备0（简称SD0）。4个图形层与这3个输出设备的关系如<a href="#_Toc363726513">表1</a>所示。</li>
+<li>对于SS522V101，GFBG最多可以管理3个叠加图形层：图形层0、2、3（G0、G2、G3），对应的设备文件依次为/dev/fb0/dev/fb1/dev/fb2。SS522V101支持2个输出设备上可以叠加图形层：高清输出设备0（简称HD0）、标清输出设备0（简称SD0）。3个图形层与输出设备的关系如<a href="#_Ref49523582">表2</a>所示。</li>
+<li>对于SS928V100，GFBG最多可以管理3个叠加图形层：图形层0、1、3（G0、G1、G3），对应的设备文件依次为/dev/fb0/dev/fb1/dev/fb2。
+   SS928V100支持2个输出设备上可以叠加图形层：高清输出设备0（简称HD0）、标清输出设备0（简称SD0）。3个图形层与输出设备的关系如<a href="#_Ref49523598">表3</a>所示。</li>
+<li>对于SS626V100, GFBG最多可以管理5个叠加图形层：图形层0、1、2、3、4（G0、G1、G2、G3、G4），对应的设备文件依次为/dev/fb0 ~ /dev/fb4。5个图形层与3个输出设备的关系如<a href="#_Ref57989656">表4</a>所示。</li>
+</ul>
+</blockquote>
+<p><strong>表 1</strong>  FB设备文件、图形层以及输出设备的对应关系</p>
+<p><a name="_Toc363726513"></a></p>
+<table><thead align="left"><tr id="row797mcpsimp"><th class="cellrowborder" valign="top" width="18%" id="mcps1.2.4.1.1"><p id="p799mcpsimp"><a name="p799mcpsimp"></a><a name="p799mcpsimp"></a>FB设备文件</p>
+</th>
+<th class="cellrowborder" valign="top" width="20%" id="mcps1.2.4.1.2"><p id="p801mcpsimp"><a name="p801mcpsimp"></a><a name="p801mcpsimp"></a>图形层</p>
+</th>
+<th class="cellrowborder" valign="top" width="62%" id="mcps1.2.4.1.3"><p id="p803mcpsimp"><a name="p803mcpsimp"></a><a name="p803mcpsimp"></a>对应显示设备</p>
+</th>
+</tr>
+</thead>
+<tbody><tr id="row805mcpsimp"><td class="cellrowborder" valign="top" width="18%" headers="mcps1.2.4.1.1 "><p id="p807mcpsimp"><a name="p807mcpsimp"></a><a name="p807mcpsimp"></a>/dev/fb0</p>
+</td>
+<td class="cellrowborder" valign="top" width="20%" headers="mcps1.2.4.1.2 "><p id="p809mcpsimp"><a name="p809mcpsimp"></a><a name="p809mcpsimp"></a>G0</p>
+</td>
+<td class="cellrowborder" valign="top" width="62%" headers="mcps1.2.4.1.3 "><p id="p811mcpsimp"><a name="p811mcpsimp"></a><a name="p811mcpsimp"></a>只能在HD0设备上显示。</p>
+</td>
+</tr>
+<tr id="row812mcpsimp"><td class="cellrowborder" valign="top" width="18%" headers="mcps1.2.4.1.1 "><p id="p814mcpsimp"><a name="p814mcpsimp"></a><a name="p814mcpsimp"></a>/dev/fb1</p>
+</td>
+<td class="cellrowborder" valign="top" width="20%" headers="mcps1.2.4.1.2 "><p id="p816mcpsimp"><a name="p816mcpsimp"></a><a name="p816mcpsimp"></a>G1</p>
+</td>
+<td class="cellrowborder" valign="top" width="62%" headers="mcps1.2.4.1.3 "><p id="p818mcpsimp"><a name="p818mcpsimp"></a><a name="p818mcpsimp"></a>只能在HD1设备上显示。</p>
+</td>
+</tr>
+<tr id="row819mcpsimp"><td class="cellrowborder" valign="top" width="18%" headers="mcps1.2.4.1.1 "><p id="p821mcpsimp"><a name="p821mcpsimp"></a><a name="p821mcpsimp"></a>/dev/fb2</p>
+</td>
+<td class="cellrowborder" valign="top" width="20%" headers="mcps1.2.4.1.2 "><p id="p823mcpsimp"><a name="p823mcpsimp"></a><a name="p823mcpsimp"></a>G2</p>
+</td>
+<td class="cellrowborder" valign="top" width="62%" headers="mcps1.2.4.1.3 "><p id="p825mcpsimp"><a name="p825mcpsimp"></a><a name="p825mcpsimp"></a>可动态绑定HD0、HD1、SD0显示，G2为硬件鼠标层，它们总是处在显示设备叠加层的最高层。如HD0上有视频层、G0、G2，则叠加顺序从下到上依次为：视频层、G0、G2。</p>
+</td>
+</tr>
+<tr id="row826mcpsimp"><td class="cellrowborder" valign="top" width="18%" headers="mcps1.2.4.1.1 "><p id="p828mcpsimp"><a name="p828mcpsimp"></a><a name="p828mcpsimp"></a>/dev/fb3</p>
+</td>
+<td class="cellrowborder" valign="top" width="20%" headers="mcps1.2.4.1.2 "><p id="p830mcpsimp"><a name="p830mcpsimp"></a><a name="p830mcpsimp"></a>G3</p>
+</td>
+<td class="cellrowborder" valign="top" width="62%" headers="mcps1.2.4.1.3 "><p id="p832mcpsimp"><a name="p832mcpsimp"></a><a name="p832mcpsimp"></a>可动态绑定HD0、HD1、SD0显示，G3用作智能画框层。</p>
+</td>
+</tr>
+</tbody>
+</table>
+
+<p><strong>表 2</strong>  FB设备文件、图形层以及输出设备的对应关系</p>
+<p><a name="_Ref49523582"></a></p>
+<table><thead align="left"><tr id="row839mcpsimp"><th class="cellrowborder" valign="top" width="18%" id="mcps1.2.4.1.1"><p id="p841mcpsimp"><a name="p841mcpsimp"></a><a name="p841mcpsimp"></a>FB设备文件</p>
+</th>
+<th class="cellrowborder" valign="top" width="23%" id="mcps1.2.4.1.2"><p id="p843mcpsimp"><a name="p843mcpsimp"></a><a name="p843mcpsimp"></a>图形层</p>
+</th>
+<th class="cellrowborder" valign="top" width="59%" id="mcps1.2.4.1.3"><p id="p845mcpsimp"><a name="p845mcpsimp"></a><a name="p845mcpsimp"></a>对应显示设备</p>
+</th>
+</tr>
+</thead>
+<tbody><tr id="row846mcpsimp"><td class="cellrowborder" valign="top" width="18%" headers="mcps1.2.4.1.1 "><p id="p848mcpsimp"><a name="p848mcpsimp"></a><a name="p848mcpsimp"></a>/dev/fb0</p>
+</td>
+<td class="cellrowborder" valign="top" width="23%" headers="mcps1.2.4.1.2 "><p id="p850mcpsimp"><a name="p850mcpsimp"></a><a name="p850mcpsimp"></a>G0</p>
+</td>
+<td class="cellrowborder" valign="top" width="59%" headers="mcps1.2.4.1.3 "><p id="p852mcpsimp"><a name="p852mcpsimp"></a><a name="p852mcpsimp"></a>只能在HD0设备上显示。</p>
+</td>
+</tr>
+<tr id="row853mcpsimp"><td class="cellrowborder" valign="top" width="18%" headers="mcps1.2.4.1.1 "><p id="p855mcpsimp"><a name="p855mcpsimp"></a><a name="p855mcpsimp"></a>/dev/fb1</p>
+</td>
+<td class="cellrowborder" valign="top" width="23%" headers="mcps1.2.4.1.2 "><p id="p857mcpsimp"><a name="p857mcpsimp"></a><a name="p857mcpsimp"></a>G2</p>
+</td>
+<td class="cellrowborder" valign="top" width="59%" headers="mcps1.2.4.1.3 "><p id="p859mcpsimp"><a name="p859mcpsimp"></a><a name="p859mcpsimp"></a>可动态绑定HD0、HD1、SD0显示，G2为硬件鼠标层，它们总是处在显示设备叠加层的最高层。如HD0上有视频层、G0、G2，则叠加顺序从下到上依次为：视频层、G0、G2。</p>
+</td>
+</tr>
+<tr id="row860mcpsimp"><td class="cellrowborder" valign="top" width="18%" headers="mcps1.2.4.1.1 "><p id="p862mcpsimp"><a name="p862mcpsimp"></a><a name="p862mcpsimp"></a>/dev/fb2</p>
+</td>
+<td class="cellrowborder" valign="top" width="23%" headers="mcps1.2.4.1.2 "><p id="p864mcpsimp"><a name="p864mcpsimp"></a><a name="p864mcpsimp"></a>G3</p>
+</td>
+<td class="cellrowborder" valign="top" width="59%" headers="mcps1.2.4.1.3 "><p id="p866mcpsimp"><a name="p866mcpsimp"></a><a name="p866mcpsimp"></a>可动态绑定HD0、HD1、SD0显示， G3用作智能画框层。</p>
+</td>
+</tr>
+</tbody>
+</table>
+
+<p><strong>表 3</strong>  FB设备文件、图形层以及输出设备的对应关系</p>
+<p><a name="_Ref49523598"></a></p>
+<table><thead align="left"><tr id="row873mcpsimp"><th class="cellrowborder" valign="top" width="18%" id="mcps1.2.4.1.1"><p id="p875mcpsimp"><a name="p875mcpsimp"></a><a name="p875mcpsimp"></a>FB设备文件</p>
+</th>
+<th class="cellrowborder" valign="top" width="23%" id="mcps1.2.4.1.2"><p id="p877mcpsimp"><a name="p877mcpsimp"></a><a name="p877mcpsimp"></a>图形层</p>
+</th>
+<th class="cellrowborder" valign="top" width="59%" id="mcps1.2.4.1.3"><p id="p879mcpsimp"><a name="p879mcpsimp"></a><a name="p879mcpsimp"></a>对应显示设备</p>
+</th>
+</tr>
+</thead>
+<tbody><tr id="row880mcpsimp"><td class="cellrowborder" valign="top" width="18%" headers="mcps1.2.4.1.1 "><p id="p882mcpsimp"><a name="p882mcpsimp"></a><a name="p882mcpsimp"></a>/dev/fb0</p>
+</td>
+<td class="cellrowborder" valign="top" width="23%" headers="mcps1.2.4.1.2 "><p id="p884mcpsimp"><a name="p884mcpsimp"></a><a name="p884mcpsimp"></a>G0</p>
+</td>
+<td class="cellrowborder" valign="top" width="59%" headers="mcps1.2.4.1.3 "><p id="p886mcpsimp"><a name="p886mcpsimp"></a><a name="p886mcpsimp"></a>只能在HD0设备上显示。</p>
+</td>
+</tr>
+<tr id="row887mcpsimp"><td class="cellrowborder" valign="top" width="18%" headers="mcps1.2.4.1.1 "><p id="p889mcpsimp"><a name="p889mcpsimp"></a><a name="p889mcpsimp"></a>/dev/fb1</p>
+</td>
+<td class="cellrowborder" valign="top" width="23%" headers="mcps1.2.4.1.2 "><p id="p891mcpsimp"><a name="p891mcpsimp"></a><a name="p891mcpsimp"></a>G1</p>
+</td>
+<td class="cellrowborder" valign="top" width="59%" headers="mcps1.2.4.1.3 "><p id="p893mcpsimp"><a name="p893mcpsimp"></a><a name="p893mcpsimp"></a>只能在HD1设备上显示。</p>
+</td>
+</tr>
+<tr id="row894mcpsimp"><td class="cellrowborder" valign="top" width="18%" headers="mcps1.2.4.1.1 "><p id="p896mcpsimp"><a name="p896mcpsimp"></a><a name="p896mcpsimp"></a>/dev/fb2</p>
+</td>
+<td class="cellrowborder" valign="top" width="23%" headers="mcps1.2.4.1.2 "><p id="p898mcpsimp"><a name="p898mcpsimp"></a><a name="p898mcpsimp"></a>G3</p>
+</td>
+<td class="cellrowborder" valign="top" width="59%" headers="mcps1.2.4.1.3 "><p id="p900mcpsimp"><a name="p900mcpsimp"></a><a name="p900mcpsimp"></a>可动态绑定HD0、HD1、SD0显示，G3用作智能画框层。</p>
+</td>
+</tr>
+</tbody>
+</table>
+
+<p><strong>表 4</strong>  FB设备文件、图形层以及输出设备的对应关系</p>
+<p><a name="_Ref57989656"></a></p>
+<table><thead align="left"><tr id="row907mcpsimp"><th class="cellrowborder" valign="top" width="18%" id="mcps1.2.4.1.1"><p id="p909mcpsimp"><a name="p909mcpsimp"></a><a name="p909mcpsimp"></a>FB设备文件</p>
+</th>
+<th class="cellrowborder" valign="top" width="20%" id="mcps1.2.4.1.2"><p id="p911mcpsimp"><a name="p911mcpsimp"></a><a name="p911mcpsimp"></a>图形层</p>
+</th>
+<th class="cellrowborder" valign="top" width="62%" id="mcps1.2.4.1.3"><p id="p913mcpsimp"><a name="p913mcpsimp"></a><a name="p913mcpsimp"></a>对应显示设备</p>
+</th>
+</tr>
+</thead>
+<tbody><tr id="row915mcpsimp"><td class="cellrowborder" valign="top" width="18%" headers="mcps1.2.4.1.1 "><p id="p917mcpsimp"><a name="p917mcpsimp"></a><a name="p917mcpsimp"></a>/dev/fb0</p>
+</td>
+<td class="cellrowborder" valign="top" width="20%" headers="mcps1.2.4.1.2 "><p id="p919mcpsimp"><a name="p919mcpsimp"></a><a name="p919mcpsimp"></a>G0</p>
+</td>
+<td class="cellrowborder" valign="top" width="62%" headers="mcps1.2.4.1.3 "><p id="p921mcpsimp"><a name="p921mcpsimp"></a><a name="p921mcpsimp"></a>只能在HD0设备上显示。</p>
+</td>
+</tr>
+<tr id="row922mcpsimp"><td class="cellrowborder" valign="top" width="18%" headers="mcps1.2.4.1.1 "><p id="p924mcpsimp"><a name="p924mcpsimp"></a><a name="p924mcpsimp"></a>/dev/fb1</p>
+</td>
+<td class="cellrowborder" valign="top" width="20%" headers="mcps1.2.4.1.2 "><p id="p926mcpsimp"><a name="p926mcpsimp"></a><a name="p926mcpsimp"></a>G1</p>
+</td>
+<td class="cellrowborder" valign="top" width="62%" headers="mcps1.2.4.1.3 "><p id="p928mcpsimp"><a name="p928mcpsimp"></a><a name="p928mcpsimp"></a>只能在HD1设备上显示。</p>
+</td>
+</tr>
+<tr id="row929mcpsimp"><td class="cellrowborder" valign="top" width="18%" headers="mcps1.2.4.1.1 "><p id="p931mcpsimp"><a name="p931mcpsimp"></a><a name="p931mcpsimp"></a>/dev/fb2</p>
+</td>
+<td class="cellrowborder" valign="top" width="20%" headers="mcps1.2.4.1.2 "><p id="p933mcpsimp"><a name="p933mcpsimp"></a><a name="p933mcpsimp"></a>G2</p>
+</td>
+<td class="cellrowborder" valign="top" width="62%" headers="mcps1.2.4.1.3 "><p id="p935mcpsimp"><a name="p935mcpsimp"></a><a name="p935mcpsimp"></a>可动态绑定HD0、HD1、SD0显示，G2为硬件鼠标层，它们总是处在显示设备叠加层的最高层。如HD0上有视频层、G0、G2，则叠加顺序从下到上依次为：视频层、G0、G2。</p>
+</td>
+</tr>
+<tr id="row936mcpsimp"><td class="cellrowborder" valign="top" width="18%" headers="mcps1.2.4.1.1 "><p id="p938mcpsimp"><a name="p938mcpsimp"></a><a name="p938mcpsimp"></a>/dev/fb3</p>
+</td>
+<td class="cellrowborder" valign="top" width="20%" headers="mcps1.2.4.1.2 "><p id="p940mcpsimp"><a name="p940mcpsimp"></a><a name="p940mcpsimp"></a>G3</p>
+</td>
+<td class="cellrowborder" valign="top" width="62%" headers="mcps1.2.4.1.3 "><p id="p942mcpsimp"><a name="p942mcpsimp"></a><a name="p942mcpsimp"></a>可动态绑定HD0、HD1显示，G3可用作智能画框层。</p>
+</td>
+</tr>
+<tr id="row943mcpsimp"><td class="cellrowborder" valign="top" width="18%" headers="mcps1.2.4.1.1 "><p id="p945mcpsimp"><a name="p945mcpsimp"></a><a name="p945mcpsimp"></a>/dev/fb4</p>
+</td>
+<td class="cellrowborder" valign="top" width="20%" headers="mcps1.2.4.1.2 "><p id="p947mcpsimp"><a name="p947mcpsimp"></a><a name="p947mcpsimp"></a>G4</p>
+</td>
+<td class="cellrowborder" valign="top" width="62%" headers="mcps1.2.4.1.3 "><p id="p949mcpsimp"><a name="p949mcpsimp"></a><a name="p949mcpsimp"></a>可动态绑定HD1、SD0、G4可用作智能画框层，可用作标清层。</p>
+</td>
+</tr>
+</tbody>
+</table>
+
+<p>通过模块加载参数，可以控制GFBG管理其中的一个或多个叠加图形层，并像操作普通文件一样操作叠加图形层。</p>
+<h4 id="解决方案差异">解决方案差异<a name="ZH-CN_TOPIC_0000002408255606"></a></h4>
+<p><a name="table261mcpsimp"></a></p>
+<table><thead align="left"><tr id="row270mcpsimp"><th class="cellrowborder" valign="top" width="17.17171717171717%" id="mcps1.1.7.1.1"><p id="p272mcpsimp"><a name="p272mcpsimp"></a><a name="p272mcpsimp"></a>解决方案名称</p>
+</th>
+<th class="cellrowborder" valign="top" width="10.09100910091009%" id="mcps1.1.7.1.2"><p id="p274mcpsimp"><a name="p274mcpsimp"></a><a name="p274mcpsimp"></a>支持的图形层</p>
+</th>
+<th class="cellrowborder" valign="top" width="17.18171817181718%" id="mcps1.1.7.1.3"><p id="p276mcpsimp"><a name="p276mcpsimp"></a><a name="p276mcpsimp"></a>是否支持压缩</p>
+</th>
+<th class="cellrowborder" valign="top" width="14.14141414141414%" id="mcps1.1.7.1.4"><p id="p278mcpsimp"><a name="p278mcpsimp"></a><a name="p278mcpsimp"></a>是否支持缩放</p>
+</th>
+<th class="cellrowborder" valign="top" width="23.232323232323232%" id="mcps1.1.7.1.5"><p id="p280mcpsimp"><a name="p280mcpsimp"></a><a name="p280mcpsimp"></a>绑定关系</p>
+</th>
+<th class="cellrowborder" valign="top" width="18.18181818181818%" id="mcps1.1.7.1.6"><p id="p282mcpsimp"><a name="p282mcpsimp"></a><a name="p282mcpsimp"></a>软鼠标</p>
+</th>
+</tr>
+</thead>
+<tbody><tr id="row284mcpsimp"><td class="cellrowborder" rowspan="4" valign="top" width="17.17171717171717%" headers="mcps1.1.7.1.1 "><p id="p286mcpsimp"><a name="p286mcpsimp"></a><a name="p286mcpsimp"></a>SS528V100/SS625V100</p>
+</td>
+<td class="cellrowborder" valign="top" width="10.09100910091009%" headers="mcps1.1.7.1.2 "><p id="p288mcpsimp"><a name="p288mcpsimp"></a><a name="p288mcpsimp"></a>G0</p>
+</td>
+<td class="cellrowborder" valign="top" width="17.18171817181718%" headers="mcps1.1.7.1.3 "><p id="p290mcpsimp"><a name="p290mcpsimp"></a><a name="p290mcpsimp"></a>支持</p>
+</td>
+<td class="cellrowborder" valign="top" width="14.14141414141414%" headers="mcps1.1.7.1.4 "><p id="p292mcpsimp"><a name="p292mcpsimp"></a><a name="p292mcpsimp"></a>支持</p>
+</td>
+<td class="cellrowborder" valign="top" width="23.232323232323232%" headers="mcps1.1.7.1.5 "><p id="p294mcpsimp"><a name="p294mcpsimp"></a><a name="p294mcpsimp"></a>G0固定绑定到HD0上</p>
+</td>
+<td class="cellrowborder" valign="top" width="18.18181818181818%" headers="mcps1.1.7.1.6 "><p id="p296mcpsimp"><a name="p296mcpsimp"></a><a name="p296mcpsimp"></a>不支持</p>
+</td>
+</tr>
+<tr id="row297mcpsimp"><td class="cellrowborder" valign="top" headers="mcps1.1.7.1.1 "><p id="p299mcpsimp"><a name="p299mcpsimp"></a><a name="p299mcpsimp"></a>G1</p>
+</td>
+<td class="cellrowborder" valign="top" headers="mcps1.1.7.1.2 "><p id="p301mcpsimp"><a name="p301mcpsimp"></a><a name="p301mcpsimp"></a>支持</p>
+</td>
+<td class="cellrowborder" valign="top" headers="mcps1.1.7.1.3 "><p id="p303mcpsimp"><a name="p303mcpsimp"></a><a name="p303mcpsimp"></a>不支持</p>
+</td>
+<td class="cellrowborder" valign="top" headers="mcps1.1.7.1.4 "><p id="p305mcpsimp"><a name="p305mcpsimp"></a><a name="p305mcpsimp"></a>G1固定绑定到HD1上</p>
+</td>
+<td class="cellrowborder" valign="top" headers="mcps1.1.7.1.5 "><p id="p307mcpsimp"><a name="p307mcpsimp"></a><a name="p307mcpsimp"></a>不支持</p>
+</td>
+</tr>
+<tr id="row308mcpsimp"><td class="cellrowborder" valign="top" headers="mcps1.1.7.1.1 "><p id="p310mcpsimp"><a name="p310mcpsimp"></a><a name="p310mcpsimp"></a>G2</p>
+</td>
+<td class="cellrowborder" valign="top" headers="mcps1.1.7.1.2 "><p id="p312mcpsimp"><a name="p312mcpsimp"></a><a name="p312mcpsimp"></a>不支持</p>
+</td>
+<td class="cellrowborder" valign="top" headers="mcps1.1.7.1.3 "><p id="p314mcpsimp"><a name="p314mcpsimp"></a><a name="p314mcpsimp"></a>不支持</p>
+</td>
+<td class="cellrowborder" valign="top" headers="mcps1.1.7.1.4 "><p id="p316mcpsimp"><a name="p316mcpsimp"></a><a name="p316mcpsimp"></a>G2可动态绑定HD0、HD1、SD0</p>
+</td>
+<td class="cellrowborder" valign="top" headers="mcps1.1.7.1.5 "><p id="p318mcpsimp"><a name="p318mcpsimp"></a><a name="p318mcpsimp"></a>不支持</p>
+</td>
+</tr>
+<tr id="row319mcpsimp"><td class="cellrowborder" valign="top" headers="mcps1.1.7.1.1 "><p id="p321mcpsimp"><a name="p321mcpsimp"></a><a name="p321mcpsimp"></a>G3</p>
+</td>
+<td class="cellrowborder" valign="top" headers="mcps1.1.7.1.2 "><p id="p323mcpsimp"><a name="p323mcpsimp"></a><a name="p323mcpsimp"></a>不支持</p>
+</td>
+<td class="cellrowborder" valign="top" headers="mcps1.1.7.1.3 "><p id="p325mcpsimp"><a name="p325mcpsimp"></a><a name="p325mcpsimp"></a>不支持</p>
+</td>
+<td class="cellrowborder" valign="top" headers="mcps1.1.7.1.4 "><p id="p327mcpsimp"><a name="p327mcpsimp"></a><a name="p327mcpsimp"></a>G3可动态绑定HD0、HD1、SD0</p>
+</td>
+<td class="cellrowborder" valign="top" headers="mcps1.1.7.1.5 "><p id="p329mcpsimp"><a name="p329mcpsimp"></a><a name="p329mcpsimp"></a>不支持</p>
+</td>
+</tr>
+<tr id="row330mcpsimp"><td class="cellrowborder" rowspan="4" valign="top" width="17.17171717171717%" headers="mcps1.1.7.1.1 "><p id="p332mcpsimp"><a name="p332mcpsimp"></a><a name="p332mcpsimp"></a>SS524V100</p>
+</td>
+<td class="cellrowborder" valign="top" width="10.09100910091009%" headers="mcps1.1.7.1.2 "><p id="p334mcpsimp"><a name="p334mcpsimp"></a><a name="p334mcpsimp"></a>G0</p>
+</td>
+<td class="cellrowborder" valign="top" width="17.18171817181718%" headers="mcps1.1.7.1.3 "><p id="p336mcpsimp"><a name="p336mcpsimp"></a><a name="p336mcpsimp"></a>支持</p>
+</td>
+<td class="cellrowborder" valign="top" width="14.14141414141414%" headers="mcps1.1.7.1.4 "><p id="p338mcpsimp"><a name="p338mcpsimp"></a><a name="p338mcpsimp"></a>支持</p>
+</td>
+<td class="cellrowborder" valign="top" width="23.232323232323232%" headers="mcps1.1.7.1.5 "><p id="p340mcpsimp"><a name="p340mcpsimp"></a><a name="p340mcpsimp"></a>G0固定绑定到HD0上</p>
+</td>
+<td class="cellrowborder" valign="top" width="18.18181818181818%" headers="mcps1.1.7.1.6 "><p id="p342mcpsimp"><a name="p342mcpsimp"></a><a name="p342mcpsimp"></a>不支持</p>
+</td>
+</tr>
+<tr id="row343mcpsimp"><td class="cellrowborder" valign="top" headers="mcps1.1.7.1.1 "><p id="p345mcpsimp"><a name="p345mcpsimp"></a><a name="p345mcpsimp"></a>G1</p>
+</td>
+<td class="cellrowborder" valign="top" headers="mcps1.1.7.1.2 "><p id="p347mcpsimp"><a name="p347mcpsimp"></a><a name="p347mcpsimp"></a>支持</p>
+</td>
+<td class="cellrowborder" valign="top" headers="mcps1.1.7.1.3 "><p id="p349mcpsimp"><a name="p349mcpsimp"></a><a name="p349mcpsimp"></a>不支持</p>
+</td>
+<td class="cellrowborder" valign="top" headers="mcps1.1.7.1.4 "><p id="p351mcpsimp"><a name="p351mcpsimp"></a><a name="p351mcpsimp"></a>G1固定绑定到HD1上</p>
+</td>
+<td class="cellrowborder" valign="top" headers="mcps1.1.7.1.5 "><p id="p353mcpsimp"><a name="p353mcpsimp"></a><a name="p353mcpsimp"></a>不支持</p>
+</td>
+</tr>
+<tr id="row354mcpsimp"><td class="cellrowborder" valign="top" headers="mcps1.1.7.1.1 "><p id="p356mcpsimp"><a name="p356mcpsimp"></a><a name="p356mcpsimp"></a>G2</p>
+</td>
+<td class="cellrowborder" valign="top" headers="mcps1.1.7.1.2 "><p id="p358mcpsimp"><a name="p358mcpsimp"></a><a name="p358mcpsimp"></a>不支持</p>
+</td>
+<td class="cellrowborder" valign="top" headers="mcps1.1.7.1.3 "><p id="p360mcpsimp"><a name="p360mcpsimp"></a><a name="p360mcpsimp"></a>不支持</p>
+</td>
+<td class="cellrowborder" valign="top" headers="mcps1.1.7.1.4 "><p id="p362mcpsimp"><a name="p362mcpsimp"></a><a name="p362mcpsimp"></a>G2可动态绑定HD0、HD1、SD0</p>
+</td>
+<td class="cellrowborder" valign="top" headers="mcps1.1.7.1.5 "><p id="p364mcpsimp"><a name="p364mcpsimp"></a><a name="p364mcpsimp"></a>不支持</p>
+</td>
+</tr>
+<tr id="row365mcpsimp"><td class="cellrowborder" valign="top" headers="mcps1.1.7.1.1 "><p id="p367mcpsimp"><a name="p367mcpsimp"></a><a name="p367mcpsimp"></a>G3</p>
+</td>
+<td class="cellrowborder" valign="top" headers="mcps1.1.7.1.2 "><p id="p369mcpsimp"><a name="p369mcpsimp"></a><a name="p369mcpsimp"></a>不支持</p>
+</td>
+<td class="cellrowborder" valign="top" headers="mcps1.1.7.1.3 "><p id="p371mcpsimp"><a name="p371mcpsimp"></a><a name="p371mcpsimp"></a>不支持</p>
+</td>
+<td class="cellrowborder" valign="top" headers="mcps1.1.7.1.4 "><p id="p373mcpsimp"><a name="p373mcpsimp"></a><a name="p373mcpsimp"></a>G3可动态绑定HD0、HD1、SD0</p>
+</td>
+<td class="cellrowborder" valign="top" headers="mcps1.1.7.1.5 "><p id="p375mcpsimp"><a name="p375mcpsimp"></a><a name="p375mcpsimp"></a>不支持</p>
+</td>
+</tr>
+<tr id="row376mcpsimp"><td class="cellrowborder" rowspan="3" valign="top" width="17.17171717171717%" headers="mcps1.1.7.1.1 "><p id="p378mcpsimp"><a name="p378mcpsimp"></a><a name="p378mcpsimp"></a>SS522V101</p>
+</td>
+<td class="cellrowborder" valign="top" width="10.09100910091009%" headers="mcps1.1.7.1.2 "><p id="p380mcpsimp"><a name="p380mcpsimp"></a><a name="p380mcpsimp"></a>G0</p>
+</td>
+<td class="cellrowborder" valign="top" width="17.18171817181718%" headers="mcps1.1.7.1.3 "><p id="p382mcpsimp"><a name="p382mcpsimp"></a><a name="p382mcpsimp"></a>支持</p>
+</td>
+<td class="cellrowborder" valign="top" width="14.14141414141414%" headers="mcps1.1.7.1.4 "><p id="p384mcpsimp"><a name="p384mcpsimp"></a><a name="p384mcpsimp"></a>支持</p>
+</td>
+<td class="cellrowborder" valign="top" width="23.232323232323232%" headers="mcps1.1.7.1.5 "><p id="p386mcpsimp"><a name="p386mcpsimp"></a><a name="p386mcpsimp"></a>G0固定绑定到HD0上</p>
+</td>
+<td class="cellrowborder" valign="top" width="18.18181818181818%" headers="mcps1.1.7.1.6 "><p id="p388mcpsimp"><a name="p388mcpsimp"></a><a name="p388mcpsimp"></a>不支持</p>
+</td>
+</tr>
+<tr id="row389mcpsimp"><td class="cellrowborder" valign="top" headers="mcps1.1.7.1.1 "><p id="p391mcpsimp"><a name="p391mcpsimp"></a><a name="p391mcpsimp"></a>G2</p>
+</td>
+<td class="cellrowborder" valign="top" headers="mcps1.1.7.1.2 "><p id="p393mcpsimp"><a name="p393mcpsimp"></a><a name="p393mcpsimp"></a>不支持</p>
+</td>
+<td class="cellrowborder" valign="top" headers="mcps1.1.7.1.3 "><p id="p395mcpsimp"><a name="p395mcpsimp"></a><a name="p395mcpsimp"></a>不支持</p>
+</td>
+<td class="cellrowborder" valign="top" headers="mcps1.1.7.1.4 "><p id="p397mcpsimp"><a name="p397mcpsimp"></a><a name="p397mcpsimp"></a>G2可动态绑定HD0、SD0</p>
+</td>
+<td class="cellrowborder" valign="top" headers="mcps1.1.7.1.5 "><p id="p399mcpsimp"><a name="p399mcpsimp"></a><a name="p399mcpsimp"></a>不支持</p>
+</td>
+</tr>
+<tr id="row400mcpsimp"><td class="cellrowborder" valign="top" headers="mcps1.1.7.1.1 "><p id="p402mcpsimp"><a name="p402mcpsimp"></a><a name="p402mcpsimp"></a>G3</p>
+</td>
+<td class="cellrowborder" valign="top" headers="mcps1.1.7.1.2 "><p id="p404mcpsimp"><a name="p404mcpsimp"></a><a name="p404mcpsimp"></a>不支持</p>
+</td>
+<td class="cellrowborder" valign="top" headers="mcps1.1.7.1.3 "><p id="p406mcpsimp"><a name="p406mcpsimp"></a><a name="p406mcpsimp"></a>不支持</p>
+</td>
+<td class="cellrowborder" valign="top" headers="mcps1.1.7.1.4 "><p id="p408mcpsimp"><a name="p408mcpsimp"></a><a name="p408mcpsimp"></a>G3可动态绑定HD0、SD0</p>
+</td>
+<td class="cellrowborder" valign="top" headers="mcps1.1.7.1.5 "><p id="p410mcpsimp"><a name="p410mcpsimp"></a><a name="p410mcpsimp"></a>不支持</p>
+</td>
+</tr>
+<tr id="row411mcpsimp"><td class="cellrowborder" rowspan="3" valign="top" width="17.17171717171717%" headers="mcps1.1.7.1.1 "><p id="p413mcpsimp"><a name="p413mcpsimp"></a><a name="p413mcpsimp"></a>SS928V100</p>
+</td>
+<td class="cellrowborder" valign="top" width="10.09100910091009%" headers="mcps1.1.7.1.2 "><p id="p415mcpsimp"><a name="p415mcpsimp"></a><a name="p415mcpsimp"></a>G0</p>
+</td>
+<td class="cellrowborder" valign="top" width="17.18171817181718%" headers="mcps1.1.7.1.3 "><p id="p417mcpsimp"><a name="p417mcpsimp"></a><a name="p417mcpsimp"></a>支持</p>
+</td>
+<td class="cellrowborder" valign="top" width="14.14141414141414%" headers="mcps1.1.7.1.4 "><p id="p419mcpsimp"><a name="p419mcpsimp"></a><a name="p419mcpsimp"></a>支持</p>
+</td>
+<td class="cellrowborder" valign="top" width="23.232323232323232%" headers="mcps1.1.7.1.5 "><p id="p421mcpsimp"><a name="p421mcpsimp"></a><a name="p421mcpsimp"></a>G0固定绑定到HD0上</p>
+</td>
+<td class="cellrowborder" valign="top" width="18.18181818181818%" headers="mcps1.1.7.1.6 "><p id="p423mcpsimp"><a name="p423mcpsimp"></a><a name="p423mcpsimp"></a>不支持</p>
+</td>
+</tr>
+<tr id="row424mcpsimp"><td class="cellrowborder" valign="top" headers="mcps1.1.7.1.1 "><p id="p426mcpsimp"><a name="p426mcpsimp"></a><a name="p426mcpsimp"></a>G1</p>
+</td>
+<td class="cellrowborder" valign="top" headers="mcps1.1.7.1.2 "><p id="p428mcpsimp"><a name="p428mcpsimp"></a><a name="p428mcpsimp"></a>不支持</p>
+</td>
+<td class="cellrowborder" valign="top" headers="mcps1.1.7.1.3 "><p id="p430mcpsimp"><a name="p430mcpsimp"></a><a name="p430mcpsimp"></a>不支持</p>
+</td>
+<td class="cellrowborder" valign="top" headers="mcps1.1.7.1.4 "><p id="p432mcpsimp"><a name="p432mcpsimp"></a><a name="p432mcpsimp"></a>G1固定绑定到HD1上</p>
+</td>
+<td class="cellrowborder" valign="top" headers="mcps1.1.7.1.5 "><p id="p434mcpsimp"><a name="p434mcpsimp"></a><a name="p434mcpsimp"></a>不支持</p>
+</td>
+</tr>
+<tr id="row435mcpsimp"><td class="cellrowborder" valign="top" headers="mcps1.1.7.1.1 "><p id="p437mcpsimp"><a name="p437mcpsimp"></a><a name="p437mcpsimp"></a>G3</p>
+</td>
+<td class="cellrowborder" valign="top" headers="mcps1.1.7.1.2 "><p id="p439mcpsimp"><a name="p439mcpsimp"></a><a name="p439mcpsimp"></a>不支持</p>
+</td>
+<td class="cellrowborder" valign="top" headers="mcps1.1.7.1.3 "><p id="p441mcpsimp"><a name="p441mcpsimp"></a><a name="p441mcpsimp"></a>不支持</p>
+</td>
+<td class="cellrowborder" valign="top" headers="mcps1.1.7.1.4 "><p id="p443mcpsimp"><a name="p443mcpsimp"></a><a name="p443mcpsimp"></a>G3可动态绑定HD0、SD0</p>
+</td>
+<td class="cellrowborder" valign="top" headers="mcps1.1.7.1.5 "><p id="p445mcpsimp"><a name="p445mcpsimp"></a><a name="p445mcpsimp"></a>不支持</p>
+</td>
+</tr>
+<tr id="row446mcpsimp"><td class="cellrowborder" rowspan="5" valign="top" width="17.17171717171717%" headers="mcps1.1.7.1.1 "><p id="p448mcpsimp"><a name="p448mcpsimp"></a><a name="p448mcpsimp"></a>SS626V100</p>
+</td>
+<td class="cellrowborder" valign="top" width="10.09100910091009%" headers="mcps1.1.7.1.2 "><p id="p450mcpsimp"><a name="p450mcpsimp"></a><a name="p450mcpsimp"></a>G0</p>
+</td>
+<td class="cellrowborder" valign="top" width="17.18171817181718%" headers="mcps1.1.7.1.3 "><p id="p452mcpsimp"><a name="p452mcpsimp"></a><a name="p452mcpsimp"></a>支持</p>
+</td>
+<td class="cellrowborder" valign="top" width="14.14141414141414%" headers="mcps1.1.7.1.4 "><p id="p454mcpsimp"><a name="p454mcpsimp"></a><a name="p454mcpsimp"></a>支持</p>
+</td>
+<td class="cellrowborder" valign="top" width="23.232323232323232%" headers="mcps1.1.7.1.5 "><p id="p456mcpsimp"><a name="p456mcpsimp"></a><a name="p456mcpsimp"></a>G0固定绑定到HD0上</p>
+</td>
+<td class="cellrowborder" valign="top" width="18.18181818181818%" headers="mcps1.1.7.1.6 "><p id="p458mcpsimp"><a name="p458mcpsimp"></a><a name="p458mcpsimp"></a>不支持</p>
+</td>
+</tr>
+<tr id="row459mcpsimp"><td class="cellrowborder" valign="top" headers="mcps1.1.7.1.1 "><p id="p461mcpsimp"><a name="p461mcpsimp"></a><a name="p461mcpsimp"></a>G1</p>
+</td>
+<td class="cellrowborder" valign="top" headers="mcps1.1.7.1.2 "><p id="p463mcpsimp"><a name="p463mcpsimp"></a><a name="p463mcpsimp"></a>支持</p>
+</td>
+<td class="cellrowborder" valign="top" headers="mcps1.1.7.1.3 "><p id="p465mcpsimp"><a name="p465mcpsimp"></a><a name="p465mcpsimp"></a>支持</p>
+</td>
+<td class="cellrowborder" valign="top" headers="mcps1.1.7.1.4 "><p id="p467mcpsimp"><a name="p467mcpsimp"></a><a name="p467mcpsimp"></a>G0固定绑定到HD1上</p>
+</td>
+<td class="cellrowborder" valign="top" headers="mcps1.1.7.1.5 "><p id="p469mcpsimp"><a name="p469mcpsimp"></a><a name="p469mcpsimp"></a>不支持</p>
+</td>
+</tr>
+<tr id="row470mcpsimp"><td class="cellrowborder" valign="top" headers="mcps1.1.7.1.1 "><p id="p472mcpsimp"><a name="p472mcpsimp"></a><a name="p472mcpsimp"></a>G2</p>
+</td>
+<td class="cellrowborder" valign="top" headers="mcps1.1.7.1.2 "><p id="p474mcpsimp"><a name="p474mcpsimp"></a><a name="p474mcpsimp"></a>不支持</p>
+</td>
+<td class="cellrowborder" valign="top" headers="mcps1.1.7.1.3 "><p id="p476mcpsimp"><a name="p476mcpsimp"></a><a name="p476mcpsimp"></a>不支持</p>
+</td>
+<td class="cellrowborder" valign="top" headers="mcps1.1.7.1.4 "><p id="p478mcpsimp"><a name="p478mcpsimp"></a><a name="p478mcpsimp"></a>G2可动态绑定HD0、HD1、SD0</p>
+</td>
+<td class="cellrowborder" valign="top" headers="mcps1.1.7.1.5 "><p id="p480mcpsimp"><a name="p480mcpsimp"></a><a name="p480mcpsimp"></a>不支持</p>
+</td>
+</tr>
+<tr id="row481mcpsimp"><td class="cellrowborder" valign="top" headers="mcps1.1.7.1.1 "><p id="p483mcpsimp"><a name="p483mcpsimp"></a><a name="p483mcpsimp"></a>G3</p>
+</td>
+<td class="cellrowborder" valign="top" headers="mcps1.1.7.1.2 "><p id="p485mcpsimp"><a name="p485mcpsimp"></a><a name="p485mcpsimp"></a>不支持</p>
+</td>
+<td class="cellrowborder" valign="top" headers="mcps1.1.7.1.3 "><p id="p487mcpsimp"><a name="p487mcpsimp"></a><a name="p487mcpsimp"></a>不支持</p>
+</td>
+<td class="cellrowborder" valign="top" headers="mcps1.1.7.1.4 "><p id="p489mcpsimp"><a name="p489mcpsimp"></a><a name="p489mcpsimp"></a>G3可动态绑定HD0、HD1</p>
+</td>
+<td class="cellrowborder" valign="top" headers="mcps1.1.7.1.5 "><p id="p491mcpsimp"><a name="p491mcpsimp"></a><a name="p491mcpsimp"></a>不支持</p>
+</td>
+</tr>
+<tr id="row492mcpsimp"><td class="cellrowborder" valign="top" headers="mcps1.1.7.1.1 "><p id="p494mcpsimp"><a name="p494mcpsimp"></a><a name="p494mcpsimp"></a>G4</p>
+</td>
+<td class="cellrowborder" valign="top" headers="mcps1.1.7.1.2 "><p id="p496mcpsimp"><a name="p496mcpsimp"></a><a name="p496mcpsimp"></a>不支持</p>
+</td>
+<td class="cellrowborder" valign="top" headers="mcps1.1.7.1.3 "><p id="p498mcpsimp"><a name="p498mcpsimp"></a><a name="p498mcpsimp"></a>不支持</p>
+</td>
+<td class="cellrowborder" valign="top" headers="mcps1.1.7.1.4 "><p id="p500mcpsimp"><a name="p500mcpsimp"></a><a name="p500mcpsimp"></a>G4可动态绑定HD1、SD0</p>
+</td>
+<td class="cellrowborder" valign="top" headers="mcps1.1.7.1.5 "><p id="p502mcpsimp"><a name="p502mcpsimp"></a><a name="p502mcpsimp"></a>不支持</p>
+</td>
+</tr>
+</tbody>
+</table>
+
+<h4 id="时序控制">时序控制<a name="ZH-CN_TOPIC_0000002408095654"></a></h4>
+<p>Linux Framebuffer提供同步时序、扫描方式、同步信号组织等控制方式（需要硬件支持），将物理显存的内容显示在不同的输出设备（如PC显示器、TV、LCD等）上。目前GFBG不支持同步时序、扫描方式、同步信号组织等控制方式。</p>
+<h4 id="标准功能与扩展功能">标准功能与扩展功能<a name="ZH-CN_TOPIC_0000002408255602"></a></h4>
+<p>GFBG支持以下的Linux Framebuffer标准功能：</p>
+<ul>
+<li>将物理显存映射（或解除映射）到虚拟内存空间。</li>
+<li>像操作普通文件一样操作物理显存。</li>
+<li>设置硬件显示分辨率和像素格式，每个叠加图形层的支持的最大分辨率和像素格式可以通过支持能力接口获取。</li>
+<li>从物理显存的任何位置进行读、写、显示等操作。</li>
+<li>在叠加图形层支持索引格式的情况下，支持设置和获取256色的调色板。</li>
+</ul>
+<p>GFBG增加以下的扩展功能：</p>
+<ul>
+<li>设置和获取叠加图形层的Alpha值。</li>
+<li>设置和获取叠加图形层的colorkey值。</li>
+<li>设置当前叠加图形层的起始位置（相对于屏幕原点的偏移）。</li>
+<li>设置和获取当前叠加图形层的显示状态（显示/隐藏）。</li>
+<li>通过模块加载参数配置GFBG的物理显存大小和管理叠加图形层的数目。</li>
+<li>设置和获取抗闪烁功能的状态。</li>
+<li>设置和获取预乘模式。</li>
+<li>设置和获取压缩模式的状态。</li>
+<li>设置/获取图形层刷新类型（0 buffer、1 buffer与2 buffer）。</li>
+</ul>
+<p>GFBG不支持以下的Linux Framebuffer标准功能：</p>
+<ul>
+<li>设置和获取控制台对应的Linux Framebuffer。</li>
+<li>获取硬件扫描的实时信息。</li>
+<li>获取硬件相关信息。</li>
+<li>设置硬件同步时序。</li>
+<li>设置硬件同步信号机制。</li>
+</ul>
+<h4 id="图形层刷新类型FB扩展模式">图形层刷新类型——FB扩展模式<a name="ZH-CN_TOPIC_0000002441694841"></a></h4>
+<p>GFBG为上层用户提供了一套完整的刷新方案，称为FB的扩展模式。在对系统性能、内存、图形显示效果各方面综合衡量的基础上，可根据需要选择合适的刷新方案。目前提供的刷新类型有：</p>
+<ul>
+<li>
+<p>0 buffer（即OT_FB_LAYER_BUF_NONE）</p>
+<p>上层用户的绘制buffer即为显示buffer。该刷新类型可以节省内存消耗，速度也最快，但是用户会看到图形的绘制过程。示意如<a href="#fig194946465118">图1</a>所示。</p>
+</li>
+<li>
+<p>1 buffer（即OT_FB_LAYER_BUF_ONE）</p>
+<p>显示buffer由GFBG提供，因此需要一定的内存。该刷新类型是对显示效果和内存需求的一种折中考虑。但是会有锯齿。示意如<a href="#fig76714267123">图2</a>所示。</p>
+</li>
+<li>
+<p>2 buffer</p>
+<p>显示buffer由GFBG提供。和前面的刷新类型相比，其要求内存最多，但图形显示效果最好。示意如<a href="#fig1270123631220">图3</a>所示。包含以下：</p>
+<ul>
+<li>OT_FB_LAYER_BUF_DOUBLE</li>
+<li>OT_FB_LAYER_BUF_DOUBLE_IMMEDIATE</li>
+</ul>
+<p>两者的区别在于后面的每次刷新操作都要等待到绘制的内容真正显示后才返回。</p>
+</li>
+</ul>
+<p><strong>图 1</strong>  0 buffer示意图<a name="fig194946465118"></a>  </p>
+<p><img alt="" src="figures/0-buffer%E7%A4%BA%E6%84%8F%E5%9B%BE.png" title="0-buffer示意图" /></p>
+<p><strong>图 2</strong>  1 buffer示意图<a name="fig76714267123"></a>  </p>
+<p><img alt="" src="figures/1-buffer%E7%A4%BA%E6%84%8F%E5%9B%BE.png" title="1-buffer示意图" /></p>
+<p><strong>图 3</strong>  2 buffer示意图<a name="fig1270123631220"></a>  </p>
+<p><img alt="" src="figures/2-buffer%E7%A4%BA%E6%84%8F%E5%9B%BE.png" title="2-buffer示意图" /></p>
+<blockquote>
+<p><img alt="" src="public_sys-resources/icon-note.gif" /> <strong>说明：</strong> </p>
+<p>上文提到的三个分辨率：画布分辨率（即用户绘制buffer的分辨率）、显存分辨率、屏幕显示分辨率。绘图内容从用户绘制buffer到显示buffer的过程支持缩放，也支持抗闪烁；而从显示buffer到显示设备的过程支持缩放，不支持抗闪，显存分辨率与屏幕显示分辨率默认相同，可以通过FBIOPUT_SCREEN_SIZE接口设置屏幕分辨率。</p>
+</blockquote>
+<h4 id="图形层压缩">图形层压缩<a name="ZH-CN_TOPIC_0000002441694853"></a></h4>
+<p>图形层压缩功能，即图形层接收由TDE压缩的数据，然后基于压缩数据，进行解压显示。当显示buffer数据不发生变化时，图形层每次都会载入压缩之后的数据进行解压显示。对于开启压缩功能的图形层，能够有效降低总线载入带宽，但是却需要额外分配一帧压缩数据的内存空间。</p>
+<p>典型的图形层压缩buffer示意图如<a href="#fig1764612121513">图1</a>所示。</p>
+<p><strong>图 1</strong>  压缩 buffer示意图<a name="fig1764612121513"></a>  </p>
+<p><img alt="" src="figures/%E5%8E%8B%E7%BC%A9-buffer%E7%A4%BA%E6%84%8F%E5%9B%BE.png" title="压缩-buffer示意图" /></p>
+<p>压缩功能仅支持在FB扩展刷新模式下，OT_FB_LAYER_BUF_DOUBLE和OT_FB_LAYER_BUF_DOUBLE_IMMEDIATE刷新模式下使用。</p>
+<h3 id="相关文档">相关文档<a name="ZH-CN_TOPIC_0000002408255610"></a></h3>
+<p>与本指南相关的文档：《GFBG API参考》</p>
+<h2 id="模块加载">模块加载<a name="ZH-CN_TOPIC_0000002408095658"></a></h2>
+<ul>
+<li>
+<p><strong><a href="#ZH-CN_TOPIC_0000002408095666">原理介绍</a></strong>  </p>
+</li>
+<li>
+<p><strong><a href="#ZH-CN_TOPIC_0000002441694845">参数设置</a></strong>  </p>
+</li>
+<li>
+<p><strong><a href="#ZH-CN_TOPIC_0000002441694849">配置举例</a></strong>  </p>
+</li>
+<li>
+<p><strong><a href="#ZH-CN_TOPIC_0000002408255618">异常情况</a></strong>  </p>
+</li>
+</ul>
+<h3 id="原理介绍">原理介绍<a name="ZH-CN_TOPIC_0000002408095666"></a></h3>
+<p>某些Linux Framebuffer驱动（如versa）不支持在运行期间更改分辨率、颜色深度、时序等显示属性。对此，Linux系统提供一种机制，允许在内核启动或模块加载时，通过参数将相应选项传递给Linux Framebuffer。可以在内核加载器中配置内核启动参数。GFBG驱动在加载时只能设置物理显存的大小，不允许设置其它选项。</p>
+<p>加载GFBG驱动gfbg.ko时必须保证内核中已经加载了标准的Framebuffer驱动fb.ko。如果没有加载，可以先用“modprobe fb”加载fb.ko，然后再加载gfbg.ko。</p>
+<h3 id="参数设置">参数设置<a name="ZH-CN_TOPIC_0000002441694845"></a></h3>
+<p>GFBG可配置其管理的叠加图形层物理显存的大小。物理显存大小决定了GFBG可使用的最大物理显存和系统的可设置虚拟分辨率。在加载GFBG驱动时通过参数传递设置物理显存大小，物理显存的大小一经设置就不会改变。</p>
+<ul>
+<li>
+<p><strong><a href="#ZH-CN_TOPIC_0000002408095662">参数video</a></strong>  </p>
+</li>
+<li>
+<p><strong><a href="#ZH-CN_TOPIC_0000002441655013">参数softcursor</a></strong>  </p>
+</li>
+<li>
+<p><strong><a href="#ZH-CN_TOPIC_0000002441655021">参数g_layer_mmz_names</a></strong>  </p>
+</li>
+<li>
+<p><strong><a href="#ZH-CN_TOPIC_0000002408255598">参数默认值</a></strong>  </p>
+</li>
+</ul>
+<h4 id="参数video">参数video<a name="ZH-CN_TOPIC_0000002408095662"></a></h4>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>video=“gfbg:vram0_size:xxx, vram1_size:xxx,…”
+</span></code></pre></div>
+<blockquote>
+<p><img alt="" src="public_sys-resources/icon-note.gif" /> <strong>说明：</strong> </p>
+<ul>
+<li>选项之间用逗号“,”隔开。</li>
+<li>选项和选项值之间用冒号“:”隔开。</li>
+<li>如果某个图层不配置物理显存大小，则系统默认分配为0。</li>
+<li>vram0_size ~ vram3_size分别对应于叠加图形层0 ~ 叠加图形层3。</li>
+</ul>
+</blockquote>
+<p>其中，vramn_size:xxx表示对叠加图形层n配置xxx K字节的物理显存。</p>
+<p>(1) 对于FB标准模式，vramn_size和虚拟分辨率的关系如下：</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>Vramn_size * 1024 &gt;= xres_virtual * yres_virtual * bpp;
+</span></code></pre></div>
+<p>其中：xres_virtual * yres_virtual是虚拟分辨率，bpp是每个像素所占字节数。</p>
+<p>(2) 对于FB扩展模式，各个图形层需要的内存大小取决于displaysize的大小、图层像素格式以及刷新模式，具体关系如下：</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>vramn_size * 1024 &gt;= displaywidth * displayHeight * bpp * BufferMode;
+</span></code></pre></div>
+<p>如：图形层0在1280*720 分辨率、ARGB8888格式的2 buffer模式下需要的内存vram0_size = 1280*720*4*2 = 7200 K。</p>
+<blockquote>
+<p><img alt="" src="public_sys-resources/icon-note.gif" /> <strong>说明：</strong> </p>
+<p>vramn_size必须是PAGE_SIZE（4K byte）的倍数，否则GFBG驱动强制将其设为PAGE_SIZE的倍数，向上取整。</p>
+</blockquote>
+<h4 id="参数softcursor">参数softcursor<a name="ZH-CN_TOPIC_0000002441655013"></a></h4>
+<p>该参数决定是否启用软鼠标功能。当它的值为“off”时，则软鼠标功能为禁止状态（即硬件鼠标功能可用），否则软鼠标功能启用。模块一旦加载，是否启用软鼠标功能便确定。</p>
+<blockquote>
+<p><img alt="" src="public_sys-resources/icon-note.gif" /> <strong>说明：</strong> </p>
+<p>SS528V100/SS625V100/SS524V100/SS522V101/SS928V100不支持软鼠标。</p>
+</blockquote>
+<h4 id="参数g_layer_mmz_names">参数g_layer_mmz_names<a name="ZH-CN_TOPIC_0000002441655021"></a></h4>
+<p>该参数决定各个图形层要用到的内存将从哪个mmz上进行分配。该参数为一个字符串数组，最多允许设置4个值，分别依次对应fb0~fb3。模块一旦加载，各个图形层所要用到的内存在哪个mmz上分配便确定。如果不指定值，则系统默认相应层要用到的内存将在无名的mmz上分配。</p>
+<ul>
+<li>insmod gfbg.ko g_layer_mmz_names=xxxx,xxxx,xxxx,xxxx video="gfbg:vram0_size:32400，vram1_size:32400，vram2_size:256，vram3_size:4052"</li>
+<li>以上4块xxxx字符串分别对应fb0~fb3需要指定的mmz分区名。需要该分区名真实存在才生效，否则内存将在无名的mmz上分配。目前未有客户使用，保留该模块参数功能。</li>
+</ul>
+<h4 id="参数默认值">参数默认值<a name="ZH-CN_TOPIC_0000002408255598"></a></h4>
+<p>如果加载GFBG驱动时不带任何参数，则系统默认配置的参数值如下。</p>
+<ul>
+<li>
+<p>SS528V100</p>
+<p>video="gfbg:vram0_size: 32400，vram1_size: 16200，vram2_size:256，vram3_size: 4052 "</p>
+</li>
+<li>
+<p>SS524V100</p>
+<p>video="gfbg:vram0_size: 32400，vram1_size: 16200，vram2_size:256，vram3_size: 4052 "</p>
+</li>
+<li>
+<p>SS928V100</p>
+<p>video="gfbg:vram0_size: 32400，vram1_size: 16200，vram3_size: 3240 "</p>
+</li>
+<li>
+<p>SS626V100</p>
+<p>video=" gfbg:vram0_size:32400，vram1_size:16200，vram2_size:256,vram3_size:4052，vram4_size:4052 "</p>
+</li>
+</ul>
+<p>用户需要从全局的角度出发配置GFBG需要管理的叠加图形层以及相应的存储空间应从哪个mmz上分配，并且为每个叠加图形层分配适当的显存。</p>
+<h3 id="配置举例">配置举例<a name="ZH-CN_TOPIC_0000002441694849"></a></h3>
+<p>配置GFBG管理叠加图形层的示例如下：</p>
+<blockquote>
+<p><img alt="" src="public_sys-resources/icon-note.gif" /> <strong>说明：</strong> </p>
+<p>GFBG驱动的模块文件为gfbg.ko。</p>
+</blockquote>
+<ul>
+<li>
+<p>配置GFBG管理一个叠加图形层。</p>
+<p>如果只需要GFBG管理叠加图形层0，且最大虚拟分辨率为720 x 576，用到的像素格式为ARGB1555，则叠加图形层0需要的最小显存为720 x 576 x 2 = 829440 = 810K，配置参数如下：</p>
+<p>insmod gfbg.ko video="gfbg:vram0_size:810, vram2_size:0"。</p>
+<p>如果采用的是double buffer的方式，则需要乘以2，即：</p>
+<p>insmod gfbg.ko video="gfbg:vram0_size:1620, vram2_size:0"。</p>
+</li>
+<li>
+<p>配置GFBG管理多个叠加图形层。</p>
+<p>如果需要GFBG管理叠加图形层0和叠加图形层1两个叠加层，且最大虚拟分辨率为720 x 576，用到的像素格式为ARGB1555，则两个叠加层需要的最小显存都为720 x 576 x 2 = 829440 = 810K，配置参数如下：</p>
+<p>insmod gfbg.ko video="gfbg:vram0_size:810, vram1_size: 810"</p>
+</li>
+</ul>
+<h3 id="异常情况">异常情况<a name="ZH-CN_TOPIC_0000002408255618"></a></h3>
+<p>配置GFBG时可能出现以下异常情况：如果配置叠加图形层物理显存数据错误，则GFBG将不管理相应的叠加图形层。</p>
+<h2 id="第一次开发应用">第一次开发应用<a name="ZH-CN_TOPIC_0000002441655001"></a></h2>
+<ul>
+<li>
+<p><strong><a href="#ZH-CN_TOPIC_0000002441655025">开发流程</a></strong>  </p>
+</li>
+<li>
+<p><strong><a href="#ZH-CN_TOPIC_0000002408095646">实例介绍</a></strong>  </p>
+</li>
+</ul>
+<h3 id="开发流程">开发流程<a name="ZH-CN_TOPIC_0000002441655025"></a></h3>
+<p>GFBG主要用于显示2D图形（以直接操作物理显存的方式）。</p>
+<p>GFBG的开发流程如<a href="#fig031318474168">图1</a>所示。</p>
+<p><strong>图 1</strong>  GFBG的开发流程<a name="fig031318474168"></a>  </p>
+<p><img alt="" src="figures/GFBG%E7%9A%84%E5%BC%80%E5%8F%91%E6%B5%81%E7%A8%8B.png" title="GFBG的开发流程" /></p>
+<p>GFBG的开发步骤如下：</p>
+<ol>
+<li>调用VO初始化接口打开VO设备。</li>
+<li>调用open函数打开指定的GFBG设备。</li>
+<li>调用ioctl函数设置GFBG的像素格式以及屏幕高宽等参数（详细内容请参见《GFBG API参考》）。</li>
+<li>调用ioctl函数获取GFBG所分配的物理显存大小、跨度等固定信息。调用ioctl函数也可以使用GFBG提供的层间colorkey、层间colorkey mask、层间alpha、原点偏移等功能。</li>
+<li>调用mmap函数将物理显存映射到虚拟内存空间。</li>
+<li>操作虚拟内存，完成具体的绘制任务。在此步骤可以使用GFBG提供的双缓冲页翻转等功能实现一些绘制效果。</li>
+<li>调用munmap解除显存映射。</li>
+<li>调用close函数关闭设备。</li>
+</ol>
+<blockquote>
+<p><img alt="" src="public_sys-resources/icon-note.gif" /> <strong>说明：</strong> </p>
+<p>由于修改虚拟分辨率将改变GFBG的固定信息fb_fix_screeninfo::line_length（跨度），为保证绘制程序能够正确执行，推荐先设置GFBG的可变信息fb_var_screeninfo，再获取GFBG的固定信息fb_fix_screeninfo::line_length。</p>
+</blockquote>
+<p>GFBG各个开发各阶段完成的任务如<a href="#table3584165011503">表1</a>所示。</p>
+<p><strong>表 1</strong>  GFBG的开发阶段任务表</p>
+<p><a name="table3584165011503"></a></p>
+<table><thead align="left"><tr id="row11633165055016"><th class="cellrowborder" valign="top" width="32.769999999999996%" id="mcps1.2.3.1.1"><p id="p1633850195013"><a name="p1633850195013"></a><a name="p1633850195013"></a>阶段</p>
+</th>
+<th class="cellrowborder" valign="top" width="67.23%" id="mcps1.2.3.1.2"><p id="p13633145019505"><a name="p13633145019505"></a><a name="p13633145019505"></a>任务</p>
+</th>
+</tr>
+</thead>
+<tbody><tr id="row66341750185015"><td class="cellrowborder" valign="top" width="32.769999999999996%" headers="mcps1.2.3.1.1 "><p id="p106341050105012"><a name="p106341050105012"></a><a name="p106341050105012"></a>初始化阶段</p>
+</td>
+<td class="cellrowborder" valign="top" width="67.23%" headers="mcps1.2.3.1.2 "><p id="p563495055017"><a name="p563495055017"></a><a name="p563495055017"></a>完成显示属性的设置和物理显存的映射。</p>
+</td>
+</tr>
+<tr id="row1163418504507"><td class="cellrowborder" valign="top" width="32.769999999999996%" headers="mcps1.2.3.1.1 "><p id="p7634150115015"><a name="p7634150115015"></a><a name="p7634150115015"></a>绘制阶段</p>
+</td>
+<td class="cellrowborder" valign="top" width="67.23%" headers="mcps1.2.3.1.2 "><p id="p26341750195014"><a name="p26341750195014"></a><a name="p26341750195014"></a>完成具体的绘制工作。</p>
+</td>
+</tr>
+<tr id="row1563445095016"><td class="cellrowborder" valign="top" width="32.769999999999996%" headers="mcps1.2.3.1.1 "><p id="p563416504501"><a name="p563416504501"></a><a name="p563416504501"></a>终止阶段</p>
+</td>
+<td class="cellrowborder" valign="top" width="67.23%" headers="mcps1.2.3.1.2 "><p id="p19634750105020"><a name="p19634750105020"></a><a name="p19634750105020"></a>完成资源清理工作（步骤6、7）。</p>
+<p id="p13634450115016"><a name="p13634450115016"></a><a name="p13634450115016"></a><strong id="b14634135045010"><a name="b14634135045010"></a><a name="b14634135045010"></a>注意：此操作必须在ss_mpi_sys_exit之前，因为fb依赖于sys的资源。</strong></p>
+</td>
+</tr>
+</tbody>
+</table>
+
+<h3 id="实例介绍">实例介绍<a name="ZH-CN_TOPIC_0000002408095646"></a></h3>
+<p>本实例利用PAN_DISPLAY连续显示15幅分辨率为640×352的图片，以达到动态显示的效果。</p>
+<p>每个文件存储的都是像素格式为ARGB1555的纯数据（不包含附加信息的图像数据）。</p>
+<p>【参考代码】</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>#include &lt;stdio.h&gt;
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>#include &lt;fcntl.h&gt;
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>#include &lt;sys/ioctl.h&gt;
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>#include &lt;sys/mman.h&gt;
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>#include &lt;linux/fb.h&gt;
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>#include "gfbg.h"
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>
+</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>#define IMAGE_WIDTH     640
+</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>#define IMAGE_HEIGHT    352
+</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a>#define IMAGE_SIZE      (640*352*2)
+</span><span id="__span-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a>#define IMAGE_NUM       14
+</span><span id="__span-3-12"><a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a>#define IMAGE_PATH      "./res/%d.bits"
+</span><span id="__span-3-13"><a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a>
+</span><span id="__span-3-14"><a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a>static struct fb_bitfield g_r16 = {10, 5, 0};
+</span><span id="__span-3-15"><a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a>static struct fb_bitfield g_g16 = {5, 5, 0};
+</span><span id="__span-3-16"><a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a>static struct fb_bitfield g_b16 = {0, 5, 0};
+</span><span id="__span-3-17"><a id="__codelineno-3-17" name="__codelineno-3-17" href="#__codelineno-3-17"></a>static struct fb_bitfield g_a16 = {15, 1, 0};
+</span><span id="__span-3-18"><a id="__codelineno-3-18" name="__codelineno-3-18" href="#__codelineno-3-18"></a>
+</span><span id="__span-3-19"><a id="__codelineno-3-19" name="__codelineno-3-19" href="#__codelineno-3-19"></a>int main()
+</span><span id="__span-3-20"><a id="__codelineno-3-20" name="__codelineno-3-20" href="#__codelineno-3-20"></a>{
+</span><span id="__span-3-21"><a id="__codelineno-3-21" name="__codelineno-3-21" href="#__codelineno-3-21"></a>    int fd;
+</span><span id="__span-3-22"><a id="__codelineno-3-22" name="__codelineno-3-22" href="#__codelineno-3-22"></a>    int i;
+</span><span id="__span-3-23"><a id="__codelineno-3-23" name="__codelineno-3-23" href="#__codelineno-3-23"></a>    struct fb_fix_screeninfo fix;
+</span><span id="__span-3-24"><a id="__codelineno-3-24" name="__codelineno-3-24" href="#__codelineno-3-24"></a>    struct fb_var_screeninfo var;
+</span><span id="__span-3-25"><a id="__codelineno-3-25" name="__codelineno-3-25" href="#__codelineno-3-25"></a>    unsigned char *show_screen;
+</span><span id="__span-3-26"><a id="__codelineno-3-26" name="__codelineno-3-26" href="#__codelineno-3-26"></a>    unsigned char *hide_screen;
+</span><span id="__span-3-27"><a id="__codelineno-3-27" name="__codelineno-3-27" href="#__codelineno-3-27"></a>    ot_fb_point point = {40, 112};
+</span><span id="__span-3-28"><a id="__codelineno-3-28" name="__codelineno-3-28" href="#__codelineno-3-28"></a>FILE *fp;
+</span><span id="__span-3-29"><a id="__codelineno-3-29" name="__codelineno-3-29" href="#__codelineno-3-29"></a>ot_vo_pub_attr stPubAttr = {0};
+</span><span id="__span-3-30"><a id="__codelineno-3-30" name="__codelineno-3-30" href="#__codelineno-3-30"></a>    char image_name[128];
+</span><span id="__span-3-31"><a id="__codelineno-3-31" name="__codelineno-3-31" href="#__codelineno-3-31"></a>
+</span><span id="__span-3-32"><a id="__codelineno-3-32" name="__codelineno-3-32" href="#__codelineno-3-32"></a>         /*0. open VO device 0 */
+</span><span id="__span-3-33"><a id="__codelineno-3-33" name="__codelineno-3-33" href="#__codelineno-3-33"></a>/* …… initialize the attributes for stPubAttr */
+</span><span id="__span-3-34"><a id="__codelineno-3-34" name="__codelineno-3-34" href="#__codelineno-3-34"></a>         ss_mpi_vo_set_pub_attr(0, &amp;stPubAttr);
+</span><span id="__span-3-35"><a id="__codelineno-3-35" name="__codelineno-3-35" href="#__codelineno-3-35"></a>ss_mpi_vo_enable(0);
+</span><span id="__span-3-36"><a id="__codelineno-3-36" name="__codelineno-3-36" href="#__codelineno-3-36"></a>
+</span><span id="__span-3-37"><a id="__codelineno-3-37" name="__codelineno-3-37" href="#__codelineno-3-37"></a>    /*1. open Framebuffer device overlay 0*/
+</span><span id="__span-3-38"><a id="__codelineno-3-38" name="__codelineno-3-38" href="#__codelineno-3-38"></a>    fd = open("/dev/fb0", O_RDWR);
+</span><span id="__span-3-39"><a id="__codelineno-3-39" name="__codelineno-3-39" href="#__codelineno-3-39"></a>    if(fd &lt; 0) {
+</span><span id="__span-3-40"><a id="__codelineno-3-40" name="__codelineno-3-40" href="#__codelineno-3-40"></a>        printf("open fb0 failed!\n");
+</span><span id="__span-3-41"><a id="__codelineno-3-41" name="__codelineno-3-41" href="#__codelineno-3-41"></a>        return -1;
+</span><span id="__span-3-42"><a id="__codelineno-3-42" name="__codelineno-3-42" href="#__codelineno-3-42"></a>    }
+</span><span id="__span-3-43"><a id="__codelineno-3-43" name="__codelineno-3-43" href="#__codelineno-3-43"></a>
+</span><span id="__span-3-44"><a id="__codelineno-3-44" name="__codelineno-3-44" href="#__codelineno-3-44"></a>    /*2. set the screen original position*/
+</span><span id="__span-3-45"><a id="__codelineno-3-45" name="__codelineno-3-45" href="#__codelineno-3-45"></a>    if (ioctl(fd, FBIOPUT_SCREEN_ORIGIN_GFBG, &amp;point) &lt; 0)
+</span><span id="__span-3-46"><a id="__codelineno-3-46" name="__codelineno-3-46" href="#__codelineno-3-46"></a>    {
+</span><span id="__span-3-47"><a id="__codelineno-3-47" name="__codelineno-3-47" href="#__codelineno-3-47"></a>        printf("set screen original show position failed!\n");
+</span><span id="__span-3-48"><a id="__codelineno-3-48" name="__codelineno-3-48" href="#__codelineno-3-48"></a>        return -1;
+</span><span id="__span-3-49"><a id="__codelineno-3-49" name="__codelineno-3-49" href="#__codelineno-3-49"></a>    }
+</span><span id="__span-3-50"><a id="__codelineno-3-50" name="__codelineno-3-50" href="#__codelineno-3-50"></a>
+</span><span id="__span-3-51"><a id="__codelineno-3-51" name="__codelineno-3-51" href="#__codelineno-3-51"></a>    /*3. get the variable screen info*/
+</span><span id="__span-3-52"><a id="__codelineno-3-52" name="__codelineno-3-52" href="#__codelineno-3-52"></a>    if (ioctl(fd, FBIOGET_VSCREENINFO, &amp;var) &lt; 0)
+</span><span id="__span-3-53"><a id="__codelineno-3-53" name="__codelineno-3-53" href="#__codelineno-3-53"></a>    {
+</span><span id="__span-3-54"><a id="__codelineno-3-54" name="__codelineno-3-54" href="#__codelineno-3-54"></a>          printf("Get variable screen info failed!\n");
+</span><span id="__span-3-55"><a id="__codelineno-3-55" name="__codelineno-3-55" href="#__codelineno-3-55"></a>        close(fd);
+</span><span id="__span-3-56"><a id="__codelineno-3-56" name="__codelineno-3-56" href="#__codelineno-3-56"></a>        return -1;
+</span><span id="__span-3-57"><a id="__codelineno-3-57" name="__codelineno-3-57" href="#__codelineno-3-57"></a>    }
+</span><span id="__span-3-58"><a id="__codelineno-3-58" name="__codelineno-3-58" href="#__codelineno-3-58"></a>
+</span><span id="__span-3-59"><a id="__codelineno-3-59" name="__codelineno-3-59" href="#__codelineno-3-59"></a>    /*4. modify the variable screen info
+</span><span id="__span-3-60"><a id="__codelineno-3-60" name="__codelineno-3-60" href="#__codelineno-3-60"></a>          the screen size: IMAGE_WIDTH*IMAGE_HEIGHT 
+</span><span id="__span-3-61"><a id="__codelineno-3-61" name="__codelineno-3-61" href="#__codelineno-3-61"></a>          the virtual screen size: IMAGE_WIDTH*(IMAGE_HEIGHT*2) 
+</span><span id="__span-3-62"><a id="__codelineno-3-62" name="__codelineno-3-62" href="#__codelineno-3-62"></a>          the pixel format: ARGB1555
+</span><span id="__span-3-63"><a id="__codelineno-3-63" name="__codelineno-3-63" href="#__codelineno-3-63"></a>    */
+</span><span id="__span-3-64"><a id="__codelineno-3-64" name="__codelineno-3-64" href="#__codelineno-3-64"></a>    var.xres = var.xres_virtual = IMAGE_WIDTH;
+</span><span id="__span-3-65"><a id="__codelineno-3-65" name="__codelineno-3-65" href="#__codelineno-3-65"></a>    var.yres = IMAGE_HEIGHT;
+</span><span id="__span-3-66"><a id="__codelineno-3-66" name="__codelineno-3-66" href="#__codelineno-3-66"></a>    var.yres_virtual = IMAGE_HEIGHT*2;
+</span><span id="__span-3-67"><a id="__codelineno-3-67" name="__codelineno-3-67" href="#__codelineno-3-67"></a>
+</span><span id="__span-3-68"><a id="__codelineno-3-68" name="__codelineno-3-68" href="#__codelineno-3-68"></a>    var.transp= g_a16;
+</span><span id="__span-3-69"><a id="__codelineno-3-69" name="__codelineno-3-69" href="#__codelineno-3-69"></a>    var.red = g_r16;
+</span><span id="__span-3-70"><a id="__codelineno-3-70" name="__codelineno-3-70" href="#__codelineno-3-70"></a>    var.green = g_g16;
+</span><span id="__span-3-71"><a id="__codelineno-3-71" name="__codelineno-3-71" href="#__codelineno-3-71"></a>    var.blue = g_b16;
+</span><span id="__span-3-72"><a id="__codelineno-3-72" name="__codelineno-3-72" href="#__codelineno-3-72"></a>    var.bits_per_pixel = 16;
+</span><span id="__span-3-73"><a id="__codelineno-3-73" name="__codelineno-3-73" href="#__codelineno-3-73"></a>
+</span><span id="__span-3-74"><a id="__codelineno-3-74" name="__codelineno-3-74" href="#__codelineno-3-74"></a>    /*5. set the variable screeninfo*/
+</span><span id="__span-3-75"><a id="__codelineno-3-75" name="__codelineno-3-75" href="#__codelineno-3-75"></a>    if (ioctl(fd, FBIOPUT_VSCREENINFO, &amp;var) &lt; 0)
+</span><span id="__span-3-76"><a id="__codelineno-3-76" name="__codelineno-3-76" href="#__codelineno-3-76"></a>    {
+</span><span id="__span-3-77"><a id="__codelineno-3-77" name="__codelineno-3-77" href="#__codelineno-3-77"></a>          printf("Put variable screen info failed!\n");
+</span><span id="__span-3-78"><a id="__codelineno-3-78" name="__codelineno-3-78" href="#__codelineno-3-78"></a>        close(fd);
+</span><span id="__span-3-79"><a id="__codelineno-3-79" name="__codelineno-3-79" href="#__codelineno-3-79"></a>        return -1;
+</span><span id="__span-3-80"><a id="__codelineno-3-80" name="__codelineno-3-80" href="#__codelineno-3-80"></a>    }
+</span><span id="__span-3-81"><a id="__codelineno-3-81" name="__codelineno-3-81" href="#__codelineno-3-81"></a>
+</span><span id="__span-3-82"><a id="__codelineno-3-82" name="__codelineno-3-82" href="#__codelineno-3-82"></a>    /*6. get the fix screen info*/
+</span><span id="__span-3-83"><a id="__codelineno-3-83" name="__codelineno-3-83" href="#__codelineno-3-83"></a>    if (ioctl(fd, FBIOGET_FSCREENINFO, &amp;fix) &lt; 0)
+</span><span id="__span-3-84"><a id="__codelineno-3-84" name="__codelineno-3-84" href="#__codelineno-3-84"></a>    {
+</span><span id="__span-3-85"><a id="__codelineno-3-85" name="__codelineno-3-85" href="#__codelineno-3-85"></a>        printf("Get fix screen info failed!\n");
+</span><span id="__span-3-86"><a id="__codelineno-3-86" name="__codelineno-3-86" href="#__codelineno-3-86"></a>        close(fd);
+</span><span id="__span-3-87"><a id="__codelineno-3-87" name="__codelineno-3-87" href="#__codelineno-3-87"></a>        return -1;
+</span><span id="__span-3-88"><a id="__codelineno-3-88" name="__codelineno-3-88" href="#__codelineno-3-88"></a>    }
+</span><span id="__span-3-89"><a id="__codelineno-3-89" name="__codelineno-3-89" href="#__codelineno-3-89"></a>
+</span><span id="__span-3-90"><a id="__codelineno-3-90" name="__codelineno-3-90" href="#__codelineno-3-90"></a>    /*7. map the physical video memory for user use*/
+</span><span id="__span-3-91"><a id="__codelineno-3-91" name="__codelineno-3-91" href="#__codelineno-3-91"></a>    show_screen = mmap(NULL, fix.smem_len, PROT_READ|PROT_WRITE, MAP_SHARED, fd, 0);
+</span><span id="__span-3-92"><a id="__codelineno-3-92" name="__codelineno-3-92" href="#__codelineno-3-92"></a>    hide_screen = show_screen + IMAGE_SIZE;
+</span><span id="__span-3-93"><a id="__codelineno-3-93" name="__codelineno-3-93" href="#__codelineno-3-93"></a>    memset(show_screen, 0, IMAGE_SIZE);
+</span><span id="__span-3-94"><a id="__codelineno-3-94" name="__codelineno-3-94" href="#__codelineno-3-94"></a>
+</span><span id="__span-3-95"><a id="__codelineno-3-95" name="__codelineno-3-95" href="#__codelineno-3-95"></a>    /*8. load the bitmaps from file to hide screen and set pan display the hide screen*/
+</span><span id="__span-3-96"><a id="__codelineno-3-96" name="__codelineno-3-96" href="#__codelineno-3-96"></a>    for(i = 0; i &lt; IMAGE_NUM; i++)
+</span><span id="__span-3-97"><a id="__codelineno-3-97" name="__codelineno-3-97" href="#__codelineno-3-97"></a>    {
+</span><span id="__span-3-98"><a id="__codelineno-3-98" name="__codelineno-3-98" href="#__codelineno-3-98"></a>        sprintf(image_name, IMAGE_PATH, i);
+</span><span id="__span-3-99"><a id="__codelineno-3-99" name="__codelineno-3-99" href="#__codelineno-3-99"></a>        fp = fopen(image_name, "rb");
+</span><span id="__span-3-100"><a id="__codelineno-3-100" name="__codelineno-3-100" href="#__codelineno-3-100"></a>        if(NULL == fp)
+</span><span id="__span-3-101"><a id="__codelineno-3-101" name="__codelineno-3-101" href="#__codelineno-3-101"></a>        {
+</span><span id="__span-3-102"><a id="__codelineno-3-102" name="__codelineno-3-102" href="#__codelineno-3-102"></a>            printf("Load %s failed!\n", image_name);
+</span><span id="__span-3-103"><a id="__codelineno-3-103" name="__codelineno-3-103" href="#__codelineno-3-103"></a>            close(fd);
+</span><span id="__span-3-104"><a id="__codelineno-3-104" name="__codelineno-3-104" href="#__codelineno-3-104"></a>            return -1;
+</span><span id="__span-3-105"><a id="__codelineno-3-105" name="__codelineno-3-105" href="#__codelineno-3-105"></a>        }
+</span><span id="__span-3-106"><a id="__codelineno-3-106" name="__codelineno-3-106" href="#__codelineno-3-106"></a>
+</span><span id="__span-3-107"><a id="__codelineno-3-107" name="__codelineno-3-107" href="#__codelineno-3-107"></a>        fread(hide_screen, 1, IMAGE_SIZE, fp);
+</span><span id="__span-3-108"><a id="__codelineno-3-108" name="__codelineno-3-108" href="#__codelineno-3-108"></a>        fclose(fp);
+</span><span id="__span-3-109"><a id="__codelineno-3-109" name="__codelineno-3-109" href="#__codelineno-3-109"></a>        usleep(10);
+</span><span id="__span-3-110"><a id="__codelineno-3-110" name="__codelineno-3-110" href="#__codelineno-3-110"></a>        if(i%2)
+</span><span id="__span-3-111"><a id="__codelineno-3-111" name="__codelineno-3-111" href="#__codelineno-3-111"></a>        {
+</span><span id="__span-3-112"><a id="__codelineno-3-112" name="__codelineno-3-112" href="#__codelineno-3-112"></a>            var.yoffset = 0;
+</span><span id="__span-3-113"><a id="__codelineno-3-113" name="__codelineno-3-113" href="#__codelineno-3-113"></a>            hide_screen = show_screen + IMAGE_SIZE;
+</span><span id="__span-3-114"><a id="__codelineno-3-114" name="__codelineno-3-114" href="#__codelineno-3-114"></a>        }
+</span><span id="__span-3-115"><a id="__codelineno-3-115" name="__codelineno-3-115" href="#__codelineno-3-115"></a>        else
+</span><span id="__span-3-116"><a id="__codelineno-3-116" name="__codelineno-3-116" href="#__codelineno-3-116"></a>        {
+</span><span id="__span-3-117"><a id="__codelineno-3-117" name="__codelineno-3-117" href="#__codelineno-3-117"></a>            var.yoffset = IMAGE_HEIGHT;
+</span><span id="__span-3-118"><a id="__codelineno-3-118" name="__codelineno-3-118" href="#__codelineno-3-118"></a>            hide_screen = show_screen;
+</span><span id="__span-3-119"><a id="__codelineno-3-119" name="__codelineno-3-119" href="#__codelineno-3-119"></a>        }
+</span><span id="__span-3-120"><a id="__codelineno-3-120" name="__codelineno-3-120" href="#__codelineno-3-120"></a>
+</span><span id="__span-3-121"><a id="__codelineno-3-121" name="__codelineno-3-121" href="#__codelineno-3-121"></a>        if (ioctl(fd, FBIOPAN_DISPLAY, &amp;var) &lt; 0)
+</span><span id="__span-3-122"><a id="__codelineno-3-122" name="__codelineno-3-122" href="#__codelineno-3-122"></a>        {
+</span><span id="__span-3-123"><a id="__codelineno-3-123" name="__codelineno-3-123" href="#__codelineno-3-123"></a>            printf("FBIOPAN_DISPLAY failed!\n");
+</span><span id="__span-3-124"><a id="__codelineno-3-124" name="__codelineno-3-124" href="#__codelineno-3-124"></a>            close(fd);
+</span><span id="__span-3-125"><a id="__codelineno-3-125" name="__codelineno-3-125" href="#__codelineno-3-125"></a>            return -1;
+</span><span id="__span-3-126"><a id="__codelineno-3-126" name="__codelineno-3-126" href="#__codelineno-3-126"></a>        }
+</span><span id="__span-3-127"><a id="__codelineno-3-127" name="__codelineno-3-127" href="#__codelineno-3-127"></a>    }
+</span><span id="__span-3-128"><a id="__codelineno-3-128" name="__codelineno-3-128" href="#__codelineno-3-128"></a>
+</span><span id="__span-3-129"><a id="__codelineno-3-129" name="__codelineno-3-129" href="#__codelineno-3-129"></a>    printf("Enter to quit!\n");
+</span><span id="__span-3-130"><a id="__codelineno-3-130" name="__codelineno-3-130" href="#__codelineno-3-130"></a>getchar();
+</span><span id="__span-3-131"><a id="__codelineno-3-131" name="__codelineno-3-131" href="#__codelineno-3-131"></a>
+</span><span id="__span-3-132"><a id="__codelineno-3-132" name="__codelineno-3-132" href="#__codelineno-3-132"></a>    /*9. close the devices*/
+</span><span id="__span-3-133"><a id="__codelineno-3-133" name="__codelineno-3-133" href="#__codelineno-3-133"></a>    close(fd);
+</span><span id="__span-3-134"><a id="__codelineno-3-134" name="__codelineno-3-134" href="#__codelineno-3-134"></a>ss_mpi_vo_disable(0);
+</span><span id="__span-3-135"><a id="__codelineno-3-135" name="__codelineno-3-135" href="#__codelineno-3-135"></a>
+</span><span id="__span-3-136"><a id="__codelineno-3-136" name="__codelineno-3-136" href="#__codelineno-3-136"></a>    return 0;
+</span></code></pre></div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  回到页面顶部
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  
+  
+  <nav class="md-footer__inner md-grid" aria-label="页脚" >
+    
+    
+    <a href="../PCIE%E7%BA%A7%E8%81%94%20%E5%BA%94%E7%94%A8%E6%8C%87%E5%8D%97/PCIE%E7%BA%A7%E8%81%94%20%E5%BA%94%E7%94%A8%E6%8C%87%E5%8D%97.html" class="md-footer__link md-footer__link--prev"
+      aria-label="上一页: PCIE级联 应用指南">
+      <div class="md-footer__button md-icon">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </div>
+      <div class="md-footer__title">
+        <span class="md-footer__direction">
+          上一页
+        </span>
+        <div class="md-ellipsis">
+          PCIE级联 应用指南
+        </div>
+      </div>
+    </a>
+    
+    
+    
+    <a href="../GFBG%20API%20%E5%8F%82%E8%80%83/GFBG%20API%20%E5%8F%82%E8%80%83.html" class="md-footer__link md-footer__link--next"
+      aria-label="下一页: GFBG API 参考">
+      <div class="md-footer__title">
+        <span class="md-footer__direction">
+          下一页
+        </span>
+        <div class="md-ellipsis">
+          GFBG API 参考
+        </div>
+      </div>
+      <div class="md-footer__button md-icon">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+      </div>
+    </a>
+    
+  </nav>
+  
+  
+
+  <div class="footer-box">
+    <div class="footer-list">
+      
+      
+      <div class="footer-list-child">
+        <a href="https://www.hisilicon.com/cn" target="_blank" class="footer-nav-first" rel="noopener noreferrer">海思官网</a>
+        <ul class="footer-ul"></ul>
+      </div>
+      
+      <div class="footer-list-child">
+        <a href="https://developers.hisilicon.com/home" target="_blank" class="footer-nav-first" rel="noopener noreferrer">海思开发者网站</a>
+        <ul class="footer-ul"></ul>
+      </div>
+      
+      <div class="footer-list-child">
+        <a href="https://gitcode.com/HiSpark" target="_blank" class="footer-nav-first" rel="noopener noreferrer">海思开源社区</a>
+        <ul class="footer-ul"></ul>
+      </div>
+      
+      <div class="footer-list-child">
+        <a href="https://developer.huawei.com/" target="_blank" class="footer-nav-first" rel="noopener noreferrer">华为开发者官网</a>
+        <ul class="footer-ul"></ul>
+      </div>
+      
+      <div class="footer-list-child">
+        <a href="https://www.hikunpeng.com/" target="_blank" class="footer-nav-first" rel="noopener noreferrer">鲲鹏社区</a>
+        <ul class="footer-ul"></ul>
+      </div>
+      
+      <div class="footer-list-child">
+        <a href="https://www.hiascend.com/" target="_blank" class="footer-nav-first" rel="noopener noreferrer">昇腾社区</a>
+        <ul class="footer-ul"></ul>
+      </div>
+      
+      <div class="footer-list-child">
+        <a href="https://developers.hisilicon.com/aboutus" target="_blank" class="footer-nav-first" rel="noopener noreferrer">关于我们</a>
+        <ul class="footer-ul"></ul>
+      </div>
+      
+      <div class="footer-list-child">
+        <a href="https://developers.hisilicon.com/login" target="_blank" class="footer-nav-first" rel="noopener noreferrer">投诉举报</a>
+        <ul class="footer-ul"></ul>
+      </div>
+      
+      
+    </div>
+    <div class="footer-fix">
+      <div class="footer-fix-content">
+        <div>
+          <span class="footer-copyright">&nbsp;&copy;2024 华为技术有限公司</span>
+          <a href="https://beian.miit.gov.cn/#/Integrated/index" target="_blank" rel="noopener noreferrer">粤A2-20044005号</a>
+          <a href="https://www.beian.gov.cn/portal/registerSystemInfo?recordcode=44030702004153"
+            target="_blank" rel="noopener noreferrer">粤公网安备44030702004153号</a>
+        </div>
+        <div class="footer-name-list">
+          
+          
+          
+          <a href="https://developers.hisilicon.com/legalNotices/legalNotices" target="_blank" class="footer-name" rel="noopener noreferrer">法律声明</a>
+          
+          
+          
+          <a href="https://developers.hisilicon.com/legalNotices/cookie-policy" target="_blank" class="footer-name" rel="noopener noreferrer">关于Cookie</a>
+          
+          
+          
+          <a href="https://developers.hisilicon.com/legalNotices/privacyPolicy" target="_blank" class="footer-name" rel="noopener noreferrer">隐私政策</a>
+          
+          
+          
+          <a href="https://developers.hisilicon.com/legalNotices/userPolicy" target="_blank" class="footer-name" rel="noopener noreferrer">用户协议</a>
+          
+          
+          
+          <a href="javascript:void(0);" onclick="openDisclaimerDialog()" class="footer-name">免责声明</a>
+          
+          
+          
+        </div>
+      </div>
+
+
+      <!-- 免责声明弹窗 -->
+      <div id="disclaimerDialog" class="disclaimer-overlay" style="display: none;">
+        <div class="disclaimer-dialog">
+          <div class="disclaimer-dialog__header">
+            <span class="disclaimer-dialog__title">免责声明</span>
+            <button class="disclaimer-dialog__close" onclick="closeDisclaimerDialog()">×</button>
+          </div>
+          <div class="disclaimer-dialog__body">
+            <p class="disclaimer-dialog__text-center"><strong>海思开发者网站免责声明</strong></p>
+            <p>尊敬的用户，您好：</p>
+            <p>&nbsp; &nbsp;
+              请确保您通过本平台向海思提供或反馈的任何信息或意见不侵犯第三方知识产权和/或合法权益。如您提供或反馈的上述任何信息或意见侵犯第三方知识产权和/或合法权益，和/或给第三方造成损害的，您将承担全部法律及赔偿责任。
+            </p>
+          </div>
+          <div class="disclaimer-dialog__footer">
+            <button class="disclaimer-dialog__btn" onclick="closeDisclaimerDialog()">关闭</button>
+          </div>
+        </div>
+      </div>
+
+      <script>
+        function openDisclaimerDialog() {
+          document.getElementById('disclaimerDialog').style.display = 'flex';
+        }
+        function closeDisclaimerDialog() {
+          document.getElementById('disclaimerDialog').style.display = 'none';
+        }
+        // 点击弹窗背景关闭
+        document.getElementById('disclaimerDialog').addEventListener('click', function (e) {
+          if (e.target === this) {
+            closeDisclaimerDialog();
+          }
+        });
+      </script>
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+      <div class="md-progress" data-md-component="progress" role="progressbar"></div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["announce.dismiss", "content.code.annotate", "content.code.copy", "content.tabs.link", "content.tooltips", "navigation.instant", "navigation.instant.progress", "navigation.tracking", "navigation.indexes", "navigation.top", "navigation.footer", "navigation.path", "search.highlight", "search.share", "toc.follow"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": null}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="../../../static/js/custom.js"></script>
+      
+        <script src="../../../static/js/substring-search.js"></script>
+      
+        <script src="../../../static/js/inpage-find.js"></script>
+      
+        <script src="../../../static/js/version-selector.js"></script>
+      
+        <script src="../../../static/js/code-highlight.js"></script>
+      
+        <script src="../../../static/js/wavedrom-skin.js"></script>
+      
+        <script src="../../../static/js/wavedrom.min.js"></script>
+      
+        <script src="../../../static/js/wavedrom-init.js"></script>
+      
+        <script src="../../../static/js/no-flash.js"></script>
+      
+    
+  </body>
+</html>

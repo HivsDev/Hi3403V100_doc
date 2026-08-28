@@ -1,0 +1,7416 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Hi3403V100 超高清智慧视觉 SoC 文档中心">
+      
+      
+        <meta name="author" content="HiSpark">
+      
+      
+        <link rel="canonical" href="https://hivsdev.github.io/Hi3403V100_doc/03%E5%8F%82%E8%80%83%E6%A1%88%E4%BE%8B/%E8%B0%83%E8%AF%95%E8%B0%83%E4%BC%98/MPP/DDR%20%E5%B0%8F%E5%9E%8B%E5%8C%96%E6%8C%87%E5%8D%97/DDR%20%E5%B0%8F%E5%9E%8B%E5%8C%96%E6%8C%87%E5%8D%97.html">
+      
+      
+        <link rel="prev" href="../%E9%BB%91%E7%99%BD%E5%BD%A9%E8%89%B2%E5%8F%8C%E8%B7%AF%E8%9E%8D%E5%90%88%E8%B0%83%E8%AF%95%E6%8C%87%E5%8D%97/%E9%BB%91%E7%99%BD%E5%BD%A9%E8%89%B2%E5%8F%8C%E8%B7%AF%E8%9E%8D%E5%90%88%E8%B0%83%E8%AF%95%E6%8C%87%E5%8D%97.html">
+      
+      
+        <link rel="next" href="../DIS%20%E8%B0%83%E8%AF%95%E6%8C%87%E5%8D%97/DIS%20%E8%B0%83%E8%AF%95%E6%8C%87%E5%8D%97.html">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../../static/images/favicon.ico">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>DDR 小型化指南 - Hi3403V100 开发者中心</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+    
+    
+      <link rel="stylesheet" href="../../../../static/css/extra.css">
+    
+      <link rel="stylesheet" href="../../../../static/css/version-selector.css">
+    
+      <link rel="stylesheet" href="../../../../static/css/substring-search.css">
+    
+      <link rel="stylesheet" href="../../../../static/css/inpage-find.css">
+    
+    <script>__md_scope=new URL("../../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+      
+      <meta name="gitcode-issues-url" content="https://gitcode.com/HiSpark/pegasus/issues">
+      
+      <link rel="dns-prefetch" href="https://docs.hisilicon.com">
+      <link rel="dns-prefetch" href="https://fonts.gstatic.com">
+      <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+      <link rel="preconnect" href="https://docs.hisilicon.com" crossorigin>
+      <link rel="preload" href="../../../../assets/stylesheets/main.484c7ddc.min.css" as="style">
+      <link rel="preload" href="../../../../assets/stylesheets/palette.ab4e12ef.min.css" as="style">
+      <link rel="preload" href="../../../../static/css/extra.css" as="style">
+      <link rel="preload" href="../../../../assets/javascripts/bundle.79ae519e.min.js" as="script">
+      <link rel="preload" href="../../../../static/js/custom.js" as="script">
+
+      
+        <link rel="prefetch" href="../DIS%20%E8%B0%83%E8%AF%95%E6%8C%87%E5%8D%97/DIS%20%E8%B0%83%E8%AF%95%E6%8C%87%E5%8D%97.html" as="document">
+      
+      
+        
+        
+      
+      <style>:root{--md-text-font:"Helvetica Neue, PingFang SC, Microsoft YaHei";--md-code-font:"Consolas, Roboto Mono"}</style>
+      <script>
+        // 防止宽窄屏刷新闪烁 — 在 body 解析前就读取 localStorage 标记 <html>
+        // 配合 CSS: html.prefer-narrow .md-grid 在首帧即应用 76%
+        if (localStorage.getItem('wideScreen') === 'false') {
+          document.documentElement.classList.add('prefer-narrow');
+        }
+        // 防止左侧树刷新闪烁（先展开后收缩）— 首帧即目标态。
+        // 只设 --sidebar-drag-width；--sidebar-max-width 在 CSS 恒等于 default，避免拖拽卡死。
+        // 宽窄屏分别读各自的拖动值；无值则窄屏用 112，宽屏用 CSS 默认（不设）。
+        (function () {
+          var root = document.documentElement;
+          var isWide = localStorage.getItem('wideScreen');
+          isWide = isWide === null ? true : isWide === 'true';
+          var w = parseFloat(localStorage.getItem(isWide ? 'sidebarWidthWide' : 'sidebarWidthNarrow'));
+          var sidebarW = (isFinite(w) && w > 0) ? w : (isWide ? 0 : 112);
+          if (sidebarW > 0) {
+            root.style.setProperty('--sidebar-drag-width', sidebarW + 'px');
+          }
+          if (localStorage.getItem('sidebarCollapsed') === '1') {
+            root.classList.add('sidebar-collapsed-pending');
+          }
+          // 防止内容区 grid 宽度刷新闪烁：窄屏拖拽值（如 50%）同步预设到 CSS 变量。
+          // CSS 用 max-width: var(--grid-max-width)，首帧即目标值，无需等 JS 设 inline。
+          // 宽屏恒 100%，无需变量；localStorage 无值时用窄屏默认 60%。
+          var storedWide = localStorage.getItem('wideScreen');
+          var isWideStored = storedWide === null ? true : storedWide === 'true';
+          if (isWideStored) {
+            root.style.setProperty('--grid-max-width', '100%');
+          } else {
+            var pct = localStorage.getItem('narrowGridWidth') || '60%';
+            root.style.setProperty('--grid-max-width', pct);
+          }
+        })();
+      </script>
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="white" data-md-color-accent="custom">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#DDR-小型化指南" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="https://docs.hisilicon.com"  class="md-header__button md-logo" aria-label="Hi3403V100 开发者中心" data-md-component="logo" target="_blank" rel="noopener noreferrer">
+      <img 
+  src="../../../../static/images/light-icon.png" 
+  class="md-logo__img md-logo__img--light"
+  alt="Hi3403V100 开发者中心" 
+/>
+<img 
+  src="../../../../static/images/dark-icon.png" 
+  class="md-logo__img md-logo__img--dark"
+  alt="Hi3403V100 开发者中心" 
+/>
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+      </div>
+    </div>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon md-header__button--search" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+      
+    
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="white" data-md-color-accent="custom"  aria-label="切换到暗色主题"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="切换到暗色主题" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="custom"  aria-label="切换到亮色主题"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="切换到亮色主题" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <div class="md-header__source">
+        <div class="source-container">
+  
+  <a href="https://gitcode.com/HiSpark/Hi3403V100" target="_blank" title="前往仓库" class="md-source" data-md-component="source" rel="noopener noreferrer">
+    <div class="md-source__icon md-icon">
+      <svg viewBox="0 0 1024 1024" width="20" height="20">
+        <path d="M472.746667 896.853333c-72.533333-8.106667-151.466667-39.253333-200.106667-78.08-27.306667-21.76-72.533333-71.253333-89.6-97.706666-51.626667-80.213333-72.533333-179.626667-57.173333-269.653334 15.36-86.613333 50.773333-154.453333 113.92-216.32 109.653333-107.52 285.44-141.653333 425.813333-82.346666 46.08 19.626667 90.453333 46.933333 108.8 66.986666 35.84 39.68 22.613333 104.106667-25.173333 128-20.48 9.813333-58.453333 10.24-72.96 0.853334-14.933333-9.386667-28.16-35.84-32-62.293334-1.706667-12.8-3.84-23.04-4.266667-23.04-0.853333 0-11.946667 5.973333-23.893333 13.226667-40.106667 23.466667-51.626667 26.88-113.066667 30.72-32.426667 1.706667-67.84 4.693333-78.933333 6.4-20.053333 2.56-44.373333-0.853333-83.2-13.226667l-20.48-6.4 0.853333 42.24c0.426667 40.96 0 43.093333-17.493333 79.36-22.613333 46.933333-30.72 75.52-34.56 117.333334-8.106667 100.693333 46.506667 175.36 150.613333 205.226666 67.413333 19.2 179.2 15.36 239.36-8.533333 58.026667-23.04 108.8-76.8 108.8-114.773333 0-15.786667-20.053333-35.84-41.813333-40.96-8.96-2.56-43.946667-5.546667-77.226667-6.826667-69.973333-2.986667-119.04-9.386667-132.266667-18.346667-13.653333-8.533333-20.48-33.28-14.506666-51.2 5.973333-19.2 15.786667-27.306667 43.946666-37.973333 19.2-7.253333 33.28-8.533333 88.746667-8.533333 118.613333 0 174.08 14.933333 217.6 58.453333 49.92 50.346667 55.466667 127.146667 13.226667 194.986667-62.293333 99.84-135.68 156.586667-235.52 182.613333-33.706667 8.96-122.453333 14.933333-158.72 10.666667z" fill="#D62240"></path>
+      </svg>
+    </div>
+  </a>
+
+  <button class="wide-screen-toggle" id="wide-screen-toggle" >
+    <img src="../../../../static/images/open.png" class="wide-screen-icon wide-screen-open" alt="切换宽屏" title="切换宽屏" />
+    <img src="../../../../static/images/close.png" class="wide-screen-icon wide-screen-close" alt="切换窄屏" title="切换窄屏" />
+  </button>
+</div>
+      </div>
+    
+  </nav>
+  
+  
+    
+    
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        <!-- 
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="分享" aria-label="分享" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+         -->
+        <button type="reset" class="md-search__icon md-icon" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        
+        <div class="substring-search-result" data-md-component="substring-search-result" hidden></div>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+  
+</header>
+
+
+<script>
+  var USER_DEFINED_OPTIONS = {
+    REPO_PATH: "Hi3403V100_doc",
+    ROOT_URL: "https://hivsdev.github.io/Hi3403V100_doc"
+  };
+  var DOCUMENTATION_OPTIONS = {
+    VERSION: "main",
+    // 构建时声明主题的语言
+    LANGUAGE: "zh"
+  };
+</script>
+<script src="static/js/hispark_version.js"></script>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="sidebar-selectors">
+                  <div class="repo-select custom-select">
+                    <span class="select-label">项目</span>
+                    <div class="repo-selector" title="">
+                      <span class="repo-readOnly"></span>
+                      <select id="repo-select" hidden>
+                        <option value=""></option>
+                      </select>
+                    </div>
+                    <ul class="select-options" id="repo-options" style="display:none"></ul>
+                  </div>
+                  <div class="version-select custom-select">
+                    <span class="select-label">版本</span>
+                    <div class="version-selector" title="">
+                      <span class="version-readOnly"></span>
+                      <select id="version-select" hidden>
+                        <option value=""></option>
+                      </select>
+                    </div>
+                    <ul class="select-options" id="version-options" style="display:none"></ul>
+                  </div>
+                  
+                    
+                    
+                      <div class="sidebar-search">
+                        <div class="sidebar-search__button" role="button" tabindex="0">
+                          
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+                          <span>全文检索</span>
+                        </div>
+                      </div>
+                    
+                  
+                </div>
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="导航栏" data-md-level="0">
+  
+    <div class="md-nav__source">
+      <div class="source-container">
+  
+  <a href="https://gitcode.com/HiSpark/Hi3403V100" target="_blank" title="前往仓库" class="md-source" data-md-component="source" rel="noopener noreferrer">
+    <div class="md-source__icon md-icon">
+      <svg viewBox="0 0 1024 1024" width="20" height="20">
+        <path d="M472.746667 896.853333c-72.533333-8.106667-151.466667-39.253333-200.106667-78.08-27.306667-21.76-72.533333-71.253333-89.6-97.706666-51.626667-80.213333-72.533333-179.626667-57.173333-269.653334 15.36-86.613333 50.773333-154.453333 113.92-216.32 109.653333-107.52 285.44-141.653333 425.813333-82.346666 46.08 19.626667 90.453333 46.933333 108.8 66.986666 35.84 39.68 22.613333 104.106667-25.173333 128-20.48 9.813333-58.453333 10.24-72.96 0.853334-14.933333-9.386667-28.16-35.84-32-62.293334-1.706667-12.8-3.84-23.04-4.266667-23.04-0.853333 0-11.946667 5.973333-23.893333 13.226667-40.106667 23.466667-51.626667 26.88-113.066667 30.72-32.426667 1.706667-67.84 4.693333-78.933333 6.4-20.053333 2.56-44.373333-0.853333-83.2-13.226667l-20.48-6.4 0.853333 42.24c0.426667 40.96 0 43.093333-17.493333 79.36-22.613333 46.933333-30.72 75.52-34.56 117.333334-8.106667 100.693333 46.506667 175.36 150.613333 205.226666 67.413333 19.2 179.2 15.36 239.36-8.533333 58.026667-23.04 108.8-76.8 108.8-114.773333 0-15.786667-20.053333-35.84-41.813333-40.96-8.96-2.56-43.946667-5.546667-77.226667-6.826667-69.973333-2.986667-119.04-9.386667-132.266667-18.346667-13.653333-8.533333-20.48-33.28-14.506666-51.2 5.973333-19.2 15.786667-27.306667 43.946666-37.973333 19.2-7.253333 33.28-8.533333 88.746667-8.533333 118.613333 0 174.08 14.933333 217.6 58.453333 49.92 50.346667 55.466667 127.146667 13.226667 194.986667-62.293333 99.84-135.68 156.586667-235.52 182.613333-33.706667 8.96-122.453333 14.933333-158.72 10.666667z" fill="#D62240"></path>
+      </svg>
+    </div>
+  </a>
+
+  <button class="wide-screen-toggle" id="wide-screen-toggle" >
+    <img src="../../../../static/images/open.png" class="wide-screen-icon wide-screen-open" alt="切换宽屏" title="切换宽屏" />
+    <img src="../../../../static/images/close.png" class="wide-screen-icon wide-screen-close" alt="切换窄屏" title="切换窄屏" />
+  </button>
+</div>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    概览
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    快速入门
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    快速入门
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../02%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8/Hi3403V100%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA%E6%8C%87%E5%8D%97/Hi3403V100%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA%E6%8C%87%E5%8D%97.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    环境搭建
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../02%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8/OpenHarmony%20Small%E7%89%88%E6%9C%AC%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/OpenHarmony%20Small%E7%89%88%E6%9C%AC%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    OpenHarmony Small 版本使用指南
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../02%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8/OpenHarmony%20Small%E7%B3%BB%E7%BB%9F%E9%9B%86%E6%88%90Hi3403V100%E7%A7%BB%E6%A4%8D%E6%A1%88%E4%BE%8B/OpenHarmony%20Small%E7%B3%BB%E7%BB%9F%E9%9B%86%E6%88%90Hi3403V100%E7%A7%BB%E6%A4%8D%E6%A1%88%E4%BE%8B.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    OpenHarmony Small 系统集成移植案例
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    整体架构
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    整体架构
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../01%E6%95%B4%E4%BD%93%E6%9E%B6%E6%9E%84/release-notes/Pegasus-v1.0-beta1.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    版本说明
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../01%E6%95%B4%E4%BD%93%E6%9E%B6%E6%9E%84/Hi3403V100%20SDK%20%E5%AE%89%E8%A3%85%E4%BB%A5%E5%8F%8A%E5%8D%87%E7%BA%A7%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E/Hi3403V100%E2%95%B1Hi3403V100%20SDK%20%E5%AE%89%E8%A3%85%E4%BB%A5%E5%8F%8A%E5%8D%87%E7%BA%A7%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SDK 安装以及升级使用说明
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_3" id="__nav_3_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hi3403V100 SoC 用户指南
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Hi3403V100 SoC 用户指南
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../01%E6%95%B4%E4%BD%93%E6%9E%B6%E6%9E%84/Hi3403V100%20%E8%B6%85%E9%AB%98%E6%B8%85%E6%99%BA%E8%83%BD%E7%BD%91%E7%BB%9C%E5%BD%95%E5%83%8F%E6%9C%BA%20SoC%20%E7%94%A8%E6%88%B7%E6%8C%87%E5%8D%97/00-3%20%E5%89%8D%E8%A8%80.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    前言
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../01%E6%95%B4%E4%BD%93%E6%9E%B6%E6%9E%84/Hi3403V100%20%E8%B6%85%E9%AB%98%E6%B8%85%E6%99%BA%E8%83%BD%E7%BD%91%E7%BB%9C%E5%BD%95%E5%83%8F%E6%9C%BA%20SoC%20%E7%94%A8%E6%88%B7%E6%8C%87%E5%8D%97/01-1%20%E4%BA%A7%E5%93%81%E6%A6%82%E8%BF%B0.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    产品概述
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../01%E6%95%B4%E4%BD%93%E6%9E%B6%E6%9E%84/Hi3403V100%20%E8%B6%85%E9%AB%98%E6%B8%85%E6%99%BA%E8%83%BD%E7%BD%91%E7%BB%9C%E5%BD%95%E5%83%8F%E6%9C%BA%20SoC%20%E7%94%A8%E6%88%B7%E6%8C%87%E5%8D%97/01-2%20%E7%A1%AC%E4%BB%B6.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    硬件
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../01%E6%95%B4%E4%BD%93%E6%9E%B6%E6%9E%84/Hi3403V100%20%E8%B6%85%E9%AB%98%E6%B8%85%E6%99%BA%E8%83%BD%E7%BD%91%E7%BB%9C%E5%BD%95%E5%83%8F%E6%9C%BA%20SoC%20%E7%94%A8%E6%88%B7%E6%8C%87%E5%8D%97/01-3%20%E7%B3%BB%E7%BB%9F.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    系统
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../01%E6%95%B4%E4%BD%93%E6%9E%B6%E6%9E%84/Hi3403V100%20%E8%B6%85%E9%AB%98%E6%B8%85%E6%99%BA%E8%83%BD%E7%BD%91%E7%BB%9C%E5%BD%95%E5%83%8F%E6%9C%BA%20SoC%20%E7%94%A8%E6%88%B7%E6%8C%87%E5%8D%97/01-4%20DDR%20%E6%8E%A7%E5%88%B6%E5%99%A8.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    DDR 控制器
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../01%E6%95%B4%E4%BD%93%E6%9E%B6%E6%9E%84/Hi3403V100%20%E8%B6%85%E9%AB%98%E6%B8%85%E6%99%BA%E8%83%BD%E7%BD%91%E7%BB%9C%E5%BD%95%E5%83%8F%E6%9C%BA%20SoC%20%E7%94%A8%E6%88%B7%E6%8C%87%E5%8D%97/01-5%20FMC%20%E6%8E%A7%E5%88%B6%E5%99%A8.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    FMC 控制器
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../01%E6%95%B4%E4%BD%93%E6%9E%B6%E6%9E%84/Hi3403V100%20%E8%B6%85%E9%AB%98%E6%B8%85%E6%99%BA%E8%83%BD%E7%BD%91%E7%BB%9C%E5%BD%95%E5%83%8F%E6%9C%BA%20SoC%20%E7%94%A8%E6%88%B7%E6%8C%87%E5%8D%97/01-6%20GMAC.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    GMAC
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../01%E6%95%B4%E4%BD%93%E6%9E%B6%E6%9E%84/Hi3403V100%20%E8%B6%85%E9%AB%98%E6%B8%85%E6%99%BA%E8%83%BD%E7%BD%91%E7%BB%9C%E5%BD%95%E5%83%8F%E6%9C%BA%20SoC%20%E7%94%A8%E6%88%B7%E6%8C%87%E5%8D%97/01-7%20%E8%A7%86%E9%A2%91%E7%BC%96%E7%A0%81.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    视频编码
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../01%E6%95%B4%E4%BD%93%E6%9E%B6%E6%9E%84/Hi3403V100%20%E8%B6%85%E9%AB%98%E6%B8%85%E6%99%BA%E8%83%BD%E7%BD%91%E7%BB%9C%E5%BD%95%E5%83%8F%E6%9C%BA%20SoC%20%E7%94%A8%E6%88%B7%E6%8C%87%E5%8D%97/01-8%20%E8%A7%86%E9%A2%91%E8%A7%A3%E7%A0%81.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    视频解码
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../01%E6%95%B4%E4%BD%93%E6%9E%B6%E6%9E%84/Hi3403V100%20%E8%B6%85%E9%AB%98%E6%B8%85%E6%99%BA%E8%83%BD%E7%BD%91%E7%BB%9C%E5%BD%95%E5%83%8F%E6%9C%BA%20SoC%20%E7%94%A8%E6%88%B7%E6%8C%87%E5%8D%97/01-9%20%E8%A7%86%E9%A2%91%E5%8F%8A%E5%9B%BE%E5%BD%A2%E5%A4%84%E7%90%86.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    视频及图形处理
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../01%E6%95%B4%E4%BD%93%E6%9E%B6%E6%9E%84/Hi3403V100%20%E8%B6%85%E9%AB%98%E6%B8%85%E6%99%BA%E8%83%BD%E7%BD%91%E7%BB%9C%E5%BD%95%E5%83%8F%E6%9C%BA%20SoC%20%E7%94%A8%E6%88%B7%E6%8C%87%E5%8D%97/01-10%20%E6%99%BA%E8%83%BD%E5%8A%A0%E9%80%9F%E5%BC%95%E6%93%8E.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    智能加速引擎
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../01%E6%95%B4%E4%BD%93%E6%9E%B6%E6%9E%84/Hi3403V100%20%E8%B6%85%E9%AB%98%E6%B8%85%E6%99%BA%E8%83%BD%E7%BD%91%E7%BB%9C%E5%BD%95%E5%83%8F%E6%9C%BA%20SoC%20%E7%94%A8%E6%88%B7%E6%8C%87%E5%8D%97/01-11%20%E8%A7%86%E9%A2%91%E6%8E%A5%E5%8F%A3.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    视频接口
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../01%E6%95%B4%E4%BD%93%E6%9E%B6%E6%9E%84/Hi3403V100%20%E8%B6%85%E9%AB%98%E6%B8%85%E6%99%BA%E8%83%BD%E7%BD%91%E7%BB%9C%E5%BD%95%E5%83%8F%E6%9C%BA%20SoC%20%E7%94%A8%E6%88%B7%E6%8C%87%E5%8D%97/01-12%20ISP.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ISP
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../01%E6%95%B4%E4%BD%93%E6%9E%B6%E6%9E%84/Hi3403V100%20%E8%B6%85%E9%AB%98%E6%B8%85%E6%99%BA%E8%83%BD%E7%BD%91%E7%BB%9C%E5%BD%95%E5%83%8F%E6%9C%BA%20SoC%20%E7%94%A8%E6%88%B7%E6%8C%87%E5%8D%97/01-13%20%E9%9F%B3%E9%A2%91%E6%8E%A5%E5%8F%A3.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    音频接口
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../01%E6%95%B4%E4%BD%93%E6%9E%B6%E6%9E%84/Hi3403V100%20%E8%B6%85%E9%AB%98%E6%B8%85%E6%99%BA%E8%83%BD%E7%BD%91%E7%BB%9C%E5%BD%95%E5%83%8F%E6%9C%BA%20SoC%20%E7%94%A8%E6%88%B7%E6%8C%87%E5%8D%97/01-14%20%E5%A4%96%E5%9B%B4%E8%AE%BE%E5%A4%87.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    外围设备
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../01%E6%95%B4%E4%BD%93%E6%9E%B6%E6%9E%84/Hi3403V100%20%E8%B6%85%E9%AB%98%E6%B8%85%E6%99%BA%E8%83%BD%E7%BD%91%E7%BB%9C%E5%BD%95%E5%83%8F%E6%9C%BA%20SoC%20%E7%94%A8%E6%88%B7%E6%8C%87%E5%8D%97/01-15%20%E5%AE%89%E5%85%A8%E5%AD%90%E7%B3%BB%E7%BB%9F.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    安全子系统
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API 参考
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    API 参考
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_1" id="__nav_4_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    安全子系统
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    安全子系统
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../04API%E5%8F%82%E8%80%83/%E5%AE%89%E5%85%A8%E5%AD%90%E7%B3%BB%E7%BB%9F/%E5%AE%89%E5%85%A8%E5%AD%90%E7%B3%BB%E7%BB%9F%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E/%E5%AE%89%E5%85%A8%E5%AD%90%E7%B3%BB%E7%BB%9F%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    安全子系统使用说明
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../04API%E5%8F%82%E8%80%83/%E5%AE%89%E5%85%A8%E5%AD%90%E7%B3%BB%E7%BB%9F/SS928V100%E2%95%B1SS927V100%20%E5%AE%89%E5%85%A8%E5%90%AF%E5%8A%A8%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/SS928V100%E2%95%B1SS927V100%20%E5%AE%89%E5%85%A8%E5%90%AF%E5%8A%A8%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    安全启动使用指南
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_2" id="__nav_4_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    BSP
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    BSP
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../04API%E5%8F%82%E8%80%83/BSP/%E8%A3%B8%E7%83%A7%E5%8F%8A%E9%9D%9E%E8%A3%B8%E7%83%A7%E5%8D%87%E7%BA%A7%20%E4%BD%BF%E7%94%A8%E6%89%8B%E5%86%8C/%E8%A3%B8%E7%83%A7%E5%8F%8A%E9%9D%9E%E8%A3%B8%E7%83%A7%E5%8D%87%E7%BA%A7%20%E4%BD%BF%E7%94%A8%E6%89%8B%E5%86%8C.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    裸烧及非裸烧升级 使用手册
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../04API%E5%8F%82%E8%80%83/BSP/%E5%A4%96%E5%9B%B4%E8%AE%BE%E5%A4%87%E9%A9%B1%E5%8A%A8%20%E6%93%8D%E4%BD%9C%E6%8C%87%E5%8D%97/%E5%A4%96%E5%9B%B4%E8%AE%BE%E5%A4%87%E9%A9%B1%E5%8A%A8%20%E6%93%8D%E4%BD%9C%E6%8C%87%E5%8D%97.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    外围设备驱动 操作指南
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../04API%E5%8F%82%E8%80%83/BSP/SS928V100%E2%95%B1SS927V100%20U-boot%20%E7%A7%BB%E6%A4%8D%E5%BA%94%E7%94%A8%E5%BC%80%E5%8F%91%E6%8C%87%E5%8D%97/SS928V100%E2%95%B1SS927V100%20U-boot%20%E7%A7%BB%E6%A4%8D%E5%BA%94%E7%94%A8%E5%BC%80%E5%8F%91%E6%8C%87%E5%8D%97.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    U-boot 移植应用开发指南
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_3" id="__nav_4_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ISP
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    ISP
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../04API%E5%8F%82%E8%80%83/ISP/ISP%20%E5%BC%80%E5%8F%91%E5%8F%82%E8%80%83/ISP%20%E5%BC%80%E5%8F%91%E5%8F%82%E8%80%83%EF%BC%881--2%EF%BC%89.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ISP 开发参考（1--2）
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../04API%E5%8F%82%E8%80%83/ISP/ISP%20%E5%BC%80%E5%8F%91%E5%8F%82%E8%80%83/ISP%20%E5%BC%80%E5%8F%91%E5%8F%82%E8%80%83%EF%BC%883--5%EF%BC%89.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ISP 开发参考（3--5）
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../04API%E5%8F%82%E8%80%83/ISP/ISP%20%E5%BC%80%E5%8F%91%E5%8F%82%E8%80%83/ISP%20%E5%BC%80%E5%8F%91%E5%8F%82%E8%80%83%EF%BC%886%EF%BC%89.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ISP 开发参考（6）
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../04API%E5%8F%82%E8%80%83/ISP/ISP%20%E5%BC%80%E5%8F%91%E5%8F%82%E8%80%83/ISP%20%E5%BC%80%E5%8F%91%E5%8F%82%E8%80%83%EF%BC%887--14%EF%BC%89.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ISP 开发参考（7--14）
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_4" id="__nav_4_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MPP
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    MPP
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_4_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_4_1" id="__nav_4_4_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MPP 开发参考
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_4_4_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_4_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    MPP 开发参考
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../04API%E5%8F%82%E8%80%83/MPP/MPP%20%E5%AA%92%E4%BD%93%E5%A4%84%E7%90%86%E8%BD%AF%E4%BB%B6V5.0%E5%BC%80%E5%8F%91%E5%8F%82%E8%80%83/00%20%E5%89%8D%E8%A8%80.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    前言
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../04API%E5%8F%82%E8%80%83/MPP/MPP%20%E5%AA%92%E4%BD%93%E5%A4%84%E7%90%86%E8%BD%AF%E4%BB%B6V5.0%E5%BC%80%E5%8F%91%E5%8F%82%E8%80%83/01%20%E6%A6%82%E8%BF%B0.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    概述
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../04API%E5%8F%82%E8%80%83/MPP/MPP%20%E5%AA%92%E4%BD%93%E5%A4%84%E7%90%86%E8%BD%AF%E4%BB%B6V5.0%E5%BC%80%E5%8F%91%E5%8F%82%E8%80%83/02%20%E7%B3%BB%E7%BB%9F%E6%8E%A7%E5%88%B6.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    系统控制
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../04API%E5%8F%82%E8%80%83/MPP/MPP%20%E5%AA%92%E4%BD%93%E5%A4%84%E7%90%86%E8%BD%AF%E4%BB%B6V5.0%E5%BC%80%E5%8F%91%E5%8F%82%E8%80%83/03%20%E8%A7%86%E9%A2%91%E8%BE%93%E5%85%A5.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    视频输入
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../04API%E5%8F%82%E8%80%83/MPP/MPP%20%E5%AA%92%E4%BD%93%E5%A4%84%E7%90%86%E8%BD%AF%E4%BB%B6V5.0%E5%BC%80%E5%8F%91%E5%8F%82%E8%80%83/04%20%E8%A7%86%E9%A2%91%E8%BE%93%E5%87%BA%EF%BC%884.1--4.3%EF%BC%89.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    视频输出（4.1--4.3）
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../04API%E5%8F%82%E8%80%83/MPP/MPP%20%E5%AA%92%E4%BD%93%E5%A4%84%E7%90%86%E8%BD%AF%E4%BB%B6V5.0%E5%BC%80%E5%8F%91%E5%8F%82%E8%80%83/04%20%E8%A7%86%E9%A2%91%E8%BE%93%E5%87%BA%EF%BC%884.4--4.5%EF%BC%89.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    视频输出（4.4--4.5）
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../04API%E5%8F%82%E8%80%83/MPP/MPP%20%E5%AA%92%E4%BD%93%E5%A4%84%E7%90%86%E8%BD%AF%E4%BB%B6V5.0%E5%BC%80%E5%8F%91%E5%8F%82%E8%80%83/05%20%E8%A7%86%E9%A2%91%E5%A4%84%E7%90%86%E5%AD%90%E7%B3%BB%E7%BB%9F.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    视频处理子系统
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../04API%E5%8F%82%E8%80%83/MPP/MPP%20%E5%AA%92%E4%BD%93%E5%A4%84%E7%90%86%E8%BD%AF%E4%BB%B6V5.0%E5%BC%80%E5%8F%91%E5%8F%82%E8%80%83/06%20%E8%A7%86%E9%A2%91%E7%BC%96%E7%A0%81%EF%BC%886.1--6.3%EF%BC%89.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    视频编码（6.1--6.3）
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../04API%E5%8F%82%E8%80%83/MPP/MPP%20%E5%AA%92%E4%BD%93%E5%A4%84%E7%90%86%E8%BD%AF%E4%BB%B6V5.0%E5%BC%80%E5%8F%91%E5%8F%82%E8%80%83/06%20%E8%A7%86%E9%A2%91%E7%BC%96%E7%A0%81%EF%BC%886.4--6.5%EF%BC%89.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    视频编码（6.4--6.5）
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../04API%E5%8F%82%E8%80%83/MPP/MPP%20%E5%AA%92%E4%BD%93%E5%A4%84%E7%90%86%E8%BD%AF%E4%BB%B6V5.0%E5%BC%80%E5%8F%91%E5%8F%82%E8%80%83/07%20%E8%A7%86%E9%A2%91%E8%A7%A3%E7%A0%81.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    视频解码
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../04API%E5%8F%82%E8%80%83/MPP/MPP%20%E5%AA%92%E4%BD%93%E5%A4%84%E7%90%86%E8%BD%AF%E4%BB%B6V5.0%E5%BC%80%E5%8F%91%E5%8F%82%E8%80%83/08%20%E5%8C%BA%E5%9F%9F%E7%AE%A1%E7%90%86.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    区域管理
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../04API%E5%8F%82%E8%80%83/MPP/MPP%20%E5%AA%92%E4%BD%93%E5%A4%84%E7%90%86%E8%BD%AF%E4%BB%B6V5.0%E5%BC%80%E5%8F%91%E5%8F%82%E8%80%83/09%20%E9%9F%B3%E9%A2%91%EF%BC%889.1--9.3%EF%BC%89.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    音频（9.1--9.3）
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../04API%E5%8F%82%E8%80%83/MPP/MPP%20%E5%AA%92%E4%BD%93%E5%A4%84%E7%90%86%E8%BD%AF%E4%BB%B6V5.0%E5%BC%80%E5%8F%91%E5%8F%82%E8%80%83/09%20%E9%9F%B3%E9%A2%91%EF%BC%889.4--9.5%EF%BC%89.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    音频（9.4--9.5）
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../04API%E5%8F%82%E8%80%83/MPP/MPP%20%E5%AA%92%E4%BD%93%E5%A4%84%E7%90%86%E8%BD%AF%E4%BB%B6V5.0%E5%BC%80%E5%8F%91%E5%8F%82%E8%80%83/10%20%E8%A7%86%E9%A2%91%E5%9B%BE%E5%BD%A2%E5%AD%90%E7%B3%BB%E7%BB%9F.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    视频图形子系统
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../04API%E5%8F%82%E8%80%83/MPP/MPP%20%E5%AA%92%E4%BD%93%E5%A4%84%E7%90%86%E8%BD%AF%E4%BB%B6V5.0%E5%BC%80%E5%8F%91%E5%8F%82%E8%80%83/11%20%E5%87%A0%E4%BD%95%E7%95%B8%E5%8F%98%E7%9F%AB%E6%AD%A3%E5%AD%90%E7%B3%BB%E7%BB%9F.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    几何畸变矫正子系统
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../04API%E5%8F%82%E8%80%83/MPP/MPP%20%E5%AA%92%E4%BD%93%E5%A4%84%E7%90%86%E8%BD%AF%E4%BB%B6V5.0%E5%BC%80%E5%8F%91%E5%8F%82%E8%80%83/12%20%E6%8B%BC%E6%8E%A5.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    拼接
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../04API%E5%8F%82%E8%80%83/MPP/MPP%20%E5%AA%92%E4%BD%93%E5%A4%84%E7%90%86%E8%BD%AF%E4%BB%B6V5.0%E5%BC%80%E5%8F%91%E5%8F%82%E8%80%83/13%20Proc%E8%B0%83%E8%AF%95%E4%BF%A1%E6%81%AF%EF%BC%8813.1--13.15%EF%BC%89.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Proc调试信息（13.1--13.15）
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../04API%E5%8F%82%E8%80%83/MPP/MPP%20%E5%AA%92%E4%BD%93%E5%A4%84%E7%90%86%E8%BD%AF%E4%BB%B6V5.0%E5%BC%80%E5%8F%91%E5%8F%82%E8%80%83/13%20Proc%E8%B0%83%E8%AF%95%E4%BF%A1%E6%81%AF%EF%BC%8813.16--13.29%EF%BC%89.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Proc调试信息（13.16--13.29）
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../04API%E5%8F%82%E8%80%83/MPP/MPP%20%E5%AA%92%E4%BD%93%E5%A4%84%E7%90%86%E8%BD%AF%E4%BB%B6%20V5.0%20FAQ/MPP%20%E5%AA%92%E4%BD%93%E5%A4%84%E7%90%86%E8%BD%AF%E4%BB%B6%20V5.0%20FAQ.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MPP FAQ
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../04API%E5%8F%82%E8%80%83/MPP/%E9%9F%B3%E9%A2%91%E7%BB%84%E4%BB%B6%20API%E5%8F%82%E8%80%83/%E9%9F%B3%E9%A2%91%E7%BB%84%E4%BB%B6%20API%E5%8F%82%E8%80%83.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    音频组件 API 参考
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../04API%E5%8F%82%E8%80%83/MPP/CIPHER%20API%20%E5%8F%82%E8%80%83/CIPHER%20API%20%E5%8F%82%E8%80%83.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CIPHER API 参考
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../04API%E5%8F%82%E8%80%83/MPP/%E9%BB%91%E7%99%BD%E5%BD%A9%E8%89%B2%E5%8F%8C%E8%B7%AF%E8%9E%8D%E5%90%88%20%E5%BC%80%E5%8F%91%E5%8F%82%E8%80%83/%E9%BB%91%E7%99%BD%E5%BD%A9%E8%89%B2%E5%8F%8C%E8%B7%AF%E8%9E%8D%E5%90%88%20%E5%BC%80%E5%8F%91%E5%8F%82%E8%80%83.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    黑白彩色双路融合 开发参考
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../04API%E5%8F%82%E8%80%83/MPP/%E5%9B%BE%E5%BD%A2%E5%BC%80%E5%8F%91%E7%94%A8%E6%88%B7%E6%8C%87%E5%8D%97/%E5%9B%BE%E5%BD%A2%E5%BC%80%E5%8F%91%E7%94%A8%E6%88%B7%E6%8C%87%E5%8D%97.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    图形开发用户指南
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../04API%E5%8F%82%E8%80%83/MPP/%E5%BC%80%E6%9C%BA%E7%94%BB%E9%9D%A2%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/%E5%BC%80%E6%9C%BA%E7%94%BB%E9%9D%A2%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    开机画面使用指南
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../04API%E5%8F%82%E8%80%83/MPP/%E6%8A%93%E6%8B%8D%20%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/%E6%8A%93%E6%8B%8D%20%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    抓拍 使用指南
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../04API%E5%8F%82%E8%80%83/MPP/MIPI%20%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/MIPI%20%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MIPI 使用指南
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../04API%E5%8F%82%E8%80%83/MPP/SYS_CONFIG%20%E9%85%8D%E7%BD%AE%E6%8C%87%E5%8D%97/SYS_CONFIG%20%E9%85%8D%E7%BD%AE%E6%8C%87%E5%8D%97.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SYS_CONFIG 配置指南
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../04API%E5%8F%82%E8%80%83/MPP/HDMI%20%E5%BC%80%E5%8F%91%E5%8F%82%E8%80%83/HDMI%20%E5%BC%80%E5%8F%91%E5%8F%82%E8%80%83.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    HDMI 开发参考
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../04API%E5%8F%82%E8%80%83/MPP/HNR%20%E5%BC%80%E5%8F%91%E5%8F%82%E8%80%83/HNR%20%E5%BC%80%E5%8F%91%E5%8F%82%E8%80%83.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    HNR 开发参考
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../04API%E5%8F%82%E8%80%83/MPP/MotionFusion%20%E5%BC%80%E5%8F%91%E5%8F%82%E8%80%83/MotionFusion%20%E5%BC%80%E5%8F%91%E5%8F%82%E8%80%83.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MotionFusion 开发参考
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../04API%E5%8F%82%E8%80%83/MPP/PCIE%E7%BA%A7%E8%81%94%20%E5%BA%94%E7%94%A8%E6%8C%87%E5%8D%97/PCIE%E7%BA%A7%E8%81%94%20%E5%BA%94%E7%94%A8%E6%8C%87%E5%8D%97.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PCIE级联 应用指南
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../04API%E5%8F%82%E8%80%83/MPP/GFBG%20%E5%BC%80%E5%8F%91%E6%8C%87%E5%8D%97/GFBG%20%E5%BC%80%E5%8F%91%E6%8C%87%E5%8D%97.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    GFBG 开发指南
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../04API%E5%8F%82%E8%80%83/MPP/GFBG%20API%20%E5%8F%82%E8%80%83/GFBG%20API%20%E5%8F%82%E8%80%83.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    GFBG API 参考
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../04API%E5%8F%82%E8%80%83/MPP/KLAD%20API%20%E5%8F%82%E8%80%83/KLAD%20API%20%E5%8F%82%E8%80%83.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KLAD API 参考
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../04API%E5%8F%82%E8%80%83/MPP/OTP%20API%20%E5%8F%82%E8%80%83/OTP%20API%20%E5%8F%82%E8%80%83.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    OTP API 参考
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../04API%E5%8F%82%E8%80%83/MPP/TDE%20API%E5%8F%82%E8%80%83/TDE%20API%E5%8F%82%E8%80%83.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    TDE API 参考
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_5" id="__nav_4_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SVP
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    SVP
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../04API%E5%8F%82%E8%80%83/SVP/SVP2.0%20%E5%BC%80%E5%8F%91%E6%8C%87%E5%8D%97/SVP2.0%20%E5%BC%80%E5%8F%91%E6%8C%87%E5%8D%97.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SVP2.0 开发指南
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../04API%E5%8F%82%E8%80%83/SVP/SVP2.0%20API%20%E5%8F%82%E8%80%83/SVP2.0%20API%20%E5%8F%82%E8%80%83.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SVP2.0 API 参考
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../04API%E5%8F%82%E8%80%83/SVP/IVE%20API%20%E5%8F%82%E8%80%83/IVE%20API%20%E5%8F%82%E8%80%83%EF%BC%881--2%EF%BC%89.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    IVE API 参考（1--2）
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../04API%E5%8F%82%E8%80%83/SVP/IVE%20API%20%E5%8F%82%E8%80%83/IVE%20API%20%E5%8F%82%E8%80%83%EF%BC%883--6%EF%BC%89.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    IVE API 参考（3--6）
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../04API%E5%8F%82%E8%80%83/SVP/IVS%20API%E5%8F%82%E8%80%83/IVS%20API%E5%8F%82%E8%80%83.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    IVS API 参考
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../04API%E5%8F%82%E8%80%83/SVP/DPU2.0%20%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/DPU2.0%20%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    DPU2.0 工具使用指南
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    参考案例
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    参考案例
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_1" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_5_1" id="__nav_5_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    调试调优
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_1_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_5_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    调试调优
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_1_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_1_1" id="__nav_5_1_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    BSP
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_5_1_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_1_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    BSP
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../BSP/%E5%86%85%E5%AD%98%E5%B8%83%E5%B1%80%E8%B0%83%E6%95%B4%E6%8C%87%E5%8D%97/%E5%86%85%E5%AD%98%E5%B8%83%E5%B1%80%E8%B0%83%E6%95%B4%E6%8C%87%E5%8D%97.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    内存布局调整指南
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_1_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_5_1_2" id="__nav_5_1_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MPP
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_5_1_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_5_1_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    MPP
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../%E9%BB%91%E7%99%BD%E5%BD%A9%E8%89%B2%E5%8F%8C%E8%B7%AF%E8%9E%8D%E5%90%88%E8%B0%83%E8%AF%95%E6%8C%87%E5%8D%97/%E9%BB%91%E7%99%BD%E5%BD%A9%E8%89%B2%E5%8F%8C%E8%B7%AF%E8%9E%8D%E5%90%88%E8%B0%83%E8%AF%95%E6%8C%87%E5%8D%97.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    黑白彩色双路融合调试指南
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    DDR 小型化指南
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="DDR%20%E5%B0%8F%E5%9E%8B%E5%8C%96%E6%8C%87%E5%8D%97.html" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    DDR 小型化指南
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#前言" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        前言
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#综述" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        综述
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#主要模块工作占用MMZ情况" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        主要模块工作占用MMZ情况
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="主要模块工作占用MMZ情况">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#VI" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        VI
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#VDEC" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        VDEC
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#VPSS" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        VPSS
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#VGS" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        VGS
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#VENC" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        VENC
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#VO" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        VO
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#GFBG" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GFBG
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#AUDIO" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        AUDIO
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#REGION" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        REGION
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#TDE" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TDE
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#SVP" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SVP
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#PCIV" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PCIV
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#GDC" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GDC
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#CIPHER" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CIPHER
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#DCC" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DCC
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#VDA" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        VDA
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ISP" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ISP
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#HNR" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        HNR
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#各模块内存相关可优化配置" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        各模块内存相关可优化配置
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="各模块内存相关可优化配置">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#VB" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        VB
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#SYS" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SYS
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#VI_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        VI
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#VDEC_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        VDEC
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#VPSS_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        VPSS
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#VGS_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        VGS
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#VENC_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        VENC
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#VO_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        VO
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#GFBG_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GFBG
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#AUDIO_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        AUDIO
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#REGION_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        REGION
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#SVP_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SVP
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#VDA_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        VDA
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#PCIV_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PCIV
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#GDC_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GDC
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#CIPHER_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CIPHER
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ISP_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ISP
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#HNR_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        HNR
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#其它措施" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        其它措施
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="其它措施">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#限制栈大小" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        限制栈大小
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#优化代码中内存使用" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        优化代码中内存使用
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#应用程序中禁用forksystem等进程创建函数" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        应用程序中禁用fork、system等进程创建函数
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#根据场景去掉不必要的模块" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        根据场景去掉不必要的模块
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../DIS%20%E8%B0%83%E8%AF%95%E6%8C%87%E5%8D%97/DIS%20%E8%B0%83%E8%AF%95%E6%8C%87%E5%8D%97.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    DIS 调试指南
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../HNR%20%E8%B0%83%E4%BC%98%E6%8C%87%E5%8D%97/HNR%20%E8%B0%83%E4%BC%98%E6%8C%87%E5%8D%97.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    HNR 调优指南
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_1_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_1_3" id="__nav_5_1_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PQ
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_5_1_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_1_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    PQ
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../PQ/ISP%20%E5%9B%BE%E5%83%8F%E8%B0%83%E4%BC%98%E6%8C%87%E5%8D%97/ISP%20%E5%9B%BE%E5%83%8F%E8%B0%83%E4%BC%98%E6%8C%87%E5%8D%97.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ISP 图像调优指南
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../PQ/ISP%20%E9%A2%9C%E8%89%B2%E8%B0%83%E4%BC%98%E8%AF%B4%E6%98%8E/ISP%20%E9%A2%9C%E8%89%B2%E8%B0%83%E4%BC%98%E8%AF%B4%E6%98%8E.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ISP 颜色调优说明
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../PQ/Sensor%20%E8%B0%83%E8%AF%95%E6%8C%87%E5%8D%97/Sensor%20%E8%B0%83%E8%AF%95%E6%8C%87%E5%8D%97.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sensor 调试指南
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../PQ/SS928V100%E2%95%B1SS927V100%203DNR%E5%8F%82%E6%95%B0%E9%85%8D%E7%BD%AE%E8%AF%B4%E6%98%8E/SS928V100%E2%95%B1SS927V100%203DNR%E5%8F%82%E6%95%B0%E9%85%8D%E7%BD%AE%E8%AF%B4%E6%98%8E.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3DNR 参数配置说明
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../Sample%20User%20Guide.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sample User Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    硬件指南
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    硬件指南
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_1" id="__nav_6_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    芯片
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    芯片
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../05%E7%A1%AC%E4%BB%B6%E6%8C%87%E5%8D%97/%E8%8A%AF%E7%89%87/SS928V100_PINOUT_CN.xlsx" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SS928V100 PINOUT
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    工具中心
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    工具中心
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_7_1" id="__nav_7_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ToolPlatform
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    ToolPlatform
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../06%E5%B7%A5%E5%85%B7%E4%B8%AD%E5%BF%83/ToolPlatform/ToolPlatform%E5%B7%A5%E5%85%B7%E5%B9%B3%E5%8F%B0%20%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/ToolPlatform%E5%B7%A5%E5%85%B7%E5%B9%B3%E5%8F%B0%20%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ToolPlatform 工具平台 使用指南
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../06%E5%B7%A5%E5%85%B7%E4%B8%AD%E5%BF%83/ToolPlatform/BurnTool%20%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/BurnTool%20%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    BurnTool 工具使用指南
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_7_2" id="__nav_7_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SVP_NNN
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    SVP_NNN
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../06%E5%B7%A5%E5%85%B7%E4%B8%AD%E5%BF%83/SVP_NNN/%E5%BF%AB%E9%80%9F%E4%B8%8A%E6%89%8B%E6%8C%87%E5%8D%97/%E5%BF%AB%E9%80%9F%E4%B8%8A%E6%89%8B%E6%8C%87%E5%8D%97.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    快速上手指南
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../06%E5%B7%A5%E5%85%B7%E4%B8%AD%E5%BF%83/SVP_NNN/%E9%A9%B1%E5%8A%A8%E5%92%8C%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E5%AE%89%E8%A3%85%E6%8C%87%E5%8D%97/%E9%A9%B1%E5%8A%A8%E5%92%8C%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E5%AE%89%E8%A3%85%E6%8C%87%E5%8D%97.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    驱动和开发环境安装指南
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../06%E5%B7%A5%E5%85%B7%E4%B8%AD%E5%BF%83/SVP_NNN/%E5%BA%94%E7%94%A8%E5%BC%80%E5%8F%91%E6%8C%87%E5%8D%97/%E5%BA%94%E7%94%A8%E5%BC%80%E5%8F%91%E6%8C%87%E5%8D%97.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    应用开发指南
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../06%E5%B7%A5%E5%85%B7%E4%B8%AD%E5%BF%83/SVP_NNN/%E7%B2%BE%E5%BA%A6%E6%AF%94%E5%AF%B9%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/%E7%B2%BE%E5%BA%A6%E6%AF%94%E5%AF%B9%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    精度比对工具使用指南
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../06%E5%B7%A5%E5%85%B7%E4%B8%AD%E5%BF%83/SVP_NNN/%E5%9B%BE%E5%83%8F%E5%88%86%E6%9E%90%E5%BC%95%E6%93%8E2%E4%B8%8E%E5%9B%BE%E5%83%8F%E5%88%86%E6%9E%90%E5%BC%95%E6%93%8E1%E4%BD%BF%E7%94%A8%E5%B7%AE%E5%BC%82%E8%AF%B4%E6%98%8E/%E5%9B%BE%E5%83%8F%E5%88%86%E6%9E%90%E5%BC%95%E6%93%8E2%E4%B8%8E%E5%9B%BE%E5%83%8F%E5%88%86%E6%9E%90%E5%BC%95%E6%93%8E1%E4%BD%BF%E7%94%A8%E5%B7%AE%E5%BC%82%E8%AF%B4%E6%98%8E.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    图像分析引擎差异说明
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../06%E5%B7%A5%E5%85%B7%E4%B8%AD%E5%BF%83/SVP_NNN/AMCT%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97%EF%BC%88Caffe%EF%BC%89/AMCT%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97%EF%BC%88Caffe%EF%BC%89.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AMCT 使用指南（Caffe）
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../06%E5%B7%A5%E5%85%B7%E4%B8%AD%E5%BF%83/SVP_NNN/AMCT%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97%EF%BC%88PyTorch%EF%BC%89/AMCT%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97%EF%BC%88PyTorch%EF%BC%89.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AMCT 使用指南（PyTorch）
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../06%E5%B7%A5%E5%85%B7%E4%B8%AD%E5%BF%83/SVP_NNN/ATC%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/ATC%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ATC 工具使用指南
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../06%E5%B7%A5%E5%85%B7%E4%B8%AD%E5%BF%83/SVP_NNN/ATC%20Graph%E5%BC%80%E5%8F%91%E6%8C%87%E5%8D%97/ATC%20Graph%E5%BC%80%E5%8F%91%E6%8C%87%E5%8D%97.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ATC Graph 开发指南
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../06%E5%B7%A5%E5%85%B7%E4%B8%AD%E5%BF%83/SVP_NNN/ATC%E8%87%AA%E5%AE%9A%E4%B9%89%E7%AE%97%E5%AD%90%E5%BC%80%E5%8F%91%E6%8C%87%E5%8D%97/ATC%E8%87%AA%E5%AE%9A%E4%B9%89%E7%AE%97%E5%AD%90%E5%BC%80%E5%8F%91%E6%8C%87%E5%8D%97.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ATC 自定义算子开发指南
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../06%E5%B7%A5%E5%85%B7%E4%B8%AD%E5%BF%83/SVP_NNN/MindCmd%20%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/MindCmd%20%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MindCmd 使用指南
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../06%E5%B7%A5%E5%85%B7%E4%B8%AD%E5%BF%83/SVP_NNN/Profiling%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/Profiling%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Profiling 工具使用指南
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_7_3" id="__nav_7_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PQTools
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    PQTools
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../06%E5%B7%A5%E5%85%B7%E4%B8%AD%E5%BF%83/PQTools/%E5%9B%BE%E5%83%8F%E8%B4%A8%E9%87%8F%E8%B0%83%E8%AF%95%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/%E5%9B%BE%E5%83%8F%E8%B4%A8%E9%87%8F%E8%B0%83%E8%AF%95%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    图像质量调试工具使用指南
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    FAQ
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    FAQ
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../07FAQ/BSP/BSP%20FAQ/BSP%20FAQ.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    BSP FAQ
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../07FAQ/ISP/ISP%20FAQ/ISP%20FAQ.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ISP FAQ
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../07FAQ/PQ/%E6%8B%BC%E6%8E%A5%20FAQ/%E6%8B%BC%E6%8E%A5%20FAQ.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    拼接 FAQ
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#前言" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        前言
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#综述" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        综述
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#主要模块工作占用MMZ情况" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        主要模块工作占用MMZ情况
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="主要模块工作占用MMZ情况">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#VI" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        VI
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#VDEC" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        VDEC
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#VPSS" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        VPSS
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#VGS" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        VGS
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#VENC" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        VENC
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#VO" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        VO
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#GFBG" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GFBG
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#AUDIO" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        AUDIO
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#REGION" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        REGION
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#TDE" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TDE
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#SVP" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SVP
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#PCIV" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PCIV
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#GDC" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GDC
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#CIPHER" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CIPHER
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#DCC" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DCC
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#VDA" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        VDA
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ISP" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ISP
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#HNR" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        HNR
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#各模块内存相关可优化配置" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        各模块内存相关可优化配置
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="各模块内存相关可优化配置">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#VB" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        VB
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#SYS" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SYS
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#VI_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        VI
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#VDEC_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        VDEC
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#VPSS_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        VPSS
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#VGS_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        VGS
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#VENC_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        VENC
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#VO_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        VO
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#GFBG_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GFBG
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#AUDIO_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        AUDIO
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#REGION_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        REGION
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#SVP_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SVP
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#VDA_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        VDA
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#PCIV_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PCIV
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#GDC_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GDC
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#CIPHER_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CIPHER
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ISP_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ISP
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#HNR_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        HNR
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#其它措施" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        其它措施
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="其它措施">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#限制栈大小" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        限制栈大小
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#优化代码中内存使用" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        优化代码中内存使用
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#应用程序中禁用forksystem等进程创建函数" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        应用程序中禁用fork、system等进程创建函数
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#根据场景去掉不必要的模块" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        根据场景去掉不必要的模块
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+                
+
+
+
+  
+
+
+  <nav class="md-path" aria-label="导航栏" >
+    <ol class="md-path__list">
+      
+        
+  
+  
+    
+    
+      
+  
+  
+    
+    
+      
+  
+  
+    
+    
+      <li class="md-path__item">
+        <a href="../../BSP/%E5%86%85%E5%AD%98%E5%B8%83%E5%B1%80%E8%B0%83%E6%95%B4%E6%8C%87%E5%8D%97/%E5%86%85%E5%AD%98%E5%B8%83%E5%B1%80%E8%B0%83%E6%95%B4%E6%8C%87%E5%8D%97.html" class="md-path__link">
+          
+  <span class="md-ellipsis">
+    参考案例
+  </span>
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+    
+  
+
+      
+        
+  
+  
+    
+    
+      
+  
+  
+    
+    
+      <li class="md-path__item">
+        <a href="../../BSP/%E5%86%85%E5%AD%98%E5%B8%83%E5%B1%80%E8%B0%83%E6%95%B4%E6%8C%87%E5%8D%97/%E5%86%85%E5%AD%98%E5%B8%83%E5%B1%80%E8%B0%83%E6%95%B4%E6%8C%87%E5%8D%97.html" class="md-path__link">
+          
+  <span class="md-ellipsis">
+    调试调优
+  </span>
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+        
+  
+  
+    
+    
+      <li class="md-path__item">
+        <a href="../%E9%BB%91%E7%99%BD%E5%BD%A9%E8%89%B2%E5%8F%8C%E8%B7%AF%E8%9E%8D%E5%90%88%E8%B0%83%E8%AF%95%E6%8C%87%E5%8D%97/%E9%BB%91%E7%99%BD%E5%BD%A9%E8%89%B2%E5%8F%8C%E8%B7%AF%E8%9E%8D%E5%90%88%E8%B0%83%E8%AF%95%E6%8C%87%E5%8D%97.html" class="md-path__link">
+          
+  <span class="md-ellipsis">
+    MPP
+  </span>
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ol>
+  </nav>
+
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="DDR-小型化指南">DDR 小型化指南</h1>
+<h2 id="前言">前言<a name="ZH-CN_TOPIC_0000002424361074"></a></h2>
+<p><strong>概述<a name="section4537382116410"></a></strong></p>
+<p>本文为进行小型化开发的程序员而写，目的是介绍在单板上进行Linux开发、裁剪、优化及使用注意事项等内容。</p>
+<blockquote>
+<p><img alt="" src="public_sys-resources/icon-note.gif" /> <strong>说明：</strong> </p>
+<p>未有特殊说明，SS927V100与SS928V100内容完全一致。</p>
+</blockquote>
+<p><strong>产品版本<a name="section25718263411"></a></strong></p>
+<p>与本文档相对应的产品版本如下。</p>
+<table>
+<thead>
+<tr>
+<th>产品名称</th>
+<th>产品版本</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SS626</td>
+<td>V100</td>
+</tr>
+<tr>
+<td>SS928</td>
+<td>V100</td>
+</tr>
+<tr>
+<td>SS927</td>
+<td>V100</td>
+</tr>
+</tbody>
+</table>
+<p><strong>读者对象<a name="section51625422047"></a></strong></p>
+<p>本文档（本指南）主要适用于以下工程师：</p>
+<ul>
+<li>技术支持工程师</li>
+<li>软件开发工程师</li>
+</ul>
+<p><strong>修改记录<a name="section2467512116410"></a></strong></p>
+<table>
+<thead>
+<tr>
+<th><strong>文档版本</strong></th>
+<th><strong>发布日期</strong></th>
+<th><strong>修改说明</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>00B01</td>
+<td>2025-09-15</td>
+<td>第1次临时版本发布。</td>
+</tr>
+</tbody>
+</table>
+<h2 id="综述">综述<a name="ZH-CN_TOPIC_0000002424361086"></a></h2>
+<p>DDR小型化可以从多个方向入手：uboot、kernel、filesys、SDK、APP都可以在内存使用上做一定程度的优化。本文主要是对SDK和APP的小型化进行简单的说明。</p>
+<p>基于 SS626V100的SDK目前支持运行Linux和liteos双系统或单linux系统，如业务场景只需运行单linux系统，可参考《内存布局调整指南》3.2章节裁剪liteos系统相关MMZ占用。本文中默认以Linux和liteos双系统为基础进行描述。SS626V100的系统小型化基于DEMO单板实现，以容量为2G Bytes的DDR内存为例。</p>
+<p><strong>图 1</strong>  DEMO板中Linux系统内存分配图（仅供参考）<a name="fig58516719710"></a>  </p>
+<p><img alt="" src="figures/DEMO%E6%9D%BF%E4%B8%ADLinux%E7%B3%BB%E7%BB%9F%E5%86%85%E5%AD%98%E5%88%86%E9%85%8D%E5%9B%BE%EF%BC%88%E4%BB%85%E4%BE%9B%E5%8F%82%E8%80%83%EF%BC%89.png" title="DEMO板中Linux系统内存分配图（仅供参考）" /></p>
+<p>其中基于SS626V100典型场景业务的MMZ内存占用数据，请参考《SS626V100 Memory Usage Statistics Report》。此外，客户业务的具体内存占用，需结合具体场景进行分析，下文介绍各模块MMZ内存占用及小型化可优化手段。</p>
+<h2 id="主要模块工作占用MMZ情况">主要模块工作占用MMZ情况<a name="ZH-CN_TOPIC_0000002424201206"></a></h2>
+<p>一般业务中MMZ的占用往往是内存消耗的很大一部分，本章节主要介绍一般业务场景中几个主要模块工作时占用MMZ的情况。</p>
+<ul>
+<li>
+<p><strong><a href="#ZH-CN_TOPIC_0000002424361046">VI</a></strong>  </p>
+</li>
+<li>
+<p><strong><a href="#ZH-CN_TOPIC_0000002424201210">VDEC</a></strong>  </p>
+</li>
+<li>
+<p><strong><a href="#ZH-CN_TOPIC_0000002457879933">VPSS</a></strong>  </p>
+</li>
+<li>
+<p><strong><a href="#ZH-CN_TOPIC_0000002457879973">VGS</a></strong>  </p>
+</li>
+<li>
+<p><strong><a href="#ZH-CN_TOPIC_0000002457879945">VENC</a></strong>  </p>
+</li>
+<li>
+<p><strong><a href="#ZH-CN_TOPIC_0000002424201194">VO</a></strong>  </p>
+</li>
+<li>
+<p><strong><a href="#ZH-CN_TOPIC_0000002457839817">GFBG</a></strong>  </p>
+</li>
+<li>
+<p><strong><a href="#ZH-CN_TOPIC_0000002424201218">AUDIO</a></strong>  </p>
+</li>
+<li>
+<p><strong><a href="#ZH-CN_TOPIC_0000002457879941">REGION</a></strong>  </p>
+</li>
+<li>
+<p><strong><a href="#ZH-CN_TOPIC_0000002457839825">TDE</a></strong>  </p>
+</li>
+<li>
+<p><strong><a href="#ZH-CN_TOPIC_0000002457839801">SVP</a></strong>  </p>
+</li>
+<li>
+<p><strong><a href="#ZH-CN_TOPIC_0000002457839793">PCIV</a></strong>  </p>
+</li>
+<li>
+<p><strong><a href="#ZH-CN_TOPIC_0000002424361082">GDC</a></strong>  </p>
+</li>
+<li>
+<p><strong><a href="#ZH-CN_TOPIC_0000002457879957">CIPHER</a></strong>  </p>
+</li>
+<li>
+<p><strong><a href="#ZH-CN_TOPIC_0000002424361058">DCC</a></strong>  </p>
+</li>
+<li>
+<p><strong><a href="#ZH-CN_TOPIC_0000002457879965">VDA</a></strong>  </p>
+</li>
+<li>
+<p><strong><a href="#ZH-CN_TOPIC_0000002457839813">ISP</a></strong>  </p>
+</li>
+<li>
+<p><strong><a href="#ZH-CN_TOPIC_0000002424201214">HNR</a></strong>  </p>
+</li>
+</ul>
+<h3 id="VI">VI<a name="ZH-CN_TOPIC_0000002424361046"></a></h3>
+<p>VI采集状态下最多会占用三个视频帧VB。一个用于当前帧采集，一个用于准备给下一帧采集，一个在轮转流程中（主要是后级模块占用）。</p>
+<p>SS928V100中 MMZ占用：</p>
+<ul>
+<li>vi(%d)_model_%d：每路pipe需占用两个一定大小模板MMZ内存，大小与通路宽度相关，宽度小于等于4096时大小为16KB。</li>
+<li>vi(%d)_lmf：每路pipe开启LMF功能时占用MMZ内存，用于存放LMF的系数，固定值4K。</li>
+<li>vi(%d)_bnr_mot：每路pipe开启Bayer NR功能时需要占用的motion buffer内存，大小由处理图像大小的宽高决定。</li>
+<li>vi(0)_bnr_rnt：每路pipe开启Bayer NR功能时需要占用的rnt内存，大小由处理图像大小的宽高决定；离线时个数由ss_mpi_vi_set_pipe_bnr_buf_num。</li>
+<li>接口设置，默认为40块。</li>
+<li>vi(0)_bnr_ref%d：每路pipe开启Bayer NR功能时需要占用的时域参考内存，大小由处理图像大小的宽高决定。</li>
+</ul>
+<h3 id="VDEC">VDEC<a name="ZH-CN_TOPIC_0000002424201210"></a></h3>
+<p>VDEC MMZ占用分为buffer占用、轮转占用和设备占用。</p>
+<p><strong>Buffer占用<a name="section389732110912"></a></strong></p>
+<ul>
+<li>vdec(%d)_stream：解码码流Buffer相关内存，为用户指定大小和驱动内部分配之和。SS626V100包括PTS数据存放内存。</li>
+<li>vfmw(%d)_usd_buf：用户数据Buffer内存，大小根据用户指定的进行分配。</li>
+<li>vdec(%d)_adp_ref：用于存储通道使用vb的相关信息。</li>
+<li>vdec(%d)_adp_event：用于存储解码过程中产生的event信息。</li>
+<li>vfmw(%d)_shr_img：用于存储解码出图像的相关信息。</li>
+<li>vdec_adp_proc：用于存储mdc侧vdec产生的proc信息。</li>
+<li>vfmw_mdc_shr：用于存储mdc侧vfmw产生的proc信息。</li>
+</ul>
+<p><strong>设备占用<a name="section172822554102"></a></strong></p>
+<ul>
+<li>vfmw(%d)_seg_buf：SCD切码流后存放内存，与分辨率相关，与协议无关。</li>
+<li>vfmw_scd_msg：SCD逻辑工作时需要的内存，固定值为44Kbytes。</li>
+<li>vfmw(%d)_vdh_msg：VDH逻辑工作时需要的内存，与模块参数中设置最大slice个数相关，默认模块参数（slice 600个）时大小为616KBytes。SS626V100此块内存名称为vfmw_vdh_msg。</li>
+<li>vfmw_vdh_ext：VDH逻辑工作时需要的内存，与模块参数中设置的最大宽高相关。SS626V100默认模块参数（宽高8192x8192）时大小572KBytes。</li>
+<li>vfmw_mdma_msg：VDH逻辑工作时需要的内存，固定值44KBytes。</li>
+</ul>
+<p><strong>轮转占用<a name="section32020161117"></a></strong></p>
+<ul>
+<li>vdec(%d)_pic_vb：vb大小和个数都由用户配置。私有vb模式下，大小根据用户配置通道属性中frame_buf_size确定，个数根据用户配置通道属性中frame_buf_cnt确定。</li>
+<li>vdec(%d)_tmv_vb：vb大小和个数都由用户配置。私有vb模式下，大小根据用户配置通道属性中tmv_buf_size确定，个数为 “参考帧+1”，其中参考帧个数根据用户配置通道属性中ref_frame_num确定。</li>
+</ul>
+<h3 id="VPSS">VPSS<a name="ZH-CN_TOPIC_0000002457879933"></a></h3>
+<ul>
+<li>vb_pool: Group占用两块VB (前级模块送来：当前工作VB+Backup 帧)，每个使能通道会获取通道大小的VB（通道模式为Auto时，为后端模块获取），硬件处理完成后会发送到后端绑定模块。如果需要做旋转/二级缩放功能，还需申请中间的临时VB（公共VB）。</li>
+<li>vpss(%d)_src：每组需占用亮度和MMZ内存资源，约4K大小。</li>
+<li>vpss(%d)_dci：每组开启DCI功能时占用MMZ内存，约4K大小。</li>
+<li>vpss(%d)_model：每组需占用一定大小模板MMZ内存。大小与模块参数中的split_node_num以及组的max_width有关。split_node_num和max_width越大，占用大小越大。</li>
+<li>vpss(%d)_lmf：每组开启LMF功能时占用MMZ内存，用于存放LMF的系数，固定值4K。</li>
+<li>vpss(%d)_rgn_luma：每组开启通道亮度和功能时占用MMZ内存，用于存放亮度和统计信息，固定值4K。</li>
+<li>vmallocinfo：每组上下文需占用一定大小OS内存。总大小与组数量相关，组越多占用越大。</li>
+</ul>
+<h3 id="VGS">VGS<a name="ZH-CN_TOPIC_0000002457879973"></a></h3>
+<p>VGS模块根据job、node、task数目，分配固定的MMZ内存。</p>
+<ul>
+<li>vmallocinfo:根据job、task数目及上下文占用OS内存。数目越多占用越大。</li>
+<li>vgs_node_buf:根据node数目，占用一定大小的MMZ内存。数目越多占用越大。</li>
+</ul>
+<h3 id="VENC">VENC<a name="ZH-CN_TOPIC_0000002457879945"></a></h3>
+<ul>
+<li>
+<p>硬件相关：</p>
+<p>vedu_hal_(%d)：硬件需要使用的内存，与IP个数相关。</p>
+</li>
+<li>
+<p>通道相关内存（以H264为例，H265则前缀为h265e）：</p>
+<ul>
+<li>h264e(%d)_node：寄存器节点配置内存，每个通道一块。</li>
+<li>h264e(%d)_str0：码流buffer，每个通道一块。</li>
+<li>h264e(%d)_rcn(%d)：参考帧重构帧内存，个数与编码参考帧个数相关。</li>
+<li>h264e(%d)_info(%d)：参考帧重构帧信息内存，个数与编码参考帧个数相关。</li>
+<li>h264e(%d)_deblur：通过ss_mpi_venc_set_deblur 使能去模糊后，需要相应去模糊处理内存。</li>
+<li>h264e(%d)_md：通过ss_mpi_venc_set_md使能MD检测，需要相应的MD检测内存。</li>
+<li>venc(%d)_svc：通过ss_mpi_venc_enable_svc使能SVC，需要相应的SVC内存。</li>
+<li>jpege(%d)_stm：jpege码流buffer，每个通道一块。</li>
+<li>jpege(%d)_roi_map：通过ss_mpi_venc_set_jpeg_roi_attr使能roi_map，为jpege的roi_map分配内存。</li>
+<li>vmallocinfo：各个通道的通道上下文内存；UserData数据；码率控制相关内存。</li>
+</ul>
+</li>
+</ul>
+<h3 id="VO">VO<a name="ZH-CN_TOPIC_0000002424201194"></a></h3>
+<p>VO MMZ占用分为系数MMZ占用、获取亮度和MMZ占用，VB轮转MMZ占用。</p>
+<ul>
+<li>
+<p>系数MMZ占用：</p>
+<p>vo_coef_buf：回写缩放系数(128KB)和多区域配置系数(8KB)的内存存放占用, 共计136KB。如果芯片不支持回写缩放，则不会申请对应系数，一个多区域占用4KB内存，两个多区域占用8KB.</p>
+</li>
+<li>
+<p>获取亮度和MMZ占用：</p>
+<p>vo(%d,%d)_luma：VO模块获取视频层和通道亮度和时动态申请MMZ内存占用，某个通道固定占用4KB。如果芯片不支持获取亮度和，则不申请此内存。</p>
+</li>
+<li>
+<p>VB轮转MMZ占用：</p>
+<p>vo(%d)_disp_buf：vb大小和个数都由用户配置。大小根据用户配置视频层属性img_size确定，个数根据用户配置视频层属性中display_buf_len确定。Single模式下VO会占用3块私有VB用来显示轮转。</p>
+<p>Multi模式下，如果前端绑定VPSS为auto模式，VO会占用4块私有VB用来显示轮转；如果前端为User模式，VO可以不分配VB，此时占用前端模块发送过来的VB，显示完后释放。</p>
+</li>
+</ul>
+<h3 id="GFBG">GFBG<a name="ZH-CN_TOPIC_0000002457839817"></a></h3>
+<p>加载ko时，用户指定图形层、鼠标层的显示buf大小。支持的图层均可指定，图层id号与vram id号需保证匹配。</p>
+<p>例如：insmod gfbg.ko video="gfbg:vram0_size:32400,vram1_size:32400,vram2_size:256,vram3_size:4052".</p>
+<ul>
+<li>vram0_size: 对应gfbg0图形层内存大小，单位KB，对应mmz name= gfbg_layer0。</li>
+<li>vram1_size: 对应gfbg1图形层内存大小，单位KB，对应mmz name= gfbg_layer1。</li>
+<li>vram2_size: 对应gfbg2图形层内存大小，单位KB，对应mmz name= gfbg_layer2。</li>
+<li>vram3_size: 对应gfbg3图形层内存大小，单位KB，对应mmz name= gfbg_layer3。</li>
+</ul>
+<h3 id="AUDIO">AUDIO<a name="ZH-CN_TOPIC_0000002424201218"></a></h3>
+<p><strong>AI<a name="section1478714716237"></a></strong></p>
+<ul>
+<li>ai(%d)_frm：AI的通道buffer根据chn_cnt、frame_num和point_num_per_frame分配。</li>
+<li>ai(%d)_dma：AI的DMA缓冲区根据chn_cnt和point_num_per_frame分配。</li>
+</ul>
+<p><strong>AO<a name="section20436157192318"></a></strong></p>
+<ul>
+<li>ao(%d)_dma&amp;frm：AO的DMA缓冲区和通道buffer根据chn_cnt、frame_num和point_num_per_frame分配。</li>
+<li>ao(%d, %d)_cir：音频帧buffer根据frame_num和point_num_per_frame分配。</li>
+</ul>
+<p><strong>AENC<a name="section339816212241"></a></strong></p>
+<ul>
+<li>aenc(%d)_strm：码流buffer根据buf_size分配。</li>
+<li>aenc(%d)_cir：环形缓冲区根据编码通道数分配。</li>
+</ul>
+<h3 id="REGION">REGION<a name="ZH-CN_TOPIC_0000002457879941"></a></h3>
+<p><strong>区域信息上下文节点<a name="section15813751132413"></a></strong></p>
+<p>去掉不必要的模块可以减少内存的占用，如：</p>
+<ul>
+<li>模块加载时分配的1024个区域信息上下文节点，占用os内存4kb。区域信息上下文在创建区域时动态分配。</li>
+<li>如果是overlay或者是overlayex类型的区域，还会创建乒乓buff用于存放位图数据。</li>
+<li>rgn_pin_pon_(%d)：乒乓buff的大小由用户设置的width，height，canvas_num和颜色格式决定，占用MMZ内存。</li>
+</ul>
+<p><strong>通道管理信息节点<a name="section16571145662413"></a></strong></p>
+<p>其他模块调用REGION的函数向REGION注册信息时动态分配，占用MMZ内存。</p>
+<h3 id="TDE">TDE<a name="ZH-CN_TOPIC_0000002457839825"></a></h3>
+<p>通道使用MMZ，为固定值总大小：(OT_TDE_CMD_NUM) * 64 + (OT_TDE_JOB_NUM) * 96 + (OT_TDE_NODE_NUM) * 256 +(OT_TDE_FILTER_NUM) * 1024。</p>
+<h3 id="SVP">SVP<a name="ZH-CN_TOPIC_0000002457839801"></a></h3>
+<p><strong>SVP_NNN<a name="section14631148142915"></a></strong></p>
+<p>SVP_NNN内存占用分为MMZ内存和os内存，其中MMZ内存包括任务节点和推理内容内存。</p>
+<ul>
+<li>
+<p>节点MMZ占用：</p>
+<p>内核态节点的大小，默认值100KB；</p>
+<p>用户态节点的大小，默认值80KB。</p>
+</li>
+<li>
+<p>推理MMZ占用（Resnet50 Batch 1典型场景）：</p>
+<p>OM内存大小，值50828KB；</p>
+<p>输入输出数据内存大小，值8596KB；</p>
+<p>模型信息内存大小，值12KB。</p>
+</li>
+<li>
+<p>OS内存占用：</p>
+<p>OS内存主要包括两部分：静态全局变量的内存，大小大约5.6KB；动态内存，大小大约0.594KB。</p>
+<blockquote>
+<p><img alt="" src="public_sys-resources/icon-note.gif" /> <strong>说明：</strong> </p>
+<p>SS927V100不支持SVP_NNN模块。</p>
+</blockquote>
+</li>
+</ul>
+<p><strong>IVE<a name="section8594155332913"></a></strong></p>
+<p>IVE内存占用分为MMZ内存和os内存，其中MMZ内存包括任务链表和辅助内存。</p>
+<ul>
+<li>
+<p>任务链表MMZ占用：</p>
+<p>ive_queue: IVE任务链表的大小，默认为212KB。</p>
+</li>
+<li>
+<p>辅助MMZ内存占用：</p>
+<ul>
+<li>ive_tmp_node: IVE的多算子组合任务需要的临时节点，固定值4KB。</li>
+<li>Md_proc: MDproc信息需要的MMZ内存，固定值8KB。</li>
+<li>ive_resize_param: resize算子计算需要的辅助内存，固定值9264Byte.</li>
+<li>ive_yuv_to_hsv_table: ive颜色空间转换存放table的辅助内存，固定值2048Byte</li>
+<li>ive_yuv_to_lab_table: ive颜色空间转化存放table的辅助内存，固定值6656Byte</li>
+</ul>
+</li>
+<li>
+<p>OS内存占用：</p>
+<p>ive占用的OS内存主要分为kmalloc开辟的内存和静态全局变量占用内存，OS内存加mmz内存不超过235KB。</p>
+</li>
+</ul>
+<p><strong>KCF<a name="section1226215919298"></a></strong></p>
+<p>KCF内存占用分为MMZ内存和OS内存，其中MMZ内存包括任务链表和辅助内存。</p>
+<ul>
+<li>
+<p>任务链表MMZ占用：</p>
+<p>kcf_queue: KCF任务链表的大小，固定值106688Byte。</p>
+</li>
+<li>
+<p>辅助MMZ内存占用：</p>
+<p>kcf_param: KCF计算需要的辅助内存，固定值45328Byte。</p>
+</li>
+<li>
+<p>OS内存占用：</p>
+<p>KCF占用的OS内存主要分为kmalloc开辟的内存和静态全局变量占用内存，OS内存加mmz内存不超过150KB。</p>
+</li>
+</ul>
+<p><strong>MAU<a name="section4581452303"></a></strong></p>
+<p>MAU内存主要分为MMZ内存和OS内存，其中MMZ内存为任务链表的内存。</p>
+<ul>
+<li>
+<p>任务链表占用：</p>
+<p>svp_mau_queue: MAU任务链表的大小，默认160KB。</p>
+</li>
+<li>
+<p>OS内存占用：</p>
+<p>MAU 占用的os内存主要有mem_info链表内存使用os内存，mem_info链表内存占用(40 * mau_max_mem_info_num)Byte，以及mau上下文的静态全局变量占用的内存。os内存加mmz内存总共不超过163KB。</p>
+</li>
+</ul>
+<h3 id="PCIV">PCIV<a name="ZH-CN_TOPIC_0000002457839793"></a></h3>
+<p>PCIV MMZ占用分为pcie-mcc消息池占用、window占用、VB轮转占用。</p>
+<ul>
+<li>
+<p>pcie-mcc消息池占用：</p>
+<p>用于pcie-mcc消息通信，在加载从片pcie驱动时指定位置与大小，大小固定为1M。</p>
+</li>
+<li>
+<p>window占用：</p>
+<p>主片发起DMA操作时，从片空间只能在窗口上读写，加载osal驱动时指定mmz名为window，默认大小7M，起始位置紧跟pcie-mcc消息池之后(pcie-mcc消息池+window连续空间最大8M)。</p>
+</li>
+<li>
+<p>VB轮转占用：</p>
+<ul>
+<li>主片轮转VB：VB大小和个数由用户配置，大小必须保证能接收完整图像，一般根据通道属性中的图像宽高，格式属性等确定；分配释放由用户调用接口控制；接收从片图像时，轮转VB往后传，通过查询后端占用情况决定是否接收下一次轮转。</li>
+<li>从片轮转VB：从片接收前端图像，如果是VPSS使用auto模式送帧，则由pciv获取VB，其他模式则接受图像时占用VB；直通模式(PCIV透传)则DMA发送完成释放VB;非直通模式(OSD、缩放等操作)，需要获取VGS写出VB，并释放接收图像VB，DMA发送完成后，释放VGS写出VB。</li>
+</ul>
+</li>
+</ul>
+<h3 id="GDC">GDC<a name="ZH-CN_TOPIC_0000002424361082"></a></h3>
+<p>GDC模块根据job、node、task数目，分配固定的MMZ内存。</p>
+<ul>
+<li>vmallocinfo:根据job、task数目及上下文占用OS内存。数目越多占用越大。</li>
+<li>gdc_node_buf:根据node数目，占用一定大小的MMZ内存。数目越多占用越大。</li>
+<li>gdc_int_pole_coef:存储插值系数需要的MMZ内存，固定值4KB。</li>
+</ul>
+<h3 id="CIPHER">CIPHER<a name="ZH-CN_TOPIC_0000002457879957"></a></h3>
+<p>固定大小（驱动内部确定申请的MMZ内存的长度）</p>
+<ul>
+<li>Hash初始化：给SHA节点链表分配内存，固定值28 *255* 1=7KB；255作为链表最大深度，最小深度为2；HASH消息的DMA内存：逻辑只识别物理内存，需要申请最大的64KB物理内存存储hash消息。</li>
+<li>Cipher驱动模块初始化：给CIPHER节点链表分配内存entry list size（20KB），用来存放16个通道每个通道CCM GCM aad的物理内存padding buffer（2KB），固定值22KB。</li>
+</ul>
+<p>非固定大小（由用户层接口传入的MMZ内存申请的长度）。</p>
+<p>cipher加解密：依赖虚拟地址/物理地址加解密接口的参数byte_len。</p>
+<h3 id="DCC">DCC<a name="ZH-CN_TOPIC_0000002424361058"></a></h3>
+<p>dcc_msg_buf：SS626V100使用，用于双核通信任务。</p>
+<h3 id="VDA">VDA<a name="ZH-CN_TOPIC_0000002457879965"></a></h3>
+<p>vda(%d)：通道内部计算结果存储相关内存，主要包括SAD结果内存、RGN运动区域信息内存和背景。</p>
+<h3 id="ISP">ISP<a name="ZH-CN_TOPIC_0000002457839813"></a></h3>
+<ul>
+<li>isp[%d].vreg[%d]：外部虚拟寄存器内存。</li>
+<li>isp[%d].proc：用户态算法proc调试信息。</li>
+<li>isp[%d].trans：dng, dcf, colorgammut等信息内存。</li>
+<li>isp[%d].ldci：ldci算法内存。</li>
+<li>isp[%d].clut：clut算法内存。</li>
+<li>be_lut_stt[%d]：be lut信息内存。</li>
+<li>pre_on_lut_stt[%d]：在线通路ADVANCED模式be lut信息内存。</li>
+<li>isp[%d].stat：统计信息（FE,BE）内存。</li>
+<li>isp[%d].fe_stat：FE统计信息内存。</li>
+<li>isp[%d].wdr：wdr算法内存。</li>
+<li>isp[%d].drc：drc算法内存。</li>
+<li>isp[%d].be_cfg：离线通路be config buffer。</li>
+<li>isp[%d].be_stt_on：在线通路be统计信息内存。</li>
+<li>isp[%d].fe_stt：fe统计信息内存。</li>
+<li>isp[%d].be_stt：离线通路be统计信息内存。</li>
+<li>isp[%d].stit_fe：拼接通路fe统计信息内存。</li>
+<li>isp[%d].stit_be：拼接通路be统计信息内存。</li>
+</ul>
+<h3 id="HNR">HNR<a name="ZH-CN_TOPIC_0000002424201214"></a></h3>
+<ul>
+<li>hnr_pqp_buf[%d]：hnr模型文件内存。</li>
+<li>
+<p>hnr_ping_pong_buf：hnr模型推理使用的工作内存。</p>
+<p>开启HNR功能参考帧模式需要多占用4~6个视频帧VB，无参考帧模式需要多占用1个视频帧VB。</p>
+</li>
+</ul>
+<h2 id="各模块内存相关可优化配置">各模块内存相关可优化配置<a name="ZH-CN_TOPIC_0000002424201226"></a></h2>
+<ul>
+<li>
+<p><strong><a href="#ZH-CN_TOPIC_0000002424201202">VB</a></strong>  </p>
+</li>
+<li>
+<p><strong><a href="#ZH-CN_TOPIC_0000002457879949">SYS</a></strong>  </p>
+</li>
+<li>
+<p><strong><a href="#ZH-CN_TOPIC_0000002457879929">VI</a></strong>  </p>
+</li>
+<li>
+<p><strong><a href="#ZH-CN_TOPIC_0000002457839809">VDEC</a></strong>  </p>
+</li>
+<li>
+<p><strong><a href="#ZH-CN_TOPIC_0000002424201190">VPSS</a></strong>  </p>
+</li>
+<li>
+<p><strong><a href="#ZH-CN_TOPIC_0000002424361078">VGS</a></strong>  </p>
+</li>
+<li>
+<p><strong><a href="#ZH-CN_TOPIC_0000002424361070">VENC</a></strong>  </p>
+</li>
+<li>
+<p><strong><a href="#ZH-CN_TOPIC_0000002424361042">VO</a></strong>  </p>
+</li>
+<li>
+<p><strong><a href="#ZH-CN_TOPIC_0000002457839797">GFBG</a></strong>  </p>
+</li>
+<li>
+<p><strong><a href="#ZH-CN_TOPIC_0000002457879961">AUDIO</a></strong>  </p>
+</li>
+<li>
+<p><strong><a href="#ZH-CN_TOPIC_0000002457879937">REGION</a></strong>  </p>
+</li>
+<li>
+<p><strong><a href="#ZH-CN_TOPIC_0000002457839821">SVP</a></strong>  </p>
+</li>
+<li>
+<p><strong><a href="#ZH-CN_TOPIC_0000002424361054">VDA</a></strong>  </p>
+</li>
+<li>
+<p><strong><a href="#ZH-CN_TOPIC_0000002424201186">PCIV</a></strong>  </p>
+</li>
+<li>
+<p><strong><a href="#ZH-CN_TOPIC_0000002424201222">GDC</a></strong>  </p>
+</li>
+<li>
+<p><strong><a href="#ZH-CN_TOPIC_0000002424361050">CIPHER</a></strong>  </p>
+</li>
+<li>
+<p><strong><a href="#ZH-CN_TOPIC_0000002457839833">ISP</a></strong>  </p>
+</li>
+<li>
+<p><strong><a href="#ZH-CN_TOPIC_0000002457879953">HNR</a></strong>  </p>
+</li>
+</ul>
+<h3 id="VB">VB<a name="ZH-CN_TOPIC_0000002424201202"></a></h3>
+<table>
+<thead>
+<tr>
+<th>措施</th>
+<th>相关模块参数/接口</th>
+<th>收益</th>
+<th>影响</th>
+<th>注意</th>
+<th>proc信息</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>检查是否有vb池的vb个数设置过多</td>
+<td>略</td>
+<td>mini_free不为0的pool id里的VB块个数设置过多，可以再减去mini_free个。</td>
+<td>-</td>
+<td>公共VB池、模块VB池、UserVB池的个数设置参见《MPP 媒体处理软件 V5.0 开发参考》“系统控制章节”的VB相关接口。PrivateVB池的个数设置需要到相关模块的接口里找到对应的参数。</td>
+<td>mini_free：vb个数的历史最小余量</td>
+</tr>
+<tr>
+<td>检查是否有VB块size设置过大</td>
+<td>略</td>
+<td>free_bytes不为0的VB块size分大了，可以再减去free_bytes。</td>
+<td>-</td>
+<td>公共VB池、模块VB池、UserVB池的VB块大小设置参见《MPP 媒体处理软件 V5.0 FAQ》“系统控制章节”的VB相关接口。PrivateVB池的个数设置需要到相关模块的接口里找到对应的参数。</td>
+<td>free_bytes：vb块的实时剩余bytesget：获取vb块的模块，通过此信息可以判断具体哪个模块的VB块size分大了</td>
+</tr>
+</tbody>
+</table>
+<h3 id="SYS">SYS<a name="ZH-CN_TOPIC_0000002457879949"></a></h3>
+<table>
+<thead>
+<tr>
+<th>措施</th>
+<th>相关模块参数/接口</th>
+<th>收益</th>
+<th>影响</th>
+<th>注意</th>
+<th>proc信息</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>设置调度模式为OT_SCHEDULE_QUICK</td>
+<td>ss_mpi_sys_set_schedule_mode</td>
+<td>加速vb轮转，可以减少vb分配</td>
+<td>-</td>
+<td>具体操作和注意事项请参考《MPP 媒体处理软件 V5.0 FAQ》的“1.9 Quick schedule”注意事项</td>
+<td>-</td>
+</tr>
+<tr>
+<td>关闭logmpp_mdc</td>
+<td>g_mdc_log_enable</td>
+<td>节省logmpp_mdc日志68K</td>
+<td>-</td>
+<td>在插入xx_base.ko时设置模块参数g_mdc_log_enable=0SS626V100 支持</td>
+<td>-</td>
+</tr>
+<tr>
+<td>去除MDC侧内存分配</td>
+<td>-</td>
+<td>不需要加载：xx_dcc.ko、xx_vdec_adapt.ko</td>
+<td>-</td>
+<td>参考文档《内存布局调整指南》ss_mpi_vdec_set_chn_config：deployment_mode设置为OT_VDEC_DEPLOYMENT_MODE0SS626V100 支持</td>
+<td>-</td>
+</tr>
+</tbody>
+</table>
+<h3 id="VI_1">VI<a name="ZH-CN_TOPIC_0000002457879929"></a></h3>
+<table>
+<thead>
+<tr>
+<th>措施</th>
+<th>相关接口</th>
+<th>收益</th>
+<th>影响</th>
+<th>注意</th>
+<th>proc信息</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>开启 Early/Early_end机制</td>
+<td>ss_mpi_vi_set_pipe_frame_interrupt_attr</td>
+<td>线性或者在线WDR，节省一个VB；离线WDR(2路)，节省两个VB</td>
+<td>VI采集响应的中断数翻倍</td>
+<td>-</td>
+<td>vi pipe frame interrupt attr:interrupt_type</td>
+</tr>
+<tr>
+<td>chn输出设置压缩</td>
+<td>ss_mpi_vi_set_chn_attr</td>
+<td>压缩比不压缩情况要更节省内存和带宽</td>
+<td>-</td>
+<td>-</td>
+<td>SS928V100：vi phys chn attr1:compress_mode其他：vi phychn attr 2:compress_mode</td>
+</tr>
+<tr>
+<td>在线WDR行模式卷绕</td>
+<td>ss_mpi_vi_set_wdr_fusion_grp_attr</td>
+<td>默认不卷绕，根据配置的cache_line节省内存</td>
+<td>cache_line配置过小时可能导致图像分层</td>
+<td>SS928V100支持</td>
+<td>vi wdr fusion grp attr：cache_line</td>
+</tr>
+<tr>
+<td>pipe设置压缩输出</td>
+<td>ss_mpi_vi_set_pipe_attr</td>
+<td>压缩比不压缩情况要更节省内存和带宽</td>
+<td>-</td>
+<td>SS928V100支持</td>
+<td>vi pipe attr1:compress_mode</td>
+</tr>
+<tr>
+<td>调整VI_VPSS在离线模式</td>
+<td>ss_mpi_sys_set_vi_vpss_mode</td>
+<td>在线/在离线/离在线通路比全离线通路节省1-2个VB;</td>
+<td>VI在线只能处理一路，VPSS在线无法在VI_CHN做通道后处理相关功能</td>
+<td>SS928V100支持</td>
+<td>vi vpss mode &amp; vi video mode：vi_vpss_mode</td>
+</tr>
+<tr>
+<td>调整VI_VIDEO模式</td>
+<td>ss_mpi_sys_set_vi_video_mode</td>
+<td>normal模式，比advanced模式可节省2块VB</td>
+<td>normal模式 HNR功能在BE前面</td>
+<td>SS928V100支持</td>
+<td>vi vpss mode &amp; vi video mode：vi_vpss_mode</td>
+</tr>
+<tr>
+<td>调整BayerNR buf_num个数</td>
+<td>ss_mpi_vi_set_pipe_bnr_buf_num</td>
+<td>默认个数为40个，可根据需离线缓存的YUV调整个数，节省部分内存</td>
+<td>bnr_buf_num主要影响VI连续缓存不释放的YUV个数</td>
+<td>SS928V100支持</td>
+<td>vi pipe bnr buf num:bnr_buf_num</td>
+</tr>
+<tr>
+<td>手动关闭 ISP BayerNR功能</td>
+<td>ss_mpi_isp_set_nr_attr</td>
+<td>关闭BayerNR可节省参考帧等内存和带宽</td>
+<td>影响效果</td>
+<td>SS928V100支持</td>
+<td>bayernr info: enable</td>
+</tr>
+</tbody>
+</table>
+<h3 id="VDEC_1">VDEC<a name="ZH-CN_TOPIC_0000002457839809"></a></h3>
+<table>
+<thead>
+<tr>
+<th>措施</th>
+<th>相关模块参数/接口</th>
+<th>收益</th>
+<th>影响</th>
+<th>注意</th>
+<th>proc信息</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>解码码流buffer使用省内存模式分配</td>
+<td>ss_mpi_vdec_set_mod_param：mini_buf_mode</td>
+<td>可以把码流buffer设置小一些。可以减少vfmw(%d)_seg_buf内存</td>
+<td>-</td>
+<td>-</td>
+<td>module param：mini_buf_mode</td>
+</tr>
+<tr>
+<td>控制用户数据user data buffer大小</td>
+<td>ss_mpi_vdec_set_user_data_attr：enablemax_user_data_len</td>
+<td>不申请或者少申请user data buffer</td>
+<td>-</td>
+<td>-</td>
+<td>etail user_data state：enablemax_user_data_len</td>
+</tr>
+<tr>
+<td>控制jpeg解码progressive_buffer</td>
+<td>ss_mpi_vdec_set_mod_param：progressive_en</td>
+<td>不申请progressive_buffer</td>
+<td>使用JPEGD progressive功能时，设置dynamic_alloc_en为TD_TRUE，可以动态分配progressive_buffer，减少progressive_buffer内存占用</td>
+<td>-</td>
+<td>module param：progressive_en</td>
+</tr>
+<tr>
+<td>按场景设置解码器最大能力集</td>
+<td>ss_mpi_vdec_set_mod_param：video_mod_parampic_mod_param</td>
+<td>可节省部分MMZ和OS内存</td>
+<td>VDH相关的内存分配的内存少了可能会导致解码性能下降，但是不影响功能。JPEGD的相关配置可以节省OS内存。</td>
+<td>-</td>
+<td>module param：max_video_widthmax_video_heightmax_slice_numvdh_msg_nummax_pic_widthmax_pic_heightprogressive_endynamic_alloc_encapacity_strategy</td>
+</tr>
+<tr>
+<td>按场景设置解码通道能力集</td>
+<td>ss_mpi_vdec_set_protocol_param</td>
+<td>可节省部分OS内存</td>
+<td>-</td>
+<td>-</td>
+<td>chn video attr &amp; params：max_vps_nummax_sps_nummax_pps_nummax_slice_segment_num</td>
+</tr>
+<tr>
+<td>H264解码无B帧码流时可关闭Tmv开关</td>
+<td>ss_mpi_vdec_create_chn：temporal_mvp_en</td>
+<td>可节省Tmv buffer</td>
+<td>-</td>
+<td>-</td>
+<td>chn video attr &amp; params：tmv_en</td>
+</tr>
+<tr>
+<td>解码模块最大支持的通道数</td>
+<td>g_vdec_max_chn_num  g_vfmw_max_chn_num</td>
+<td>可节省部分OS内存</td>
+<td>-</td>
+<td>-</td>
+<td>module param：g_vdec_max_chn_num</td>
+</tr>
+<tr>
+<td>只解码I帧的通道把参考帧设置为0</td>
+<td>ss_mpi_vdec_create_chn：ref_frame_num</td>
+<td>减少pic_vb、tmv_vb分配个数</td>
+<td>-</td>
+<td>把通道解码模式设置为I模式，否则logmpp会报错。</td>
+<td>chn video attr &amp; params：ref_num</td>
+</tr>
+<tr>
+<td>设置快速释放参考帧模式为自适应模式或者强制模式</td>
+<td>ss_mpi_vdec_set_chn_param：quick_mark_mode</td>
+<td>加速vb轮转，可以减少pic_vb、tmv_vb分配个数</td>
+<td>-</td>
+<td>-</td>
+<td>chn video attr &amp; params：quick_mark_mode</td>
+</tr>
+<tr>
+<td>根据实际应用的宽高尽量小的创建通道</td>
+<td>ss_mpi_vdec_create_chn</td>
+<td>可以减少vfmw(%d)_seg_buf内存</td>
+<td>-</td>
+<td>-</td>
+<td>chn comm attr &amp; params：max_wmax_h</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><img alt="" src="public_sys-resources/icon-note.gif" /> <strong>说明：</strong> </p>
+<p>具体参见《MPP媒体处理软件V5.0开发参考》"视频解码”章节。</p>
+</blockquote>
+<h3 id="VPSS_1">VPSS<a name="ZH-CN_TOPIC_0000002424201190"></a></h3>
+<table>
+<thead>
+<tr>
+<th>措施</th>
+<th>相关模块参数/接口</th>
+<th>收益</th>
+<th>影响</th>
+<th>注意</th>
+<th>proc信息</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>关闭backup帧</td>
+<td>ss_mpi_vpss_enable_backup_framess_mpi_vpss_disable_backup_frame</td>
+<td>每个VPSS GROUP少占用1帧输入源的buffer。</td>
+<td>VO暂停情况下放大或切换画面时显示设备背景色。</td>
+<td>-</td>
+<td>vpss grp attr1：backup</td>
+</tr>
+<tr>
+<td>不同时开启nr、dei功能</td>
+<td>ss_mpi_vpss_create_grp</td>
+<td>每个VPSS GROUP少分配两帧buffer（参考帧和重构帧）。</td>
+<td>影响图像效果。</td>
+<td>nr、dei中只要有一个功能开启，都会分配参考帧和重构帧buffer。</td>
+<td>vpss grp attr：nrdei_mode</td>
+</tr>
+<tr>
+<td>CH0输出YUV压缩</td>
+<td>ss_mpi_vpss_set_chn_attr：compress_mode</td>
+<td>比不压缩情况要更节省内存和带宽</td>
+<td>-</td>
+<td>-</td>
+<td>vpss chn output status：compress_mode</td>
+</tr>
+<tr>
+<td>开启 Early/Early_end机制</td>
+<td>ss_mpi_vpss_set_grp_frame_interrupt_attr</td>
+<td>全在线模式下每个通道节省一帧buffer</td>
+<td>-</td>
+<td>-</td>
+<td>frame interrupt attr: int_type</td>
+</tr>
+<tr>
+<td>减小模块参数split_node_num</td>
+<td>ss_mpi_vpss_set_mod_param</td>
+<td>减小每组寄存器模板所占用的mmz内存</td>
+<td>-</td>
+<td>split_node_num与输入分辨率的宽成正比，默认为3。当场景固定且为小分辨率时，可调小其值；超大分辨率时，选择合适的取值，避免浪费内存。</td>
+<td>vpss module param:split_node_num</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><img alt="" src="public_sys-resources/icon-note.gif" /> <strong>说明：</strong> </p>
+<p>具体使用方法及限制参见《MPP媒体处理软件V5.0开发参考》“视频处理子系统”章节。</p>
+</blockquote>
+<h3 id="VGS_1">VGS<a name="ZH-CN_TOPIC_0000002424361078"></a></h3>
+<table>
+<thead>
+<tr>
+<th>措施</th>
+<th>相关模块参数</th>
+<th>收益</th>
+<th>影响</th>
+<th>注意</th>
+<th>proc信息</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>设置VGS支持的最大job数</td>
+<td>g_max_vgs_job</td>
+<td>默认值128，按需减小可节省内存</td>
+<td>job数量过少会限制VGS性能。</td>
+<td>-</td>
+<td>module params：g_max_job_num</td>
+</tr>
+<tr>
+<td>设置VGS支持的最大task数</td>
+<td>g_max_vgs_task</td>
+<td>默认值200，按需减小可节省内存</td>
+<td>task数量过少会限制VGS性能</td>
+<td>-</td>
+<td>module params：g_max_task_num</td>
+</tr>
+<tr>
+<td>设置VGS支持的最大node数</td>
+<td>g_max_vgs_node</td>
+<td>默认值200，按需减小可节省内存</td>
+<td>node数量过少会限制VGS性能</td>
+<td>-</td>
+<td>module params：g_max_node_num</td>
+</tr>
+</tbody>
+</table>
+<p>VGS模块主要是OS内存和node用的mmz。考虑场景的减小最大job数、最大task数和最大node数可以降低些OS占用内存以及node占用的MMZ内存。</p>
+<blockquote>
+<p><img alt="" src="public_sys-resources/icon-note.gif" /> <strong>说明：</strong> </p>
+<p>具体使用方法及限制参见《MPP媒体处理软件V5.0开发参考》“视频图形子系统”章节。</p>
+</blockquote>
+<h3 id="VENC_1">VENC<a name="ZH-CN_TOPIC_0000002424361070"></a></h3>
+<table>
+<thead>
+<tr>
+<th>措施</th>
+<th>相关模块参数/接口</th>
+<th>收益</th>
+<th>影响</th>
+<th>注意</th>
+<th>proc信息</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>动态切换编码分辨率</td>
+<td>ss_mpi_venc_set_chn_attrss_mpi_venc_get_chn_attr</td>
+<td>切换编码分辨率时不销毁通道，减少内存碎片，如使用NormalP，可比SmartP和DualP减少参考帧/重构帧占用帧存的总大小</td>
+<td>无</td>
+<td>切换分辨率后所有参数恢复默认值。</td>
+<td>-</td>
+</tr>
+<tr>
+<td>编码码流buffer使用省内存模式分配</td>
+<td>ss_mpi_venc_set_mod_param：mini_buf_mode</td>
+<td>可以把码流buffer设置小一些。</td>
+<td>此模式需要用户保证码流buffer大小设置合理，在码率较高或客户获取码流不及时情况下出现码流buffer不足而不断重编或者丢帧的情况。</td>
+<td>-</td>
+<td>h265e/h264e/jpege模块都有module param：mini_buf_mode</td>
+</tr>
+<tr>
+<td>参考帧重构帧buffer复用</td>
+<td>ss_mpi_venc_create_chn：rcn_ref_share_buf_en</td>
+<td>大约可节省（ref_num+1-1.2* ref_num）帧buffer</td>
+<td>超大帧、码率过冲、码率buffer满等异常情况导致的丢帧或者重编，下一帧只能插入I帧</td>
+<td>-</td>
+<td>h265e/h264e模块的ref_param info：rcn_ref_share_buf_en</td>
+</tr>
+<tr>
+<td>参考帧重构帧buffer比例调节</td>
+<td>ss_mpi_venc_set_chn_attrss_mpi_venc_get_chn_attrframe_buf_ratio</td>
+<td>若设置为80，则帧buffer为原始大小的80%。</td>
+<td>P帧刷I slice可能会出现整帧刷成I块且提前结束刷I slice；去呼吸效应在某些帧上可能会失效；QPMAP表不能强制指定skip块，SkipWeight表不能强制指定skip块ROI背景低帧率编码可能会出现部分帧的非ROI区域不能编码为p_skip块某些场景指定为p_skip帧的情况下可能会失效，如编码瞬时码率超过阈值时丢帧策略。skip倾向性可能会失效</td>
+<td>-</td>
+<td>h265e/h264e模块的ref_param info：frame_buf_ratio</td>
+</tr>
+<tr>
+<td>动态回收参考帧buffer</td>
+<td>ss_mpi_venc_set_mod_param：frame_buf_recycle</td>
+<td>当编码切换GOP模式，参考帧由多变少时，可动态释放多出来的参考帧buffer</td>
+<td>-</td>
+<td>-</td>
+<td>venc 模块的module param：frame_buf_recycle</td>
+</tr>
+<tr>
+<td>编码模块支持的最大通道数</td>
+<td>模块参数：g_venc_max_chn_num</td>
+<td>可节省部分OS内存</td>
+<td>-</td>
+<td>-</td>
+<td>venc模块的module param：venc_max_chn_num</td>
+</tr>
+<tr>
+<td>相同分辨率多通道编码使用UserVB模式节省内存</td>
+<td>ss_mpi_venc_set_mod_param：vb_src</td>
+<td>比PrivateVB模式节省更多帧存buffer</td>
+<td>-</td>
+<td>仅h265e/h264e支持</td>
+<td>h265e模块的module param：h265_vb_src；h264e模块的module param：h264_vb_src</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><img alt="" src="public_sys-resources/icon-note.gif" /> <strong>说明：</strong> </p>
+<p>具体参见《MPP媒体处理软件V5.0开发参考》"视频编码”章节。</p>
+</blockquote>
+<h3 id="VO_1">VO<a name="ZH-CN_TOPIC_0000002424361042"></a></h3>
+<table>
+<thead>
+<tr>
+<th>措施</th>
+<th>相关接口</th>
+<th>收益</th>
+<th>影响</th>
+<th>注意</th>
+<th>proc信息</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>VO水线设置为2</td>
+<td>ss_mpi_vo_set_chn_recv_threshold</td>
+<td>减少通道VB的积累</td>
+<td>可能出现少量丢帧</td>
+<td>-</td>
+<td>vo chn play info 1：threshold</td>
+</tr>
+<tr>
+<td>回放模式显示队列长度设置最小值3</td>
+<td>ss_mpi_vo_set_video_layer_attr</td>
+<td>高清设备可节省1帧buffer。</td>
+<td>影响VO显示流畅性。</td>
+<td>-</td>
+<td>vo video layer status 2：disp_buf_len</td>
+</tr>
+<tr>
+<td>直通模式DispBufLen可以设置为0</td>
+<td>ss_mpi_vo_set_video_layer_attr</td>
+<td>可不用分配Display Buffer</td>
+<td>-</td>
+<td>-</td>
+<td>vo video layer status 2：disp_buf_len</td>
+</tr>
+<tr>
+<td>多区域聚集模式</td>
+<td>ss_mpi_vo_set_video_layer_attrss_mpi_vo_set_chn_display_pos</td>
+<td>可节省部分MMZ内存</td>
+<td>聚集模式VO不支持缩放</td>
+<td>SS626V100支持</td>
+<td>vo video layer status 2：cluster_mode_envo chn basic info：disp_x disp_y</td>
+</tr>
+<tr>
+<td>单区域模式VO省buffer方案</td>
+<td>ss_mpi_vo_set_video_layer_attrss_mpi_vo_set_vtthss_mpi_vo_set_less_buf_attr</td>
+<td>单区域模式非直通时可设置显示buff最小为2</td>
+<td>减少了一块用于显示的buffer</td>
+<td>SS626V100支持</td>
+<td>vo video layer status 2：disp_buf_lenvo interface status:vtth less_buf_enableless_buf_vtth</td>
+</tr>
+<tr>
+<td>多区域模式VO省buffer方案</td>
+<td>ss_mpi_vo_set_video_layer_attrss_mpi_vo_set_vtthss_mpi_vo_set_less_buf_attr</td>
+<td>多区域模式下减少一块显示buffer</td>
+<td>可能出现显示卡顿</td>
+<td>-</td>
+<td>vo video layer status 2：disp_buf_lenvo interface status:vtth less_buf_enableless_buf_vtth</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><img alt="" src="public_sys-resources/icon-note.gif" /> <strong>说明：</strong> </p>
+<p>具体参见《MPP媒体处理软件V5.0开发参考》"视频输出”章节。</p>
+</blockquote>
+<h3 id="GFBG_1">GFBG<a name="ZH-CN_TOPIC_0000002457839797"></a></h3>
+<p>加载ko时，叠加图形层的显存大小根据像素格式、分辨率大小、buf模式算出，用户可以根据实际使用场景来得出需要的显存大小。</p>
+<p>非压缩：按实际UI大小，像素格式，单双BUF计算分配：</p>
+<p>例：1080P argb8888 双buf模式，</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>buf_size = 1920 * 4 * 1080 * 2 / 1024 = 16200KB
+</span></code></pre></div>
+<p>压缩：argb8888像素格式，宽&gt;=320的情况下，相对于非压缩情况可节省内存45%：</p>
+<p>例：1080P argb8888 双buf模式，</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>buf_size = （1920 * 4 * 1080 * 2 / 1024）* 55% = 8910KB
+</span></code></pre></div>
+<p>SS626V100在线画框可节省G3的MMZ内存, 若仅G3用作在线画框时可以不分配G3的MMZ。 G4用作在线画框时也一样。</p>
+<table>
+<thead>
+<tr>
+<th>措施</th>
+<th>相关模块参数/接口</th>
+<th>收益</th>
+<th>影响</th>
+<th>注意</th>
+<th>proc信息</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>设置合适的图形层物理显存</td>
+<td>video</td>
+<td>根据实际分辨率设置合适的图形层物理显存避免内存浪费。</td>
+<td>无</td>
+<td>-</td>
+<td>mem_size</td>
+</tr>
+<tr>
+<td>图形层缩放</td>
+<td>FBIOPUT_SCREENSIZE</td>
+<td>可节省部分MMZ内存。</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td>在线画框</td>
+<td>FBIO_DRAW_SMART_RECT</td>
+<td>可节省G3的MMZ内存。</td>
+<td>G3用作标清层显示，需要重新加载KO，分配足够的内存。</td>
+<td>仅G3用作在线画框时可以不分配G3的MMZ内存；SS626V100支持</td>
+<td>mem_size</td>
+</tr>
+</tbody>
+</table>
+<h3 id="AUDIO_1">AUDIO<a name="ZH-CN_TOPIC_0000002457879961"></a></h3>
+<table>
+<thead>
+<tr>
+<th>措施</th>
+<th>相关接口/参数</th>
+<th>收益</th>
+<th>影响</th>
+<th>注意</th>
+<th>proc信息</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>按场景合理设置通道数量、AI缓存音频帧数量、一帧采样点数。</td>
+<td>ss_mpi_ai_set_pub_attr：chn_cnt、frame_num、point_num_per_frame</td>
+<td>可节省部分OS内存</td>
+<td>需要用户保证buffer大小设置合理，否则可能会出现采集丢帧等异常。</td>
+<td>-</td>
+<td>cat /proc/umap/aiai dev attr：chn_cnt、frame_num、point_num</td>
+</tr>
+<tr>
+<td>按场景合理设置AENC缓存音频帧大小</td>
+<td>ss_mpi_aenc_create_chn：buf_size</td>
+<td>可节省部分OS内存</td>
+<td>需要用户保证buffer大小设置合理，否则可能会出现采集丢帧等异常。</td>
+<td>-</td>
+<td>cat /proc/umap/aencaenc chn attr：buf_size</td>
+</tr>
+<tr>
+<td>按场景合理设置ADEC缓存音频帧大小</td>
+<td>ss_mpi_adec_create_chn：buf_size</td>
+<td>可节省部分OS内存</td>
+<td>需要用户保证buffer大小设置合理，否则可能会出现采集丢帧等异常。</td>
+<td>-</td>
+<td>cat /proc/umap/adecadec chn attr：buf_size</td>
+</tr>
+<tr>
+<td>按场景合理设置通道数量、AO缓存音频帧数量，一帧采样点数。</td>
+<td>ss_mpi_ao_set_pub_attr：chn_cnt、frame_num、point_num_per_frame</td>
+<td>可节省部分OS内存</td>
+<td>需要用户保证buffer大小设置合理，否则可能会出现采集丢帧等异常。</td>
+<td>-</td>
+<td>cat /proc/umap/aoao dev attr：chn_cnt、frame_num、point_num</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><img alt="" src="public_sys-resources/icon-note.gif" /> <strong>说明：</strong> </p>
+<p>参考文档《MPP 媒体处理软件 V5.0 开发参考》“音频”章节。</p>
+</blockquote>
+<h3 id="REGION_1">REGION<a name="ZH-CN_TOPIC_0000002457879937"></a></h3>
+<ul>
+<li>用户分配乒乓buff指定的width，height按需要尽可能小。</li>
+<li>当区域类型为overlay/overlayex格式时，可以设置pixel_format为CLUT2/CLUT4，CLUT2相比ARGB1555可节省7/8的内存，CLUT4相比1555可节省3/4内存。此方法会降低图像质量。</li>
+<li>overlay/overlayex可采用单buff模式，方法为把区域属性中的canvas_num设置为1，当图像需要频繁刷新时可能会出现撕裂效果。</li>
+<li>参考文档《MPP 媒体处理软件 V5.0 开发参考》“区域管理”章节，proc信息查看命令cat /proc/umap/rgn。</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>措施</th>
+<th>相关模块参数/接口</th>
+<th>收益</th>
+<th>影响</th>
+<th>注意</th>
+<th>proc信息</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>使用ARGB CLUT2 OVERLAY和OVERLAYEX_RGN</td>
+<td>ss_mpi_rgn_create: pixel_format 设置为OT_PIXEL_FORMAT_ARGB_CLUT2</td>
+<td>ARGB CLUT2是 ARGB 1555的1/8，是ARGB 8888的 1/16。</td>
+<td>只能显示4种颜色</td>
+<td>多个OSD叠加有重叠区域时， Layer层次高的OSD会覆盖Layer层次低的OSD。</td>
+<td>region status of overlay: pixel_format;region status of overlayex: pixel_format</td>
+</tr>
+<tr>
+<td>使用ARGB CLUT4 OVERLAY和OVERLAYEX_RGN</td>
+<td>ss_mpi_rgn_create: pixel_format 设置为OT_PIXEL_FORMAT_ARGB_CLUT4</td>
+<td>ARGB CLUT4是 ARGB 1555的1/4，是ARGB 8888的 1/8。</td>
+<td>只能显示16种颜色</td>
+<td>多个OSD叠加有重叠区域时， Layer层次高的OSD会覆盖Layer层次低的OSD。</td>
+<td>region status of overlay: pixel_format;region status of overlayex: pixel_format</td>
+</tr>
+</tbody>
+</table>
+<h3 id="SVP_1">SVP<a name="ZH-CN_TOPIC_0000002457839821"></a></h3>
+<p><strong>SVP_NNN<a name="section72111374332"></a></strong></p>
+<ol>
+<li>
+<p>转换模型时配置参数</p>
+<ul>
+<li>ATC --batch_num参数配置1，可以减少输入输出及workbuf的内存占用。</li>
+<li>ATC --online_model_type参数配置为0，此配置使转换的模型不带调试相关信息，减少模型占用内存。</li>
+</ul>
+</li>
+<li>
+<p>量化参数配置</p>
+<ul>
+<li>activation_quant_params - num_bits配置为8</li>
+<li>weight_quant_params - num_bits配置为4</li>
+</ul>
+<p>备注：该配置参数会影响模型精度。</p>
+</li>
+<li>
+<p>KO模块参数</p>
+<p>可以通过模块参数svp_nnn_max_task_node_num来更改任务节点个数，从而减少任务节点占用mmz内存。</p>
+</li>
+<li>
+<p>workbuf共享</p>
+<p>同一条流上的多个模型之间可以使用同一块workbuf，从而减少mmz内存占用。</p>
+<blockquote>
+<p><img alt="" src="public_sys-resources/icon-note.gif" /> <strong>说明：</strong> </p>
+<p>SS927V100不支持SVP_NNN模块</p>
+</blockquote>
+</li>
+</ol>
+<p><strong>NNN<a name="section1727814121310"></a></strong></p>
+<ol>
+<li>转换模型时配置参数：ATC -enable_single_stream=true，使能一个模型使用一条流。</li>
+<li>多个模型串行推理时，使用aclmdlLoadFromFileWithMem或者aclmdlLoadFromMemWithMem加载方式，手动分配workbuf内存，然后多模型共享同一块工作内存，从而减少mmz内存占用。</li>
+</ol>
+<p><strong>IVE<a name="section151011750183319"></a></strong></p>
+<ol>
+<li>MD的proc信息的内存只有在支持MD的时候才会进行分配。</li>
+<li>用户不调用IVE的resize，kcf和csc这3个算子不会开辟resize，kcf和csc对应的辅助内存。</li>
+<li>可以通过配置模块参数max_node_num来控制链表节点个数，减小链表节点占用的MMZ内存。</li>
+</ol>
+<p><strong>KCF<a name="section1668375619333"></a></strong></p>
+<p>可以减少使用核数，从而减小内存。</p>
+<p><strong>MAU<a name="section15117207183413"></a></strong></p>
+<ol>
+<li>用户不调用ss_mpi_svp_mau_add_mem_info接口记录mem_info时，不会分配mem_info链表内存，如果用户需要调用ss_mpi_svp_mau_add_mem_info接口记录men_info，可以通过配置模块参数mau_max_mem_info_num来控制存储mem_info内存大小。</li>
+<li>可以通过配置模块参数mau_max_node_num来控制链表节点个数，减小链表节点占用的MMZ内存。</li>
+</ol>
+<h3 id="VDA_1">VDA<a name="ZH-CN_TOPIC_0000002424361054"></a></h3>
+<p>加载vda模块ko时设置模块参数最大通道数g_vda_max_chn_num，省OS内存。</p>
+<h3 id="PCIV_1">PCIV<a name="ZH-CN_TOPIC_0000002424201186"></a></h3>
+<ul>
+<li>window占用：如果不涉及主片发起的DMA任务，window空间可不用分配，需要注意，如果不分配window空间，需要留意mmz空间完整性，不要被pcie_mcc的空间分割。</li>
+<li>VB轮转占用：<ul>
+<li>主片轮转VB：用于接收绑定图像，如果只用DMA功能，可不分配；如果传输效率够(图像小，帧率低)，可使用单buff，个数只分配一个。</li>
+<li>从片轮转VB：接收绑定图像时，尽量使用直通模式；仅用户DMA传输时，不占用和分配轮转VB。</li>
+</ul>
+</li>
+</ul>
+<h3 id="GDC_1">GDC<a name="ZH-CN_TOPIC_0000002424201222"></a></h3>
+<p>GDC模块主要是OS内存和node用的mmz。考虑场景的减小最大job数、最大task数和最大node数可以降低些OS占用内存以及node占用的MMZ内存。</p>
+<h3 id="CIPHER_1">CIPHER<a name="ZH-CN_TOPIC_0000002424361050"></a></h3>
+<table>
+<thead>
+<tr>
+<th>措施</th>
+<th>相关模块参数</th>
+<th>收益</th>
+<th>影响</th>
+<th>注意</th>
+<th>proc信息</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Hash初始化内部固定内存大小配置</td>
+<td>HASH_MAX_DEPTH；ss_mpi_cipher_hash_updata/in_data_lenss_mpi_cipher_hash_final/out_hash_len</td>
+<td>驱动内部确定申请的MMZ内存的长度节省</td>
+<td>可减小链表深度来减小链表内存总大小；也可根据实际场景修改HASH消息的长度，减小申请的物理内存。</td>
+<td>-</td>
+<td>cat/proc/umap/cipher</td>
+</tr>
+<tr>
+<td>Cipher驱动模块初始化内部固定内存大小配置</td>
+<td>SYMC_MAX_LIST_NUM；CHIP_AES_CCM_GCM_SUPPORT宏关闭</td>
+<td>驱动内部确定申请的MMZ内存的长度节省</td>
+<td>可减小链表深度减少链表的内存总大小；可根据实际场景不适用CCM/GCM就删除给CCM/GCM申请的padding buffer</td>
+<td>-</td>
+<td>cat/proc/umap/cipher</td>
+</tr>
+<tr>
+<td>按场景合理设计cipher加解密时内存长度</td>
+<td>ss_mpi_cipher_encrypt/byte_lenss_mpi_cipher_decrypt/byte_len</td>
+<td>由用户层接口传入的MMZ内存申请的长度节省</td>
+<td>由用户层接口根据实际场景传入合适的MMZ内存申请的长度，可节省部分MMZ内存</td>
+<td>-</td>
+<td>cat/proc/umap/cipher</td>
+</tr>
+</tbody>
+</table>
+<h3 id="ISP_1">ISP<a name="ZH-CN_TOPIC_0000002457839833"></a></h3>
+<table>
+<thead>
+<tr>
+<th>措施</th>
+<th>相关接口/参数</th>
+<th>收益</th>
+<th>影响</th>
+<th>注意</th>
+<th>proc信息</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>离线通路时，按场景合理设置be config bufer个数。</td>
+<td>ss_mpi_isp_set_ctrl_param：be_buf_num</td>
+<td>可节省部分MMZ内存</td>
+<td>需要用户保证buffer大小设置合理，否则可能会出现获取be config buffer异常。</td>
+<td>-</td>
+<td>cat/proc/umap/ispmodule/control param：be_buf_num</td>
+</tr>
+</tbody>
+</table>
+<h3 id="HNR_1">HNR<a name="ZH-CN_TOPIC_0000002457879953"></a></h3>
+<table>
+<thead>
+<tr>
+<th>措施</th>
+<th>相关接口/参数</th>
+<th>收益</th>
+<th>影响</th>
+<th>注意</th>
+<th>proc信息</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>VI stagger输入场景且VI视频模式为OT_VI_VIDEO_MODE_NORM时</td>
+<td>ss_mpi_hnr_attach_out_vb_pool: ot_vb_pool</td>
+<td>可节省MMZ内存</td>
+<td>需要用户保证VB大小,个数设置合理，</td>
+<td>-</td>
+<td>cat/proc/umap/vb</td>
+</tr>
+</tbody>
+</table>
+<h2 id="其它措施">其它措施<a name="ZH-CN_TOPIC_0000002424201198"></a></h2>
+<ul>
+<li>
+<p><strong><a href="#ZH-CN_TOPIC_0000002457879969">限制栈大小</a></strong>  </p>
+</li>
+<li>
+<p><strong><a href="#ZH-CN_TOPIC_0000002457839805">优化代码中内存使用</a></strong>  </p>
+</li>
+<li>
+<p><strong><a href="#ZH-CN_TOPIC_0000002457839829">应用程序中禁用fork、system等进程创建函数</a></strong>  </p>
+</li>
+<li>
+<p><strong><a href="#ZH-CN_TOPIC_0000002424361062">根据场景去掉不必要的模块</a></strong>  </p>
+</li>
+</ul>
+<h3 id="限制栈大小">限制栈大小<a name="ZH-CN_TOPIC_0000002457879969"></a></h3>
+<p>默认的栈大小为8192KB，如果内存较小时，会导致线程创建不成功。根据实际的业务需要的栈空间，修改栈的限制大小为1024KB，如果业务更少则可以改成512KB或者更小。</p>
+<p>有两种方法可以修改栈大小：</p>
+<ul>
+<li>使用 ulimit –s 1024 命令，在应用程序启动之前调用一次；</li>
+<li>在main函数最开始调用函数 pthread_attr_setstacksize 也可实现对单个应用程序修改栈空间的目的。</li>
+</ul>
+<h3 id="优化代码中内存使用">优化代码中内存使用<a name="ZH-CN_TOPIC_0000002457839805"></a></h3>
+<p>优化代码中内存使用，特别是对栈、堆、常量、全局变量的使用，主要需要注意：</p>
+<ul>
+<li>避免应用程序代码中申请后不用的变量；</li>
+<li>不要随意申请大块的内存，够用即可；</li>
+<li>冗余的内存使用还包含不用的功能模块的初始化。</li>
+</ul>
+<h3 id="应用程序中禁用forksystem等进程创建函数">应用程序中禁用fork、system等进程创建函数<a name="ZH-CN_TOPIC_0000002457839829"></a></h3>
+<p>由于主进程的数据段占用内存已经很多，如果fork子进程必定消耗大量内存而且会有大概率失败，那么应用程序中应该禁用fork、system等进程创建函数：如bspmm调用、mkfs.vfat调用等。</p>
+<h3 id="根据场景去掉不必要的模块">根据场景去掉不必要的模块<a name="ZH-CN_TOPIC_0000002424361062"></a></h3>
+<p>去掉不必要的模块可以减少内存的占用，如：</p>
+<ul>
+<li>使用gfbg 0buffer或者标准模式，TDE可不加载，如果TDE未加载，则REGION使用memcpy进行Overlay/OverlayEx的拷贝；</li>
+<li>无需音频输入、编码场景，AI、VENC可不加载；</li>
+<li>无需使用REGION的场景，REGION可不加载；</li>
+<li>无需使用JPEGE场景，jpege模块可不加载。</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  回到页面顶部
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  
+  
+  <nav class="md-footer__inner md-grid" aria-label="页脚" >
+    
+    
+    <a href="../%E9%BB%91%E7%99%BD%E5%BD%A9%E8%89%B2%E5%8F%8C%E8%B7%AF%E8%9E%8D%E5%90%88%E8%B0%83%E8%AF%95%E6%8C%87%E5%8D%97/%E9%BB%91%E7%99%BD%E5%BD%A9%E8%89%B2%E5%8F%8C%E8%B7%AF%E8%9E%8D%E5%90%88%E8%B0%83%E8%AF%95%E6%8C%87%E5%8D%97.html" class="md-footer__link md-footer__link--prev"
+      aria-label="上一页: 黑白彩色双路融合调试指南">
+      <div class="md-footer__button md-icon">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </div>
+      <div class="md-footer__title">
+        <span class="md-footer__direction">
+          上一页
+        </span>
+        <div class="md-ellipsis">
+          黑白彩色双路融合调试指南
+        </div>
+      </div>
+    </a>
+    
+    
+    
+    <a href="../DIS%20%E8%B0%83%E8%AF%95%E6%8C%87%E5%8D%97/DIS%20%E8%B0%83%E8%AF%95%E6%8C%87%E5%8D%97.html" class="md-footer__link md-footer__link--next"
+      aria-label="下一页: DIS 调试指南">
+      <div class="md-footer__title">
+        <span class="md-footer__direction">
+          下一页
+        </span>
+        <div class="md-ellipsis">
+          DIS 调试指南
+        </div>
+      </div>
+      <div class="md-footer__button md-icon">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+      </div>
+    </a>
+    
+  </nav>
+  
+  
+
+  <div class="footer-box">
+    <div class="footer-list">
+      
+      
+      <div class="footer-list-child">
+        <a href="https://www.hisilicon.com/cn" target="_blank" class="footer-nav-first" rel="noopener noreferrer">海思官网</a>
+        <ul class="footer-ul"></ul>
+      </div>
+      
+      <div class="footer-list-child">
+        <a href="https://developers.hisilicon.com/home" target="_blank" class="footer-nav-first" rel="noopener noreferrer">海思开发者网站</a>
+        <ul class="footer-ul"></ul>
+      </div>
+      
+      <div class="footer-list-child">
+        <a href="https://gitcode.com/HiSpark" target="_blank" class="footer-nav-first" rel="noopener noreferrer">海思开源社区</a>
+        <ul class="footer-ul"></ul>
+      </div>
+      
+      <div class="footer-list-child">
+        <a href="https://developer.huawei.com/" target="_blank" class="footer-nav-first" rel="noopener noreferrer">华为开发者官网</a>
+        <ul class="footer-ul"></ul>
+      </div>
+      
+      <div class="footer-list-child">
+        <a href="https://www.hikunpeng.com/" target="_blank" class="footer-nav-first" rel="noopener noreferrer">鲲鹏社区</a>
+        <ul class="footer-ul"></ul>
+      </div>
+      
+      <div class="footer-list-child">
+        <a href="https://www.hiascend.com/" target="_blank" class="footer-nav-first" rel="noopener noreferrer">昇腾社区</a>
+        <ul class="footer-ul"></ul>
+      </div>
+      
+      <div class="footer-list-child">
+        <a href="https://developers.hisilicon.com/aboutus" target="_blank" class="footer-nav-first" rel="noopener noreferrer">关于我们</a>
+        <ul class="footer-ul"></ul>
+      </div>
+      
+      <div class="footer-list-child">
+        <a href="https://developers.hisilicon.com/login" target="_blank" class="footer-nav-first" rel="noopener noreferrer">投诉举报</a>
+        <ul class="footer-ul"></ul>
+      </div>
+      
+      
+    </div>
+    <div class="footer-fix">
+      <div class="footer-fix-content">
+        <div>
+          <span class="footer-copyright">&nbsp;&copy;2024 华为技术有限公司</span>
+          <a href="https://beian.miit.gov.cn/#/Integrated/index" target="_blank" rel="noopener noreferrer">粤A2-20044005号</a>
+          <a href="https://www.beian.gov.cn/portal/registerSystemInfo?recordcode=44030702004153"
+            target="_blank" rel="noopener noreferrer">粤公网安备44030702004153号</a>
+        </div>
+        <div class="footer-name-list">
+          
+          
+          
+          <a href="https://developers.hisilicon.com/legalNotices/legalNotices" target="_blank" class="footer-name" rel="noopener noreferrer">法律声明</a>
+          
+          
+          
+          <a href="https://developers.hisilicon.com/legalNotices/cookie-policy" target="_blank" class="footer-name" rel="noopener noreferrer">关于Cookie</a>
+          
+          
+          
+          <a href="https://developers.hisilicon.com/legalNotices/privacyPolicy" target="_blank" class="footer-name" rel="noopener noreferrer">隐私政策</a>
+          
+          
+          
+          <a href="https://developers.hisilicon.com/legalNotices/userPolicy" target="_blank" class="footer-name" rel="noopener noreferrer">用户协议</a>
+          
+          
+          
+          <a href="javascript:void(0);" onclick="openDisclaimerDialog()" class="footer-name">免责声明</a>
+          
+          
+          
+        </div>
+      </div>
+
+
+      <!-- 免责声明弹窗 -->
+      <div id="disclaimerDialog" class="disclaimer-overlay" style="display: none;">
+        <div class="disclaimer-dialog">
+          <div class="disclaimer-dialog__header">
+            <span class="disclaimer-dialog__title">免责声明</span>
+            <button class="disclaimer-dialog__close" onclick="closeDisclaimerDialog()">×</button>
+          </div>
+          <div class="disclaimer-dialog__body">
+            <p class="disclaimer-dialog__text-center"><strong>海思开发者网站免责声明</strong></p>
+            <p>尊敬的用户，您好：</p>
+            <p>&nbsp; &nbsp;
+              请确保您通过本平台向海思提供或反馈的任何信息或意见不侵犯第三方知识产权和/或合法权益。如您提供或反馈的上述任何信息或意见侵犯第三方知识产权和/或合法权益，和/或给第三方造成损害的，您将承担全部法律及赔偿责任。
+            </p>
+          </div>
+          <div class="disclaimer-dialog__footer">
+            <button class="disclaimer-dialog__btn" onclick="closeDisclaimerDialog()">关闭</button>
+          </div>
+        </div>
+      </div>
+
+      <script>
+        function openDisclaimerDialog() {
+          document.getElementById('disclaimerDialog').style.display = 'flex';
+        }
+        function closeDisclaimerDialog() {
+          document.getElementById('disclaimerDialog').style.display = 'none';
+        }
+        // 点击弹窗背景关闭
+        document.getElementById('disclaimerDialog').addEventListener('click', function (e) {
+          if (e.target === this) {
+            closeDisclaimerDialog();
+          }
+        });
+      </script>
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+      <div class="md-progress" data-md-component="progress" role="progressbar"></div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../../..", "features": ["announce.dismiss", "content.code.annotate", "content.code.copy", "content.tabs.link", "content.tooltips", "navigation.instant", "navigation.instant.progress", "navigation.tracking", "navigation.indexes", "navigation.top", "navigation.footer", "navigation.path", "search.highlight", "search.share", "toc.follow"], "search": "../../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": null}</script>
+    
+    
+      <script src="../../../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="../../../../static/js/custom.js"></script>
+      
+        <script src="../../../../static/js/substring-search.js"></script>
+      
+        <script src="../../../../static/js/inpage-find.js"></script>
+      
+        <script src="../../../../static/js/version-selector.js"></script>
+      
+        <script src="../../../../static/js/code-highlight.js"></script>
+      
+        <script src="../../../../static/js/wavedrom-skin.js"></script>
+      
+        <script src="../../../../static/js/wavedrom.min.js"></script>
+      
+        <script src="../../../../static/js/wavedrom-init.js"></script>
+      
+        <script src="../../../../static/js/no-flash.js"></script>
+      
+    
+  </body>
+</html>

@@ -1,0 +1,229 @@
+/*!
+ * substring-search.css — 子串检索结果样式
+ * 复用 material .md-search-result__* 的视觉语言，仅做必要的差异化微调。
+ */
+
+/* 子串检索结果容器：默认隐藏，由 JS 切换 */
+.substring-search-result {
+  display: block;
+}
+
+.substring-search-result[hidden] {
+  display: none !important;
+}
+
+/* 结果列表项 */
+.substring-search__list {
+  margin: 0;
+  padding: 0.35rem 0.5rem;
+  list-style: none;
+}
+
+/* 每条结果是独立白卡 */
+.substring-search__list .md-search-result__item {
+  margin: 0 0 0.35rem;
+  background-color: var(--hi-white, #fff);
+  border: 1px solid var(--hi-border, #e8e8e8);
+  border-radius: 4px;
+  overflow: hidden;
+  transition: border-left-color 0.15s ease, box-shadow 0.15s ease;
+  list-style: none;
+}
+
+.substring-search__list .md-search-result__item:last-child {
+  margin-bottom: 0;
+}
+
+.substring-search__list .md-search-result__item:hover {
+  border-left: 3px solid var(--hi-red, #C7000B);
+  box-shadow: var(--hi-card-shadow, 0 1px 6px rgba(0, 0, 0, 0.06));
+}
+
+.substring-search__list .substring-search__link {
+  display: block;
+  margin: 0 !important;
+  padding: 0.6rem 0.8rem;
+  color: var(--md-default-fg-color, inherit);
+  text-decoration: none;
+  background-color: transparent;
+  border: none;
+  border-radius: 0;
+  outline: none;
+}
+
+.substring-search__link .md-search-result__title {
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 27px;
+  margin-bottom: 2px;
+  word-break: break-all;
+}
+
+.substring-search__link mark {
+  background-color: var(--md-typeset-mark-color, rgba(255, 235, 59, 0.4));
+  color: inherit;
+  border-radius: 2px;
+  padding: 0 1px;
+}
+
+/* 路径提示：弱化展示 */
+.substring-search__summary {
+  font-size: 14px;
+  line-height: 22px;
+  font-weight: 400;
+  color: var(--md-default-fg-color--light, rgba(0, 0, 0, 0.5));
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* 分页加载提示（"向下滚动加载更多" / "已全部加载"）
+   用 sticky 固定在滚动区底部，确保用户无需滚动到底就能看到总数和加载提示 */
+.substring-search__hint {
+  position: sticky;
+  bottom: 0;
+  z-index: 10;
+  padding-left: 8px !important;
+  padding: 8px;
+  text-align: center;
+  font-size: 14px;
+  color: var(--md-default-fg-color--light, rgba(0, 0, 0, 0.45));
+  border-bottom: none;
+  background-color: var(--md-default-bg-color, #fff);
+  border-top: 1px solid var(--md-default-fg-color--lightest, rgba(0, 0, 0, 0.07));
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  line-height: 27px !important;
+}
+
+.md-search-result__meta {
+  font-size: 14px;
+  color: var(--md-default-fg-color--light, rgba(0, 0, 0, 0.45));
+  background-color: transparent;
+  line-height: 27px;
+  padding: 12px 8px;
+  text-align: center;
+  padding-left: 8px !important;
+  word-wrap: break-word;
+}
+
+/* 还有更多时可点击：仅用 cursor 提示可交互，不改变背景/颜色（避免遮挡下方结果造成误解）*/
+.substring-search__hint[data-more] {
+  cursor: pointer;
+}
+
+/* ========== 历史搜索区（弹窗打开、输入为空时展示）========== */
+.substring-search__history {
+  padding: 16px;
+}
+
+.substring-search__history-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.substring-search__history-title {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--md-default-fg-color--light, rgba(0, 0, 0, 0.5));
+  letter-spacing: 0.02em;
+}
+
+/* 「清空」按钮 */
+.substring-search__history-clear {
+  background: transparent;
+  border: none;
+  padding: 2px 6px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--md-default-fg-color--light, rgba(0, 0, 0, 0.45));
+  cursor: pointer;
+  border-radius: 2px;
+  transition: color 0.15s;
+}
+
+.substring-search__history-clear:hover {
+  color: var(--hi-red, #C7000B);
+}
+
+/* chip 列表 */
+.substring-search__history-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+/* 单个历史词条 */
+.substring-search__history-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  max-width: 100%;
+  padding: 2px 16px;
+  background-color: var(--hi-bg, #f7f8fa);
+  border: 1px solid var(--hi-border, #e8e8e8);
+  border-radius: 4px;
+  font-size: 14px;
+  color: var(--md-default-fg-color, inherit);
+  cursor: pointer;
+  transition: all 0.15s;
+  line-height: 22px;
+}
+
+.substring-search__history-chip:hover {
+  border-color: var(--hi-red, #C7000B);
+  color: var(--hi-red, #C7000B);
+  background-color: var(--hi-red-lighter, rgba(199, 0, 11, 0.04));
+}
+
+.substring-search__history-chip-label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--md-default-fg-color, inherit);
+  /* 显式设色，hover 删除键时不跟随 chip 变红 */
+}
+
+/* chip 右侧单条删除 ✕ */
+.substring-search__history-chip-del {
+  font-size: 24px;
+  display: contents;
+  color: var(--md-default-fg-color--light, rgba(0, 0, 0, 0.4));
+  transition: color 0.15s;
+}
+
+.substring-search__history-chip-del:hover,
+.substring-search__history-chip-label:hover {
+  color: var(--hi-red, #C7000B);
+}
+
+/* ===== 自定义 tooltip ===== */
+.substring-search__history-chip-tooltip {
+  position: fixed;
+  z-index: 10000;
+  max-width: 80vw;
+  padding: 4px 10px;
+  background: var(--md-default-fg-color, rgba(0, 0, 0, 0.85));
+  color: var(--md-default-bg-color, #fff);
+  font-size: 13px;
+  line-height: 1.5;
+  border-radius: 4px;
+  word-break: break-all;
+  white-space: normal;
+  pointer-events: none;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* 无历史时的占位提示 */
+.substring-search__history-empty {
+  padding: 8px;
+  text-align: center;
+  font-size: 14px;
+  color: var(--md-default-fg-color--light, rgba(0, 0, 0, 0.45));
+}
+
+.md-search-result__item {
+  box-shadow: none !important;
+}
